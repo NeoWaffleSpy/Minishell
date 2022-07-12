@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 15:48:38 by ncaba             #+#    #+#             */
-/*   Updated: 2022/05/06 15:16:35 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/12 15:23:14 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_flags
 
 int				ft_printf(char *str, ...);
 int				ft_printf_fd(int fd, char *str, ...);
+char			*ft_printf_var(char *str, ...);
 int				ft_grab_type(char **str, t_flags *flags, va_list params);
 int				get_type(int *type, int p);
 int				sort_letters(char c);

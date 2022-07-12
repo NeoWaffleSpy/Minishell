@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 15:54:57 by ncaba             #+#    #+#             */
-/*   Updated: 2022/04/27 12:32:43 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/12 17:37:21 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,41 @@ int	ft_printf_fd(int fd, char *str, ...)
 	}
 	va_end(params);
 	return (result);
+}
+
+void	better_join(char **line, char **source)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(*line, *source);
+	free(*source);
+	free(*line);
+	*line = tmp;
+}
+
+char	*ft_printf_var(char *str, ...)
+{
+	va_list	params;
+	int		result;
+	char	*line;
+	char	*tmp;
+
+	line = NULL;
+	va_start(params, str);
+	while (*str)
+	{
+		result = 0;
+		while (str[result] && str[result] != '%')
+			result++;
+		tmp = ft_substr(str, 0, result);
+		better_join(&line, &tmp);
+		str += result;
+		if (*str)
+		{
+			tmp = ft_parse(&str, params, &result);
+			better_join(&line, &tmp);
+		}
+	}
+	va_end(params);
+	return (line);
 }
