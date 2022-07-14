@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 16:08:33 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/12 17:36:45 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/14 22:27:56 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,26 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	ft_strlcpy_2(new_str, s1, ft_strlen(s1));
 	ft_strlcat_2(new_str, s2, ft_strlen(s2));
+	return (new_str);
+}
+
+char	*ft_strljoin(char *s1, const char *s2, int lencpy)
+{
+	int		len;
+	char	*new_str;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_substr(s2, 0, lencpy));
+	if (!s2)
+		return (s1);
+	len = ft_strlen(s1) + lencpy;
+	new_str = malloc(sizeof(char) * len + 1);
+	if (!new_str)
+		return (NULL);
+	ft_bzero(new_str, len + 1);
+	ft_strlcpy_2(new_str, s1, ft_strlen(s1));
+	ft_strlcat_2(new_str, s2, lencpy);
 	return (new_str);
 }

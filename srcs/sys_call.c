@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/12 22:41:17 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/14 22:37:03 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	call_error(char *error, char *value)
 {
-	printf("%s[%sError%s]: ", WHITE, RED, WHITE);
-	printf("%s %s%s%s\n", error, YELLOW, value, RESET_COLOR);
+	ft_printf("%s[%sError%s]: ", WHITE, RED, WHITE);
+	ft_printf("%s %s%s%s\n", error, YELLOW, value, RESET_COLOR);
 	return (1);
 }
 
 void	call_info(char *info, char *value)
 {
-	printf("%s[%sInfo%s]: ", WHITE, GREEN, WHITE);
-	printf("%-20s %s%s%s\n", info, CYAN, value, RESET_COLOR);
+	ft_printf("%s[%sInfo%s]: ", WHITE, GREEN, WHITE);
+	ft_printf("%-20s %s%s%s\n", info, CYAN, value, RESET_COLOR);
 }
 
 void	call_destroy(t_var *var, char *prompt)
@@ -31,9 +31,21 @@ void	call_destroy(t_var *var, char *prompt)
 	free(var->current_dir);
 }
 
-void	free_command(t_command *comm)
+void	free_command(t_command **comma)
 {
-	free(comm->command);
-	free(comm->options);
-	free(comm->arguments);
+	t_command	*tmp;
+	t_command	*comm;
+
+	comm = *comma;
+	while (comm)
+	{
+		free(comm->command);
+		if (comm->options)
+			free(comm->options);
+		if (comm->arguments)
+			free(comm->arguments);
+		tmp = comm->next;
+		free(comm);
+		comm = tmp;
+	}
 }

@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/12 19:56:37 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/14 20:36:18 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,17 +18,21 @@ INC			= -I . -I ./include/libft/include/ -L ./include/libft/ -lft -lreadline
 SRCS		=	minishell.c \
 				sys_call.c \
 				builtins.c \
-				line_checker.c
+				line_checker.c \
 
 BUILT_SRCS	=	cd.c \
 				echo.c \
 				env.c \
 				export.c \
 				pwd.c \
-				unser.c
+				unser.c \
+
+UTILS_SRCS	=	str_utils.c \
+				multi_line.c \
 
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
-#				$(addprefix ./srcs/builtins/, $(SRCS))
+				$(addprefix ./srcs/utils/, $(UTILS_SRCS))
+#				$(addprefix ./srcs/builtins/, $(BUILT_SRCS))
 OBJ			=	$(SRC:.c=.o)
 
 HEADERFILES	=	minishell.h
@@ -70,7 +74,7 @@ vtest: $(NAME)
 		--suppressions=.ignore_readline \
 		./$(NAME)
 
-re: clean norminette $(NAME)
+re: clean norminette $(NAME) vtest
 
 nonorm: clean $(NAME)
 
