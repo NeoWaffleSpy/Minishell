@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 23:18:35 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/14 14:57:41 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/17 19:43:26 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ char				*ft_strcat(char *dst, const char *src);
 char				*ft_substr(const char *s, unsigned int start, size_t len);
 char				*ft_strtrim(const char *s1, const char *ref);
 char				*ft_strjoin(const char *s1, const char *s2);
-char				*ft_strljoin(char *s1, const char *s2, int lencpy);
+char				*ft_strljoin(const char *s1, const char *s2, int lencpy);
+char				*ft_str_nl_join(const char *s1, const char *s2);
 char				*ft_strmapi(char const *s, char (*f)(unsigned in, char));
 char				**ft_split(const char *str, char c);
 void				*ft_memset(void *s, int c, size_t n);

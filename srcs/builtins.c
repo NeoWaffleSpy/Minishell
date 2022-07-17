@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:02:55 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/14 22:36:09 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/17 17:33:32 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	selec_ope(t_var *var, t_command *comm)
 	else if (!ft_strcmp(comm->command, "unset"))
 		;
 	else if (!ft_strcmp(comm->command, "env"))
-		;
+		ft_print_env(var->env, comm->arguments, comm->options);
 	else if (!ft_strcmp(comm->command, "exit"))
 		var->exit_loop = FALSE;
 	else

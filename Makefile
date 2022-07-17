@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/14 20:36:18 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/17 17:51:49 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,13 @@ BUILT_SRCS	=	cd.c \
 UTILS_SRCS	=	str_utils.c \
 				multi_line.c \
 
+ENV_SRCS	=	env_free.c \
+				env_list.c \
+				env_util.c \
+
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
-				$(addprefix ./srcs/utils/, $(UTILS_SRCS))
+				$(addprefix ./srcs/utils/, $(UTILS_SRCS)) \
+				$(addprefix ./srcs/env/, $(ENV_SRCS))
 #				$(addprefix ./srcs/builtins/, $(BUILT_SRCS))
 OBJ			=	$(SRC:.c=.o)
 
