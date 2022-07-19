@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/14 22:37:03 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/19 20:41:22 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	call_info(char *info, char *value)
 
 void	call_destroy(t_var *var, char *prompt)
 {
+	(void)var;
 	free(prompt);
-	free(var->current_dir);
 }
 
 void	free_command(t_command **comma)

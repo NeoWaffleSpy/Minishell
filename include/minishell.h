@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/17 19:49:52 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/19 20:39:51 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct s_env
 typedef struct s_var
 {
 	int					exit_loop;
-	char				*current_dir;
 	t_env				*env;
 	int					quotes;
 	int					dquotes;
+	int					exit_status;
 }				t_var;
 
 typedef struct s_command
@@ -60,8 +60,14 @@ t_command	*fill_command(char *line);
 void		clean_str(char **old);
 char		*multiline_quotes(char *line, t_var *var);
 void		count_quotes(char *line, t_var *var);
+char		*ft_buffalloc(char *str, char c);
+void		cpy_str(char **dst, char *src);
 
 /* BUILTINS */
+
+void		print_pwd(t_var *var, t_command *comm);
+void		replace_dollar(t_var *var, char **replace);
+void		ft_echo(t_var *var, t_command *comm);
 
 /* ENV */
 

@@ -93,7 +93,7 @@ char	*ft_strljoin(const char *s1, const char *s2, int lencpy)
 	return (new_str);
 }
 
-char	*ft_str_nl_join(const char *s1, const char *s2)
+char	*ft_str_sp_join(const char *s1, const char *s2)
 {
 	int		len;
 	char	*new_str;
@@ -110,7 +110,7 @@ char	*ft_str_nl_join(const char *s1, const char *s2)
 		return (NULL);
 	ft_bzero(new_str, len + 1);
 	ft_strlcpy_2(new_str, s1, ft_strlen(s1));
-	new_str[ft_strlen(new_str)] = '\n';
+	new_str[ft_strlen(new_str)] = ' ';
 	ft_strlcat_2(new_str, s2, ft_strlen(s2));
 	return (new_str);
 }

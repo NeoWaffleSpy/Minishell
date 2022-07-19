@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:36:25 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/17 20:04:21 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/19 17:12:15 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*multiline_quotes(char *line, t_var *var)
 	char	*newline;
 	char	*tmp;
 
+	ft_printf("Prototype function, do not use !\n");
+	return (NULL);
 	while (var->quotes % 2 || var->dquotes % 2)
 	{
 		if (var->quotes % 2)
@@ -36,7 +38,7 @@ char	*multiline_quotes(char *line, t_var *var)
 		else if (var->dquotes % 2)
 			newline = readline("dquote> ");
 		count_quotes(newline, var);
-		tmp = ft_str_nl_join(line, newline);
+		tmp = ft_str_sp_join(line, newline);
 		free(line);
 		free(newline);
 		line = tmp;

@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/17 17:51:49 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/19 16:28:59 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,9 @@ SRCS		=	minishell.c \
 
 BUILT_SRCS	=	cd.c \
 				echo.c \
-				env.c \
 				export.c \
 				pwd.c \
-				unser.c \
+				unset.c \
 
 UTILS_SRCS	=	str_utils.c \
 				multi_line.c \
@@ -36,8 +35,8 @@ ENV_SRCS	=	env_free.c \
 
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
 				$(addprefix ./srcs/utils/, $(UTILS_SRCS)) \
-				$(addprefix ./srcs/env/, $(ENV_SRCS))
-#				$(addprefix ./srcs/builtins/, $(BUILT_SRCS))
+				$(addprefix ./srcs/env/, $(ENV_SRCS)) \
+				$(addprefix ./srcs/builtins/, $(BUILT_SRCS))
 OBJ			=	$(SRC:.c=.o)
 
 HEADERFILES	=	minishell.h
