@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:03:06 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/17 20:42:50 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/21 18:21:43 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	get_command(t_command *comm, char **line)
 	skip_space(line);
 	while (*line && (*line)[i] && (*line)[i] != ' ' && (*line)[i] != '	')
 		i++;
+	if (i == 0)
+		return ;
 	comm->command = ft_substr(*line, 0, i);
 	*line += i;
 	skip_space(line);
@@ -95,6 +97,8 @@ t_command	*fill_command(char *line)
 	comm->arguments = NULL;
 	comm->next = NULL;
 	get_command(comm, &line);
+	if (comm->command == NULL)
+		return (comm);
 	while (*line && *line != '|')
 	{
 		if (*line == '-')

@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 15:45:07 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 19:57:12 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/21 23:23:57 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	ft_manually_add_one_env(t_env *env_list, char *name, char *content)
 			env_new = malloc(sizeof(t_env));
 			env_new->name = ft_strdup(name);
 			env_new->content = ft_strdup(content);
+			env_new->next = NULL;
 			ft_env_add_back(&env_list, env_new);
 		}
 	}

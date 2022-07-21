@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 20:39:51 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/21 21:53:52 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_command
 
 int			call_error(char *error, char *value);
 void		call_info(char *info, char *value);
+void		call_todo(char *ft);
 void		call_destroy(t_var *var, char *prompt);
 void		free_command(t_command **comm);
 
@@ -68,6 +69,9 @@ void		cpy_str(char **dst, char *src);
 void		print_pwd(t_var *var, t_command *comm);
 void		replace_dollar(t_var *var, char **replace);
 void		ft_echo(t_var *var, t_command *comm);
+void		export_var(t_var *var, t_command *comm);
+void		cd(void);
+void		unset(void);
 
 /* ENV */
 
@@ -85,5 +89,9 @@ void		ft_free_env(t_env *env_start);
 void		ft_deal_with_existing_env_var(t_env **env_list, t_env *to_add);
 void		ft_manually_add_one_env(t_env *env_list, char *name, char *content);
 t_env		*ft_find_env_elem(t_env *env_list, char *name);
+
+/* A BOUGER */
+
+int			check_valid_path(char *path);
 
 #endif

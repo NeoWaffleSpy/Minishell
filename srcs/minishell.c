@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 21:46:42 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/21 19:26:34 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,16 @@ static char	*create_prompt(char *prompt, t_env *env)
 	if (prompt)
 		free(prompt);
 	prompt = ft_printf_var(
-			"👹 \001%s21m%s\002\001%s\002%s\001%s\002 \001%s\002➜\001%s\002 ",
+			"\001👹\002 \001%s21m%s%s\002%s\001%s\002 \001%s\002➜\001%s\002 ",
 			BASE, BOLD, BLUE, c_dir, RESET_COLOR, CYAN, RESET_COLOR);
 	return (prompt);
+}
+
+static void	reset_values(void)
+{
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 static void	read_command(char *prompt, t_env *env)
@@ -44,15 +51,18 @@ static void	read_command(char *prompt, t_env *env)
 		var.dquotes = 0;
 		prompt = create_prompt(prompt, var.env);
 		line = readline(prompt);
+		if (!line)
+			continue ;
 		count_quotes(line, &var);
 		if (line && *line)
 			add_history(line);
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line);
-		else if (selector(&var, line))
+		else if (*line != '\0' && selector(&var, line))
 			call_error("Command not recognized:", line);
 		free(line);
 	}
+	ft_printf("exit\n");
 	call_destroy(&var, prompt);
 }
 
@@ -63,6 +73,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	(void)reset_values;
 	env_list = ft_env_to_list(env);
 	prompt = NULL;
 	read_command(prompt, env_list);

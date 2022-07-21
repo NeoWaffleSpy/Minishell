@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 20:41:22 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/21 19:49:05 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,18 @@ void	call_info(char *info, char *value)
 	ft_printf("%-20s %s%s%s\n", info, CYAN, value, RESET_COLOR);
 }
 
+void	call_todo(char *ft)
+{
+	ft_printf("%s%sCette fonction n'es pas encore faite :%s",
+		CYAN, BLINK, RESET_COLOR);
+	ft_printf(" %s%s%s%s\n", RED, BLINK, ft, RESET_COLOR);
+}
+
 void	call_destroy(t_var *var, char *prompt)
 {
 	(void)var;
 	free(prompt);
+	rl_clear_history();
 }
 
 void	free_command(t_command **comma)
