@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 15:32:34 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 20:11:08 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 18:19:49 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,42 @@ static int	get_clean_len(char *old)
 	return (i);
 }
 
+static int	isquote(char str, t_var *var)
+{
+	if (!(var->dquotes % 2) && str == '\'')
+	{
+		var->quotes++;
+		return (1);
+	}
+	else if (!(var->quotes % 2) && str == '\"')
+	{
+		var->dquotes++;
+		return (1);
+	}
+	return (0);
+}
+
+static void	clean_2(char *new, char *str)
+{
+	int		i;
+	t_var	var;
+
+	i = 0;
+	reset_var(&var);
+	while (*str)
+	{
+		while (*str && *str != ' ' && *str != '	')
+		{
+			if (!isquote(*str, &var))
+				new[i++] = *str;
+			str++;
+		}
+		clear_spaces(&str);
+		if (*str)
+			new[i++] = ' ';
+	}
+}
+
 void	clean_str(char **old)
 {
 	char	*new;
@@ -52,53 +88,8 @@ void	clean_str(char **old)
 	i = get_clean_len(*old);
 	new = malloc(sizeof(char) * i);
 	ft_bzero(new, i);
-	i = 0;
 	clear_spaces(&str);
-	while (*str)
-	{
-		while (*str && *str != ' ' && *str != '	')
-		{
-			new[i++] = *str;
-			str++;
-		}
-		clear_spaces(&str);
-		if (*str)
-			new[i++] = ' ';
-	}
+	clean_2(new, str);
 	free(*old);
 	*old = new;
-}
-
-char	*ft_buffalloc(char *str, char c)
-{
-	int		buffsize;
-	char	*tmp;
-
-	buffsize = 50;
-	if (!str)
-	{
-		str = malloc(sizeof(char) * buffsize + 1);
-		ft_bzero(str, buffsize + 1);
-	}
-	else if (ft_strlen(str) % buffsize == 0)
-	{
-		tmp = malloc(sizeof(char) * (ft_strlen(str) + buffsize + 1));
-		ft_bzero(str, ft_strlen(str) + buffsize + 1);
-		ft_strcpy(tmp, str);
-		free(str);
-		str = tmp;
-	}
-	str[ft_strlen(str)] = c;
-	return (str);
-}
-
-void	cpy_str(char **dst, char *src)
-{
-	if (!src)
-		return ;
-	while (*src)
-	{
-		*dst = ft_buffalloc(*dst, *src);
-		src++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/21 19:26:34 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:48:09 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,17 @@ static void	read_command(char *prompt, t_env *env)
 
 	var.exit_loop = TRUE;
 	var.env = env;
-	var.exit_status = 0;
 	while (var.exit_loop)
 	{
-		var.quotes = 0;
-		var.dquotes = 0;
+		reset_var(&var);
 		prompt = create_prompt(prompt, var.env);
 		line = readline(prompt);
 		if (!line)
 			continue ;
-		count_quotes(line, &var);
 		if (line && *line)
 			add_history(line);
+		replace_dollar(&var, &line);
+		count_quotes(line, &var);
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line);
 		else if (*line != '\0' && selector(&var, line))

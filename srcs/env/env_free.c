@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 16:00:23 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/17 18:26:37 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:03:21 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,18 @@ void	ft_free_env(t_env *env_start)
 	}
 }
 
-int	ft_print_env(t_env *env_list, char *arg, char *options)
+int	ft_print_env(t_env *env_list, t_command *comm)
 {
-	if (options)
+	if (comm->options)
 		return (call_error("env: Too many options", ""));
-	if (arg)
+	if (comm->arguments)
 		return (call_error("env: Too many arguments", ""));
 	while (env_list)
 	{
 		if (env_list->content)
 		{
-			ft_printf("%s=", env_list->name);
-			ft_printf("%s\n", env_list->content);
+			ft_printf_fd(comm->outfile, "%s=", env_list->name);
+			ft_printf_fd(comm->outfile, "%s\n", env_list->content);
 		}
 		env_list = env_list->next;
 	}

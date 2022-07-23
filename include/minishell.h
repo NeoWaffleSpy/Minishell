@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/21 21:53:52 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:59:07 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <errno.h>
 
 typedef struct s_env
 {
@@ -41,8 +42,8 @@ typedef struct s_command
 	char				*command;
 	char				*options;
 	char				*arguments;
-	char				*infile;
-	char				*outfile;
+	int					infile;
+	int					outfile;
 	struct s_command	*next;
 }				t_command;
 
@@ -56,6 +57,8 @@ int			selector(t_var *var, char *operation);
 
 t_command	*fill_command(char *line);
 
+void		reset_var(t_var *var);
+
 /* UTILS */
 
 void		clean_str(char **old);
@@ -63,15 +66,17 @@ char		*multiline_quotes(char *line, t_var *var);
 void		count_quotes(char *line, t_var *var);
 char		*ft_buffalloc(char *str, char c);
 void		cpy_str(char **dst, char *src);
+t_command	*init_comm(void);
 
 /* BUILTINS */
 
 void		print_pwd(t_var *var, t_command *comm);
 void		replace_dollar(t_var *var, char **replace);
-void		ft_echo(t_var *var, t_command *comm);
+void		ft_echo(t_command *comm);
 void		export_var(t_var *var, t_command *comm);
 void		cd(void);
-void		unset(void);
+void		unset_var(t_var *var, t_command *comm);
+int			check_valid_name(t_var *var, char *str);
 
 /* ENV */
 
@@ -80,7 +85,7 @@ void		ft_env_add_back(t_env **env_start, t_env *new);
 t_env		*ft_get_env_element(t_env *env, char *env_line);
 void		ft_delone_env(t_env *env);
 void		ft_cleanly_delone_env(t_env **env_start, t_env *target);
-int			ft_print_env(t_env *env_list, char *arg, char *options);
+int			ft_print_env(t_env *env_list, t_command *comm);
 char		**ft_env_to_char(t_env *env);
 t_env		*ft_env_to_list(char **env);
 int			ft_env_size(t_env *env);

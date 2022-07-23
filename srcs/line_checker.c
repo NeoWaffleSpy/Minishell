@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:03:06 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/21 18:21:43 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:40:08 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,7 @@ t_command	*fill_command(char *line)
 	int			i;
 
 	i = 0;
-	comm = malloc(sizeof(t_command));
-	comm->command = NULL;
-	comm->options = NULL;
-	comm->arguments = NULL;
-	comm->next = NULL;
+	comm = init_comm();
 	get_command(comm, &line);
 	if (comm->command == NULL)
 		return (comm);

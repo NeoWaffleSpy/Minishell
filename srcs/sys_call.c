@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/21 19:49:05 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:29:10 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	call_error(char *error, char *value)
 {
-	ft_printf("%s[%sError%s]: ", WHITE, RED, WHITE);
-	ft_printf("%s %s%s%s\n", error, YELLOW, value, RESET_COLOR);
+	ft_printf_fd(2, "%s[%sError%s]: ", WHITE, RED, WHITE);
+	ft_printf_fd(2, "%s %s%s%s", error, YELLOW, value, RESET_COLOR);
+	perror(" ");
 	return (1);
 }
 

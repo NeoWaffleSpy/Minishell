@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:02:55 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/21 21:59:56 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 20:02:17 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@ static int	selec_ope(t_var *var, t_command *comm)
 	if (!ft_strcmp(comm->command, "cd"))
 		cd();
 	else if (!ft_strcmp(comm->command, "echo"))
-		ft_echo(var, comm);
+		ft_echo(comm);
 	else if (!ft_strcmp(comm->command, "pwd"))
 		print_pwd(var, comm);
 	else if (!ft_strcmp(comm->command, "export"))
 		export_var(var, comm);
 	else if (!ft_strcmp(comm->command, "unset"))
-		unset();
+		unset_var(var, comm);
 	else if (!ft_strcmp(comm->command, "env"))
-		ft_print_env(var->env, comm->arguments, comm->options);
+		ft_print_env(var->env, comm);
 	else if (!ft_strcmp(comm->command, "exit"))
 		var->exit_loop = FALSE;
 	else
-		return (1);
+	{
+		call_error("Command not recognized:", comm->command);
+	}
 	return (0);
 }
 
@@ -54,7 +56,7 @@ static int	tester(t_command *comm)
 	{
 		if (!check_valid_path(c))
 			return (call_error(c, "No such file or directory"));
-		ft_printf("%s: Is a directory\n", c);
+		ft_printf_fd(comm->outfile, "%s: Is a directory\n", c);
 		return (1);
 	}
 	return (0);

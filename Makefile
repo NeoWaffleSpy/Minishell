@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/19 16:28:59 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/23 19:44:36 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ BUILT_SRCS	=	cd.c \
 				unset.c \
 
 UTILS_SRCS	=	str_utils.c \
+				str_utils_2.c \
 				multi_line.c \
+				init.c \
 
 ENV_SRCS	=	env_free.c \
 				env_list.c \

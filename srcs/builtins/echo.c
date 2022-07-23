@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:17 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/19 20:39:38 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 19:37:01 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_single_char_replace(t_var *var, char **tmp, char **res)
 		return ;
 	}
 	if (**tmp == '0')
-		cpy_str(res, "Minishell");
+		cpy_str(res, "minishell");
 	if (**tmp == '?')
 	{
 		str = ft_itoa(var->exit_status);
@@ -62,6 +62,8 @@ void	replace_dollar(t_var *var, char **replace)
 	char	*tmp;
 	char	*res;
 
+	if (*replace == NULL)
+		return ;
 	tmp = (*replace) - 1;
 	res = NULL;
 	var->quotes = 0;
@@ -76,8 +78,7 @@ void	replace_dollar(t_var *var, char **replace)
 			var->quotes++;
 		else if (!(var->quotes % 2) && *tmp == '\"')
 			var->dquotes++;
-		else
-			res = ft_buffalloc(res, *tmp);
+		res = ft_buffalloc(res, *tmp);
 		if (!*tmp)
 			break ;
 	}
@@ -85,31 +86,31 @@ void	replace_dollar(t_var *var, char **replace)
 	*replace = res;
 }
 
-void	ft_echo(t_var *var, t_command *comm)
+void	ft_echo(t_command *comm)
 {
 	char	*tmp;
 
-	tmp = NULL;
 	if (comm->options)
 	{
-		if (comm->options[0] == '-' && comm->options[1] == 'n')
+		if (comm->options[0] == '-' && comm->options[1] == 'n'
+			&& (!comm->options[2] || comm->options[2] == ' '))
 		{
-			if (comm->options[2] && comm->options[3] != ' ')
+			if (comm->options[2])
 				tmp = ft_str_sp_join(&comm->options[3], comm->arguments);
 			else
 				tmp = ft_strdup(comm->arguments);
-			replace_dollar(var, &tmp);
-			ft_printf("%s%s47;1;30m%%%s\n", tmp, BASE, RESET_COLOR);
+			if (tmp == NULL)
+				return ;
+			ft_printf_fd(comm->outfile, "%s", tmp);
 			free(tmp);
-			var->exit_status = 0;
 			return ;
 		}
 		tmp = ft_str_sp_join(comm->options, comm->arguments);
 	}
 	else
 		tmp = ft_strdup(comm->arguments);
-	replace_dollar(var, &tmp);
-	ft_printf("%s\n", tmp);
+	if (tmp == NULL)
+		return ((void)ft_printf_fd(comm->outfile, "\n"));
+	ft_printf_fd(comm->outfile, "%s\n", tmp);
 	free(tmp);
-	var->exit_status = 0;
 }
