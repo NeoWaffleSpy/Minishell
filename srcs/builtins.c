@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:02:55 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 20:02:17 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 20:31:50 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	selec_ope(t_var *var, t_command *comm)
 		var->exit_loop = FALSE;
 	else
 	{
+		var->exit_status = 127;
 		call_error("Command not recognized:", comm->command);
 	}
 	return (0);

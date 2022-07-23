@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 19:48:09 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/23 20:31:51 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void	read_command(char *prompt, t_env *env)
 		count_quotes(line, &var);
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line);
-		else if (*line != '\0' && selector(&var, line))
-			call_error("Command not recognized:", line);
+		else if (*line != '\0')
+			selector(&var, line);
 		free(line);
 	}
 	ft_printf("exit\n");
