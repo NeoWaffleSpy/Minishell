@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 19:59:07 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 19:12:53 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_env
 {
@@ -47,7 +48,7 @@ typedef struct s_command
 	struct s_command	*next;
 }				t_command;
 
-int			call_error(char *error, char *value);
+int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
 void		call_todo(char *ft);
 void		call_destroy(t_var *var, char *prompt);
@@ -57,8 +58,6 @@ int			selector(t_var *var, char *operation);
 
 t_command	*fill_command(char *line);
 
-void		reset_var(t_var *var);
-
 /* UTILS */
 
 void		clean_str(char **old);
@@ -67,6 +66,11 @@ void		count_quotes(char *line, t_var *var);
 char		*ft_buffalloc(char *str, char c);
 void		cpy_str(char **dst, char *src);
 t_command	*init_comm(void);
+void		init_signal(void);
+void		init_child(void);
+void		init_var(t_var *var, t_env *env);
+void		reset_var(t_var *var);
+void		refresh_handler(int sig);
 
 /* BUILTINS */
 
@@ -77,6 +81,7 @@ void		export_var(t_var *var, t_command *comm);
 void		cd(void);
 void		unset_var(t_var *var, t_command *comm);
 int			check_valid_name(t_var *var, char *str);
+void		exit_mini(t_var *var, t_command *comm);
 
 /* ENV */
 

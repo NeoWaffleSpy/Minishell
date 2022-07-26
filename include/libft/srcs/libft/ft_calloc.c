@@ -16,7 +16,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*new_tab;
 
-	new_tab = malloc(size * nmemb);
+	new_tab = malloc_garbage(size * nmemb);
 	if (new_tab)
 		ft_bzero(new_tab, size * nmemb);
 	return (new_tab);

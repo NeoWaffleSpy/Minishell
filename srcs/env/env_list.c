@@ -57,7 +57,7 @@ char	*ft_env_get_content(t_env *env_list, char *name, char *env_line,
 		else
 		{
 			joined = ft_strjoin(old_env->content, env_line);
-			free(old_env->content);
+			free_garbage(old_env->content);
 			return (joined);
 		}
 	}
@@ -71,7 +71,7 @@ t_env	*ft_get_env_element(t_env *env_list, char *env_line)
 
 	i = 0;
 	flag_plus = 0;
-	tmp_element = malloc(sizeof(*tmp_element));
+	tmp_element = malloc_garbage(sizeof(*tmp_element));
 	while (env_line[i] && env_line[i] != '=')
 	{
 		if (env_line[i] == '+' && env_line[i + 1] == '=')

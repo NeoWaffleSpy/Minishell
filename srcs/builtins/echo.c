@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:17 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 19:37:01 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 23:12:37 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_single_char_replace(t_var *var, char **tmp, char **res)
 	{
 		str = ft_itoa(var->exit_status);
 		cpy_str(res, str);
-		free(str);
+		free_garbage(str);
 	}
 	(*tmp)++;
 	return ;
@@ -46,13 +46,13 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 	if (**tmp != ' ' && !ft_isdigit(**tmp))
 	{
 		len = 0;
-		while ((*tmp)[len] && (*tmp)[len] != ' ')
+		while ((*tmp)[len] && (*tmp)[len] != ' ' && (*tmp)[len] != '"')
 			len++;
 		ttadd = ft_substr(*tmp, 0, len);
 		env = ft_find_env_elem(var->env, ttadd);
 		if (env)
 			cpy_str(res, env->content);
-		free(ttadd);
+		free_garbage(ttadd);
 		(*tmp) += len;
 	}
 }
@@ -82,7 +82,7 @@ void	replace_dollar(t_var *var, char **replace)
 		if (!*tmp)
 			break ;
 	}
-	free(*replace);
+	free_garbage(*replace);
 	*replace = res;
 }
 
@@ -102,7 +102,7 @@ void	ft_echo(t_command *comm)
 			if (tmp == NULL)
 				return ;
 			ft_printf_fd(comm->outfile, "%s", tmp);
-			free(tmp);
+			free_garbage(tmp);
 			return ;
 		}
 		tmp = ft_str_sp_join(comm->options, comm->arguments);
@@ -112,5 +112,5 @@ void	ft_echo(t_command *comm)
 	if (tmp == NULL)
 		return ((void)ft_printf_fd(comm->outfile, "\n"));
 	ft_printf_fd(comm->outfile, "%s\n", tmp);
-	free(tmp);
+	free_garbage(tmp);
 }

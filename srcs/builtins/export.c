@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 16:59:33 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 19:22:10 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_valid_name(t_var *var, char *str)
 	i = 0;
 	if (!ft_isalpha(str[0]))
 	{
-		var->exit_status = call_error("export:3 Invalid identifier", str);
+		var->exit_status = call_error("export:3 Invalid identifier", str, 1);
 		return (0);
 	}
 	while (str[i] && str[i] != '=')
@@ -32,7 +32,7 @@ int	check_valid_name(t_var *var, char *str)
 		if (!isalnum(str[i]) && str[i] != '_')
 		{
 			var->exit_status = call_error("export:2 Invalid identifier",
-					str);
+					str, 1);
 			return (0);
 		}
 		i++;
@@ -53,11 +53,11 @@ static void	loop_var(t_var *var, char *str)
 	{
 		attr = ft_substr(str, dist + 1, get_dist(str, '\0'));
 		ft_manually_add_one_env(var->env, name, attr);
-		free(attr);
+		free_garbage(attr);
 	}
 	else
 		ft_manually_add_one_env(var->env, name, "");
-	free(name);
+	free_garbage(name);
 }
 
 void	export_var(t_var *var, t_command *comm)
@@ -67,7 +67,8 @@ void	export_var(t_var *var, t_command *comm)
 
 	if (comm->options)
 	{
-		var->exit_status = call_error("unset: Invalid option:", comm->options);
+		var->exit_status = call_error("unset: Invalid option:",
+				comm->options, 1);
 		return ;
 	}
 	i = 0;
@@ -78,8 +79,8 @@ void	export_var(t_var *var, t_command *comm)
 		{
 			loop_var(var, split[i]);
 		}
-		free(split[i]);
+		free_garbage(split[i]);
 		i++;
 	}
-	free(split);
+	free_garbage(split);
 }

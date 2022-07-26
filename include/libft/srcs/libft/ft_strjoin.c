@@ -63,7 +63,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	if (!s2)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2);
-	new_str = malloc(sizeof(char) * len + 1);
+	new_str = malloc_garbage(sizeof(char) * len + 1);
 	ft_bzero(new_str, len + 1);
 	if (!new_str)
 		return (NULL);
@@ -84,7 +84,7 @@ char	*ft_strljoin(const char *s1, const char *s2, int lencpy)
 	if (!s2)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + lencpy;
-	new_str = malloc(sizeof(char) * len + 1);
+	new_str = malloc_garbage(sizeof(char) * len + 1);
 	if (!new_str)
 		return (NULL);
 	ft_bzero(new_str, len + 1);
@@ -105,7 +105,7 @@ char	*ft_str_sp_join(const char *s1, const char *s2)
 	if (!s2)
 		return (ft_strdup(s1));
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	new_str = malloc(sizeof(char) * len + 1);
+	new_str = malloc_garbage(sizeof(char) * len + 1);
 	if (!new_str)
 		return (NULL);
 	ft_bzero(new_str, len + 1);

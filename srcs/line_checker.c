@@ -50,7 +50,7 @@ static void	get_options(t_command *comm, char **line)
 	{
 		str = ft_strljoin(comm->options, *line, i);
 		if (comm->options)
-			free(comm->options);
+			free_garbage(comm->options);
 		comm->options = str;
 	}
 	*line += i;
@@ -79,7 +79,7 @@ static void	get_args(t_command *comm, char **line)
 	{
 		str = ft_strljoin(comm->arguments, *line, i);
 		if (comm->arguments)
-			free(comm->arguments);
+			free_garbage(comm->arguments);
 		comm->arguments = str;
 	}
 	*line += i;

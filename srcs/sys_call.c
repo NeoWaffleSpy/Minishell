@@ -6,18 +6,17 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 19:29:10 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 22:36:53 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	call_error(char *error, char *value)
+int	call_error(char *error, char *value, int ret)
 {
 	ft_printf_fd(2, "%s[%sError%s]: ", WHITE, RED, WHITE);
-	ft_printf_fd(2, "%s %s%s%s", error, YELLOW, value, RESET_COLOR);
-	perror(" ");
-	return (1);
+	ft_printf_fd(2, "%s %s%s%s\n", error, YELLOW, value, RESET_COLOR);
+	return (ret);
 }
 
 void	call_info(char *info, char *value)
@@ -35,9 +34,10 @@ void	call_todo(char *ft)
 
 void	call_destroy(t_var *var, char *prompt)
 {
-	(void)var;
-	free(prompt);
+	free_garbage(prompt);
 	rl_clear_history();
+	ft_free_env(var->env);
+	dump_trash();
 }
 
 void	free_command(t_command **comma)
@@ -48,13 +48,13 @@ void	free_command(t_command **comma)
 	comm = *comma;
 	while (comm)
 	{
-		free(comm->command);
+		free_garbage(comm->command);
 		if (comm->options)
-			free(comm->options);
+			free_garbage(comm->options);
 		if (comm->arguments)
-			free(comm->arguments);
+			free_garbage(comm->arguments);
 		tmp = comm->next;
-		free(comm);
+		free_garbage(comm);
 		comm = tmp;
 	}
 }

@@ -27,7 +27,7 @@ static char	*return_percent(void)
 {
 	char	*str;
 
-	str = (char *)malloc(sizeof(char) * (1 + 1));
+	str = malloc_garbage(sizeof(char) * (1 + 1));
 	str[0] = '%';
 	str[1] = '\0';
 	return (str);

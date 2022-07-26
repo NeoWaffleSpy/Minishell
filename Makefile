@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/23 19:44:36 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/26 18:40:01 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS		=	minishell.c \
 
 BUILT_SRCS	=	cd.c \
 				echo.c \
+				exit.c \
 				export.c \
 				pwd.c \
 				unset.c \
@@ -30,6 +31,7 @@ UTILS_SRCS	=	str_utils.c \
 				str_utils_2.c \
 				multi_line.c \
 				init.c \
+				mini_signal.c \
 
 ENV_SRCS	=	env_free.c \
 				env_list.c \

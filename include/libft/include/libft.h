@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 23:18:35 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/17 19:43:26 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 23:01:59 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,15 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
 typedef int			t_boolean;
+
+static t_list		*g_garbage;
+
+void				*malloc_garbage(size_t size);
+void				free_garbage(void *trash);
+void				add_garbage(void *trash);
+void				dump_trash(void);
 
 size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);

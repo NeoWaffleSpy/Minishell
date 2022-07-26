@@ -46,7 +46,7 @@ static void	ft_chrandcpy(char **save)
 		ft_strcpy(*save, ft_strchr(*save, '\n') + 1);
 		return ;
 	}
-	free(*save);
+	free_garbage(*save);
 	*save = NULL;
 	return ;
 }
@@ -58,7 +58,7 @@ static void	loopskip(char **point, int *res, char **save, int fd)
 	point[0][*res] = '\0';
 	point[1] = save[fd];
 	save[fd] = ft_strrejoin(point[1], point[0], *res);
-	free(point[1]);
+	free_garbage(point[1]);
 }
 
 int	get_next_line(int const fd, char **line)

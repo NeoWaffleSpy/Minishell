@@ -20,30 +20,30 @@ void	ft_add_space(char **str, t_flags flags, int type)
 		return ;
 	if (flags.is_plus)
 	{
-		tmp = (char *)malloc(sizeof(char) * ft_strlen(*str) + 2);
+		tmp = malloc_garbage(sizeof(char) * ft_strlen(*str) + 2);
 		tmp[0] = '+';
 		ft_strcpy(&(tmp[1]), *str);
-		free(*str);
+		free_garbage(*str);
 		*str = tmp;
 		return ;
 	}
 	if (flags.is_single_space)
 	{
-		tmp = (char *)malloc(sizeof(char) * ft_strlen(*str) + 2);
+		tmp = malloc_garbage(sizeof(char) * ft_strlen(*str) + 2);
 		tmp[0] = ' ';
 		ft_strcpy(&(tmp[1]), *str);
-		free(*str);
+		free_garbage(*str);
 		*str = tmp;
 	}
 }
 
 static void	decalage(char **str, char *tmp, char x)
 {
-	tmp = (char *)malloc(sizeof(char) * ft_strlen(*str) + 3);
+	tmp = malloc_garbage(sizeof(char) * ft_strlen(*str) + 3);
 	tmp[0] = '0';
 	tmp[1] = x;
 	ft_strcpy(&(tmp[2]), *str);
-	free(*str);
+	free_garbage(*str);
 	*str = tmp;
 }
 
@@ -71,7 +71,7 @@ void	ft_add_precis(char **str, t_flags flags)
 		flags.nb_dec++;
 	while (flags.nb_dec > (int)ft_strlen(*str))
 	{
-		tmp = (char *)malloc(sizeof(char) * ft_strlen(*str) + 2);
+		tmp = malloc_garbage(sizeof(char) * ft_strlen(*str) + 2);
 		tmp[0] = padd;
 		ft_strcpy(&(tmp[1]), *str);
 		if (**str == '-')
@@ -79,7 +79,7 @@ void	ft_add_precis(char **str, t_flags flags)
 			tmp[1] = tmp[0];
 			tmp[0] = **str;
 		}
-		free(*str);
+		free_garbage(*str);
 		*str = tmp;
 	}
 }
@@ -94,7 +94,7 @@ void	ft_add_padd(char **str, t_flags flags, int type)
 		padd = '0';
 	while (flags.nb_spaces > (int)ft_strlen(*str))
 	{
-		tmp = (char *)malloc(sizeof(char) * ft_strlen(*str) + 2);
+		tmp = malloc_garbage(sizeof(char) * ft_strlen(*str) + 2);
 		if (flags.is_padded_left)
 		{
 			ft_strcpy(tmp, *str);
@@ -106,7 +106,7 @@ void	ft_add_padd(char **str, t_flags flags, int type)
 			tmp[0] = padd;
 			ft_strcpy(&(tmp[1]), *str);
 		}
-		free(*str);
+		free_garbage(*str);
 		*str = tmp;
 	}
 }

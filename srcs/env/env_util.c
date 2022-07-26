@@ -20,7 +20,7 @@ char	**ft_env_to_char(t_env *env)
 
 	i = 0;
 	env_size = ft_env_size(env);
-	tab = malloc(sizeof(char *) * env_size + 1);
+	tab = malloc_garbage(sizeof(char *) * env_size + 1);
 	tab[env_size] = 0;
 	while (env)
 	{
@@ -84,12 +84,12 @@ void	ft_manually_add_one_env(t_env *env_list, char *name, char *content)
 		env_set = ft_find_env_elem(env_list, name);
 		if (env_set)
 		{
-			free(env_set->content);
+			free_garbage(env_set->content);
 			env_set->content = ft_strdup(content);
 		}
 		else
 		{
-			env_new = malloc(sizeof(t_env));
+			env_new = malloc_garbage(sizeof(t_env));
 			env_new->name = ft_strdup(name);
 			env_new->content = ft_strdup(content);
 			env_new->next = NULL;

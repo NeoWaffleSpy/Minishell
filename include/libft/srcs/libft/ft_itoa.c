@@ -56,7 +56,7 @@ char	*ft_itoa(int n)
 		return (ft_strdup("-2147483648"));
 	size = ft_itoa_size(n);
 	i = 1;
-	str = (char *)malloc(sizeof(char) * ft_itoa_size(n) + 1);
+	str = malloc_garbage(sizeof(char) * ft_itoa_size(n) + 1);
 	if (!str)
 		return (NULL);
 	tmp = (int)ternary(n < 0, (double)-n, (double)n);

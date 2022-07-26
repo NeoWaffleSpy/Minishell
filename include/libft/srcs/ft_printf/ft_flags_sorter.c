@@ -73,7 +73,7 @@ int	ft_grab_type(char **str, t_flags *flags, va_list params)
 	int		fc;
 	int		(*(*p))(char*, t_flags*, int*, va_list);
 
-	p = malloc(sizeof(void *) * 3);
+	p = malloc_garbage(sizeof(void *) * 3);
 	set_fun(p);
 	fc = 0;
 	loop = 1;
@@ -89,7 +89,7 @@ int	ft_grab_type(char **str, t_flags *flags, va_list params)
 		loop++;
 		fc--;
 	}
-	free(p);
+	free_garbage(p);
 	*str += loop;
 	return (type);
 }

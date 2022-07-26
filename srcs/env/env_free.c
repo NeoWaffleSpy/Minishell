@@ -19,10 +19,10 @@ void	ft_free_double_array(char **str)
 	i = 0;
 	while (str[i])
 	{
-		free(str[i]);
+		free_garbage(str[i]);
 		i++;
 	}
-	free(str);
+	free_garbage(str);
 }
 
 void	ft_cleanly_delone_env(t_env **env_start, t_env *target)
@@ -55,11 +55,11 @@ void	ft_delone_env(t_env *env)
 {
 	if (!env)
 		return ;
-	free(env->name);
+	free_garbage(env->name);
 	env->name = NULL;
-	free(env->content);
+	free_garbage(env->content);
 	env->content = NULL;
-	free(env);
+	free_garbage(env);
 }
 
 void	ft_free_env(t_env *env_start)
@@ -77,9 +77,9 @@ void	ft_free_env(t_env *env_start)
 int	ft_print_env(t_env *env_list, t_command *comm)
 {
 	if (comm->options)
-		return (call_error("env: Too many options", ""));
+		return (call_error("env: Too many options", "", 1));
 	if (comm->arguments)
-		return (call_error("env: Too many arguments", ""));
+		return (call_error("env: Too many arguments", "", 1));
 	while (env_list)
 	{
 		if (env_list->content)

@@ -16,9 +16,9 @@ void	print_pwd(t_var *var, t_command *comm)
 {
 	var->exit_status = 0;
 	if (comm->options)
-		var->exit_status = call_error("pwd: bad options:", comm->options);
+		var->exit_status = call_error("pwd: bad options:", comm->options, 1);
 	if (comm->arguments)
-		var->exit_status = call_error("pwd: too many arguments", "");
+		var->exit_status = call_error("pwd: too many arguments", "", 1);
 	if (var->exit_status)
 		return ;
 	ft_printf_fd(comm->outfile, "%s\n",

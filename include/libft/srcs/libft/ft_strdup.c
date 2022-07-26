@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	if (*s == '\0')
 		return ((char *)ft_calloc(sizeof(char), (ft_strlen(s) + 1)));
-	new_string = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	new_string = malloc_garbage(sizeof(char) * (ft_strlen(s) + 1));
 	if (!new_string)
 		return (NULL);
 	index = 0;

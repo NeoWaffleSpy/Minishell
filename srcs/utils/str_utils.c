@@ -86,10 +86,10 @@ void	clean_str(char **old)
 		return ;
 	str = *old;
 	i = get_clean_len(*old);
-	new = malloc(sizeof(char) * i);
+	new = malloc_garbage(sizeof(char) * i);
 	ft_bzero(new, i);
 	clear_spaces(&str);
 	clean_2(new, str);
-	free(*old);
+	free_garbage(*old);
 	*old = new;
 }

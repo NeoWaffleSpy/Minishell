@@ -38,7 +38,7 @@ char	*ft_convert_int(t_flags flags, va_list params)
 	ft_add_precis(&result, flags);
 	if (ft_atoi(result) == 0 && flags.nb_dec == 0)
 	{
-		free(result);
+		free_garbage(result);
 		result = ft_calloc(2, sizeof(char));
 	}
 	ft_add_space(&result, flags, INT);

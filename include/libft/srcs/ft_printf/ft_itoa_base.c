@@ -16,7 +16,7 @@ static char	*zero_case(char *base)
 {
 	char	*str;
 
-	str = malloc(sizeof(char) * 2);
+	str = malloc_garbage(sizeof(char) * 2);
 	if (!str)
 		return (NULL);
 	str[0] = base[0];
@@ -83,7 +83,7 @@ char	*ft_itoa_base(long long n, char *base)
 	get_neg(&n, &neg);
 	if (n == 0)
 		return (zero_case(base));
-	str = (char *)malloc(sizeof(char) * (size_forecast(n, base) + 1));
+	str = malloc_garbage(sizeof(char) * (size_forecast(n, base) + 1));
 	if (!str)
 		return (NULL);
 	i = 0;

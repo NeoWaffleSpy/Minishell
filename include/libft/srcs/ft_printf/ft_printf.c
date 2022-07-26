@@ -19,7 +19,7 @@ static int	putstr_free(char *str, int fd)
 	len = 0;
 	len = (int)ft_strlen(str);
 	ft_putstr_fd(str, fd);
-	free(str);
+	free_garbage(str);
 	return (len);
 }
 
@@ -72,8 +72,9 @@ void	better_join(char **line, char **source)
 	char	*tmp;
 
 	tmp = ft_strjoin(*line, *source);
-	free(*source);
-	free(*line);
+	free_garbage(*source);
+	if (*line)
+		free_garbage(*line);
 	*line = tmp;
 }
 

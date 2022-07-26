@@ -40,9 +40,9 @@ static char	**free_all(char **tab, int countdown)
 	while (countdown)
 	{
 		countdown--;
-		free(tab[countdown]);
+		free_garbage(tab[countdown]);
 	}
-	free(tab);
+	free_garbage(tab);
 	return (NULL);
 }
 
@@ -51,7 +51,7 @@ static int	init(int *index_tab, const char *str, char c, char ***tab)
 	*index_tab = 0;
 	if (!str)
 		return (0);
-	*tab = (void *)malloc(sizeof(char *) * (get_nb_split(str, c) + 1));
+	*tab = malloc_garbage(sizeof(char *) * (get_nb_split(str, c) + 1));
 	if (!*tab)
 		return (0);
 	return (1);

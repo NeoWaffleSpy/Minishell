@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_all_bonus.c                                :+:      :+:    :+:   */
+/*   mini_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
+/*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/03 18:52:04 by ncaba             #+#    #+#             */
-/*   Updated: 2020/12/29 16:19:57 by ncaba            ###   ########.fr       */
+/*   Created: 2022/07/26 15:16:41 by ncaba             #+#    #+#             */
+/*   Updated: 2022/07/26 15:37:16 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../include/minishell.h"
 
-void	ft_free_all(void **s)
+void	refresh_handler(int sig)
 {
-	int	count;
-
-	count = 0;
-	while (s[count])
-	{
-		free_garbage(s[count]);
-		count++;
-	}
-	free_garbage(s);
+	(void)sig;
+	ft_putchar('\n');
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }

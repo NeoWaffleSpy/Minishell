@@ -16,7 +16,7 @@ void	*ft_return0(void)
 {
 	void	*s;
 
-	s = malloc(sizeof(char));
+	s = malloc_garbage(sizeof(char));
 	if (!s)
 		return (NULL);
 	*(char *)s = '\0';

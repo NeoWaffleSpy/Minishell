@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2021/09/06 14:45:51 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/26 20:41:50 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,10 +84,12 @@ PFFILES =	ft_printf.c \
 			ft_spacing.c \
 			ft_itoa_base.c
 GNLFILES =	get_next_line.c
+GARFILES =	garbage_collector.c
 SRCSDIR = ./srcs/
 SRCS =	$(addprefix $(SRCSDIR)libft/, $(LFTFILES)) \
 		$(addprefix $(SRCSDIR)ft_printf/, $(PFFILES)) \
-		$(addprefix $(SRCSDIR)get_next_line/, $(GNLFILES))
+		$(addprefix $(SRCSDIR)get_next_line/, $(GNLFILES)) \
+		$(addprefix $(SRCSDIR)garbage_collec/, $(GARFILES))
 OBJS = $(SRCS:.c=.o)
 HEADERS = 	libft.h \
 			ft_printf.h \

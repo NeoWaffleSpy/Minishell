@@ -20,15 +20,15 @@ char	*ft_buffalloc(char *str, char c)
 	buffsize = 50;
 	if (!str)
 	{
-		str = malloc(sizeof(char) * buffsize + 1);
+		str = malloc_garbage(sizeof(char) * buffsize + 1);
 		ft_bzero(str, buffsize + 1);
 	}
 	else if (ft_strlen(str) % buffsize == 0)
 	{
-		tmp = malloc(sizeof(char) * (ft_strlen(str) + buffsize + 1));
+		tmp = malloc_garbage(sizeof(char) * (ft_strlen(str) + buffsize + 1));
 		ft_bzero(str, ft_strlen(str) + buffsize + 1);
 		ft_strcpy(tmp, str);
-		free(str);
+		free_garbage(str);
 		str = tmp;
 	}
 	str[ft_strlen(str)] = c;

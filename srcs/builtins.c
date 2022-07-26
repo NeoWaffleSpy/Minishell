@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:02:55 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 20:31:50 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 22:48:47 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ static int	selec_ope(t_var *var, t_command *comm)
 	else if (!ft_strcmp(comm->command, "env"))
 		ft_print_env(var->env, comm);
 	else if (!ft_strcmp(comm->command, "exit"))
-		var->exit_loop = FALSE;
+		exit_mini(var, comm);
 	else
-	{
-		var->exit_status = 127;
-		call_error("Command not recognized:", comm->command);
-	}
+		var->exit_status = call_error("Command not recognized:",
+				comm->command, 127);
 	return (0);
 }
 
@@ -50,13 +48,13 @@ static int	tester(t_command *comm)
 	c = comm->command;
 	if (!ft_strcmp(c, "<") || !ft_strcmp(c, "<<")
 		|| !ft_strcmp(c, ">") || !ft_strcmp(c, ">>") || !ft_strcmp(c, "<>"))
-		return (call_error("Invalid operation", comm->command));
+		return (call_error("Invalid operation", comm->command, 1));
 	if (c[1] == '>' || c[1] == '<')
-		return (call_error("Unknown operation", comm->command));
+		return (call_error("Unknown operation", comm->command, 1));
 	if (ft_strchr(c, '/'))
 	{
 		if (!check_valid_path(c))
-			return (call_error(c, "No such file or directory"));
+			return (call_error(c, "No such file or directory", 1));
 		ft_printf_fd(comm->outfile, "%s: Is a directory\n", c);
 		return (1);
 	}

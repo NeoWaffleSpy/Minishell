@@ -17,5 +17,5 @@ void	ft_lstdelone(t_list *alst, void (*del)(void *))
 	if (!alst)
 		return ;
 	del(alst->content);
-	free(alst);
+	free_garbage(alst);
 }

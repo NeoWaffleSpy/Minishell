@@ -16,8 +16,8 @@ void	*ft_realloc(void *str, int new_size, int type)
 {
 	void	*new_str;
 
-	new_str = malloc(new_size * type);
+	new_str = malloc_garbage(new_size * type);
 	ft_memcpy(new_str, str, new_size);
-	free(str);
+	free_garbage(str);
 	return (new_str);
 }

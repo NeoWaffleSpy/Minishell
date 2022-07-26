@@ -28,7 +28,7 @@ static char	*inline_write(t_flags flags, int *len)
 	if (!flags.is_padded_left)
 		ft_putchar('\0');
 	(*len)++;
-	return ((char *)calloc(2, sizeof(char)));
+	return (ft_calloc(2, sizeof(char)));
 }
 
 char	*ft_convert_char(t_flags flags, va_list params, int *len)
@@ -39,7 +39,7 @@ char	*ft_convert_char(t_flags flags, va_list params, int *len)
 	c = (char)va_arg(params, int);
 	if (c == '\0')
 		return (inline_write(flags, len));
-	result = (char *)calloc(2, sizeof(char));
+	result = ft_calloc(2, sizeof(char));
 	*result = c;
 	ft_add_padd(&result, flags, CHAR);
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:48 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 16:57:57 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/26 19:22:17 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	unset_var(t_var *var, t_command *comm)
 
 	if (comm->options)
 	{
-		var->exit_status = call_error("unset: Invalid option:", comm->options);
+		var->exit_status = call_error("unset: Invalid option:",
+				comm->options, 1);
 		return ;
 	}
 	i = 0;
@@ -31,9 +32,9 @@ void	unset_var(t_var *var, t_command *comm)
 				ft_find_env_elem(var->env, split[i]));
 		else if (ft_strchr(split[i], '='))
 			var->exit_status = call_error("export:1 Invalid identifier",
-					split[i]);
-		free(split[i]);
+					split[i], 1);
+		free_garbage(split[i]);
 		i++;
 	}
-	free(split);
+	free_garbage(split);
 }

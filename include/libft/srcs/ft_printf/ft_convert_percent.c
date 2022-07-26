@@ -16,7 +16,7 @@ char	*ft_convert_percent(t_flags flags)
 {
 	char	*result;
 
-	result = (char *)calloc(2, sizeof(char));
+	result = ft_calloc(2, sizeof(char));
 	result[0] = '%';
 	ft_add_space(&result, flags, PERCENT);
 	ft_add_padd(&result, flags, PERCENT);
