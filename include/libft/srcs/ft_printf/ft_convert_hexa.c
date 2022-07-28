@@ -29,7 +29,7 @@ char	*ft_convert_hexa(t_flags flags, va_list params, t_boolean is_up)
 	ft_add_precis(&result, flags);
 	if (result[0] == '0' && result[1] == '\0' && flags.nb_dec == 0)
 	{
-		free(result);
+		free_garbage(result);
 		result = ft_calloc(2, sizeof(char));
 	}
 	ft_add_space(&result, flags, type);

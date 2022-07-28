@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 19:22:10 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 19:16:05 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,24 @@ static void	loop_var(t_var *var, char *str)
 
 void	export_var(t_var *var, t_command *comm)
 {
-	char	**split;
 	int		i;
+	t_list	*arg;
 
 	if (comm->options)
 	{
 		var->exit_status = call_error("unset: Invalid option:",
-				comm->options, 1);
+				comm->options->content, 1);
 		return ;
 	}
 	i = 0;
-	split = ft_split(comm->arguments, ' ');
-	while (split[i])
+	arg = ft_lstget(comm->arguments, i);
+	while (arg)
 	{
-		if (check_valid_name(var, split[i]) && ft_strchr(split[i], '='))
+		if (check_valid_name(var, arg->content) && ft_strchr(arg->content, '='))
 		{
-			loop_var(var, split[i]);
+			loop_var(var, arg->content);
 		}
-		free_garbage(split[i]);
 		i++;
+		arg = ft_lstget(comm->arguments, i);
 	}
-	free_garbage(split);
 }

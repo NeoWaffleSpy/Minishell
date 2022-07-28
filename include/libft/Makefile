@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/26 20:41:50 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/28 18:01:37 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ LFTFILES =	ft_atoi.c \
 			ft_lstadd_front.c \
 			ft_lstclear.c \
 			ft_lstdelone.c \
+			ft_lstget.c \
 			ft_lstiter.c \
 			ft_lstlast.c \
 			ft_lstmap.c \

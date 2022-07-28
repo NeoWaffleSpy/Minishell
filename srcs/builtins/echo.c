@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:17 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 23:12:37 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 20:27:52 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 	if (**tmp != ' ' && !ft_isdigit(**tmp))
 	{
 		len = 0;
-		while ((*tmp)[len] && (*tmp)[len] != ' ' && (*tmp)[len] != '"')
+		while ((*tmp)[len] && (*tmp)[len] != ' ' && (*tmp)[len] != '\"')
 			len++;
 		ttadd = ft_substr(*tmp, 0, len);
 		env = ft_find_env_elem(var->env, ttadd);
@@ -86,31 +86,32 @@ void	replace_dollar(t_var *var, char **replace)
 	*replace = res;
 }
 
+static void	iter_echo(t_list *lst, int i, int fd)
+{
+	t_list	*arg;
+
+	arg = ft_lstget(lst, i);
+	while (arg)
+	{
+		ft_printf_fd(fd, "%s ", arg->content);
+		i++;
+		arg = ft_lstget(lst, i);
+	}
+}
+
 void	ft_echo(t_command *comm)
 {
-	char	*tmp;
-
 	if (comm->options)
 	{
-		if (comm->options[0] == '-' && comm->options[1] == 'n'
-			&& (!comm->options[2] || comm->options[2] == ' '))
-		{
-			if (comm->options[2])
-				tmp = ft_str_sp_join(&comm->options[3], comm->arguments);
-			else
-				tmp = ft_strdup(comm->arguments);
-			if (tmp == NULL)
-				return ;
-			ft_printf_fd(comm->outfile, "%s", tmp);
-			free_garbage(tmp);
-			return ;
-		}
-		tmp = ft_str_sp_join(comm->options, comm->arguments);
+		if (ft_strcmp(comm->options->content, "-n") == 0)
+			iter_echo(comm->options, 1, comm->outfile_fd);
+		else
+			iter_echo(comm->options, 0, comm->outfile_fd);
 	}
-	else
-		tmp = ft_strdup(comm->arguments);
-	if (tmp == NULL)
-		return ((void)ft_printf_fd(comm->outfile, "\n"));
-	ft_printf_fd(comm->outfile, "%s\n", tmp);
-	free_garbage(tmp);
+	if (comm->arguments)
+		iter_echo(comm->arguments, 0, comm->outfile_fd);
+	ft_printf_fd(comm->outfile_fd, "\b");
+	if (comm->options && !ft_strcmp(comm->options->content, "-n"))
+		return ;
+	ft_printf_fd(comm->outfile_fd, "\n");
 }

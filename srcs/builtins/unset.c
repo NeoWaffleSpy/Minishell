@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:48 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 19:22:17 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 19:16:37 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,26 @@
 void	unset_var(t_var *var, t_command *comm)
 {
 	int		i;
-	char	**split;
+	t_list	*arg;
 
 	if (comm->options)
 	{
 		var->exit_status = call_error("unset: Invalid option:",
-				comm->options, 1);
+				comm->options->content, 1);
 		return ;
 	}
 	i = 0;
-	split = ft_split(comm->arguments, ' ');
-	while (split[i])
+	arg = ft_lstget(comm->arguments, i);
+	while (arg)
 	{
-		if (check_valid_name(var, split[i]) && !ft_strchr(split[i], '='))
+		if (check_valid_name(var, arg->content)
+			&& !ft_strchr(arg->content, '='))
 			ft_cleanly_delone_env(&var->env,
-				ft_find_env_elem(var->env, split[i]));
-		else if (ft_strchr(split[i], '='))
+				ft_find_env_elem(var->env, arg->content));
+		else if (ft_strchr(arg->content, '='))
 			var->exit_status = call_error("export:1 Invalid identifier",
-					split[i], 1);
-		free_garbage(split[i]);
+					arg->content, 1);
 		i++;
+		arg = ft_lstget(comm->arguments, i);
 	}
-	free_garbage(split);
 }

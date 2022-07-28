@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 22:36:53 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 19:24:28 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,20 @@ void	call_destroy(t_var *var, char *prompt)
 	dump_trash();
 }
 
-void	free_command(t_command **comma)
+void	free_command(t_command *comm)
 {
-	t_command	*tmp;
-	t_command	*comm;
-
-	comm = *comma;
-	while (comm)
+	if (comm)
 	{
 		free_garbage(comm->command);
 		if (comm->options)
-			free_garbage(comm->options);
+			ft_lstclear(&comm->options, free_garbage);
 		if (comm->arguments)
-			free_garbage(comm->arguments);
-		tmp = comm->next;
+			ft_lstclear(&comm->arguments, free_garbage);
+		if (comm->infile)
+			free_garbage(comm->infile);
+		if (comm->outfile)
+			free_garbage(comm->outfile);
+		free_command(comm->next);
 		free_garbage(comm);
-		comm = tmp;
 	}
 }

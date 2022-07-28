@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstget.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
+/*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/21 00:07:08 by ncaba             #+#    #+#             */
-/*   Updated: 2022/04/27 11:05:36 by ncaba            ###   ########.fr       */
+/*   Created: 2022/07/28 17:56:57 by ncaba             #+#    #+#             */
+/*   Updated: 2022/07/28 18:00:32 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_bzero(void *s, size_t n)
+t_list	*ft_lstget(t_list *lst, int i)
 {
-	size_t	index;
-	index = 0;
-	while (index < n)
+	while (lst && i > 0)
 	{
-		*((char *)s) = '\0';
-		s++;
-		index++;
+		lst = lst->next;
+		i--;
 	}
+	if (lst)
+		return (lst);
+	return (NULL);
 }

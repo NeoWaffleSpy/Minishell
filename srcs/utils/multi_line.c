@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:36:25 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 16:55:41 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 20:35:20 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	count_quotes(char *line, t_var *var)
 {
+	var->quotes = 0;
+	var->dquotes = 0;
 	while (line && *line)
 	{
 		if (!(var->quotes % 2) && *line == '\"')

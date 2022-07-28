@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:41:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 18:43:14 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 16:56:11 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ t_command	*init_comm(void)
 	comm->options = NULL;
 	comm->arguments = NULL;
 	comm->next = NULL;
-	comm->infile = 0;
-	comm->outfile = 1;
+	comm->infile = NULL;
+	comm->outfile = NULL;
+	comm->infile_fd = 0;
+	comm->outfile_fd = 1;
+	comm->error = 0;
 	return (comm);
 }
 

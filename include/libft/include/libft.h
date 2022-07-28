@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 23:18:35 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 23:01:59 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:01:04 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(void*),
 						void (*del)(void*));
 t_list				*ft_lstdup(t_list *lst);
 t_list				*ft_lstnew(void *content);
+t_list				*ft_lstget(t_list *lst, int i);
 int					ft_lstsize(t_list *list);
 
 #endif

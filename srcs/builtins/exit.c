@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:12:08 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 22:43:28 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 20:01:12 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,41 +57,30 @@ static int	ft_lltoi(char *str)
 	return ((int)(l_val % 256));
 }
 
-static void	free_split(char **split, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (split && split[i])
-	{
-		free_garbage(split[i]);
-		i++;
-	}
-	free_garbage(split);
-	free_garbage(str);
-}
-
 void	exit_mini(t_var *var, t_command *comm)
 {
 	char	*str;
-	char	**split;
 
 	ft_printf("exit\n");
 	var->exit_loop = FALSE;
 	if (comm == NULL)
 		return ;
-	str = ft_str_sp_join(comm->options, comm->arguments);
-	if (!str)
+	if (!comm->options && !comm->arguments)
 		return ;
-	split = ft_split(str, ' ');
-	if (split && !is_num(*split))
-		var->exit_status = call_error("exit:", "numeric argument required", 2);
-	else if (split && *(split + 1))
+	if ((comm->options && comm->arguments)
+		|| (comm->options && comm->options->next)
+		|| (comm->arguments && comm->arguments->next))
 	{
 		var->exit_status = call_error("exit:", "too many arguments", 2);
 		var->exit_loop = TRUE;
+		return ;
 	}
-	else if (split)
-		var->exit_status = ft_lltoi(*split);
-	free_split(split, str);
+	if (comm->options)
+		str = comm->options->content;
+	else
+		str = comm->arguments->content;
+	if (!is_num(str))
+		var->exit_status = call_error("exit:", "numeric argument required", 2);
+	else
+		var->exit_status = ft_lltoi(str);
 }

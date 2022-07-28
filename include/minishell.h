@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 16:09:05 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:54:24 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ typedef struct s_var
 
 typedef struct s_command
 {
-	t_list				*command;
+	char				*command;
 	t_list				*options;
 	t_list				*arguments;
-	int					infile;
-	int					outfile;
+	char				*infile;
+	char				*outfile;
+	int					infile_fd;
+	int					outfile_fd;
+	int					error;
 	struct s_command	*next;
 }				t_command;
 
@@ -52,7 +55,7 @@ int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
 void		call_todo(char *ft);
 void		call_destroy(t_var *var, char *prompt);
-void		free_command(t_command **comm);
+void		free_command(t_command *comm);
 
 int			selector(t_var *var, char *operation);
 
@@ -60,7 +63,7 @@ t_command	*fill_command(char *line);
 
 /* UTILS */
 
-void		clean_str(char **old);
+char		*clean_str(char *old);
 char		*multiline_quotes(char *line, t_var *var);
 void		count_quotes(char *line, t_var *var);
 char		*ft_buffalloc(char *str, char c);
@@ -71,6 +74,7 @@ void		init_child(void);
 void		init_var(t_var *var, t_env *env);
 void		reset_var(t_var *var);
 void		refresh_handler(int sig);
+char		**split_command(char *str, char c);
 
 /* BUILTINS */
 

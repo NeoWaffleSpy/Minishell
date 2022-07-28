@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/26 18:40:01 by ncaba            ###   ########.fr        #
+#    Updated: 2022/07/28 21:34:54 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ BUILT_SRCS	=	cd.c \
 
 UTILS_SRCS	=	str_utils.c \
 				str_utils_2.c \
+				split_command.c \
 				multi_line.c \
 				init.c \
 				mini_signal.c \

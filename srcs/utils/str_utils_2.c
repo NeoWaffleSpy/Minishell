@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 18:12:47 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 18:19:54 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:13:03 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ char	*ft_buffalloc(char *str, char c)
 	buffsize = 50;
 	if (!str)
 	{
-		str = malloc_garbage(sizeof(char) * buffsize + 1);
+		str = malloc_garbage(sizeof(char) * (buffsize + 1));
 		ft_bzero(str, buffsize + 1);
 	}
 	else if (ft_strlen(str) % buffsize == 0)
 	{
 		tmp = malloc_garbage(sizeof(char) * (ft_strlen(str) + buffsize + 1));
-		ft_bzero(str, ft_strlen(str) + buffsize + 1);
+		ft_bzero(tmp, ft_strlen(str) + buffsize + 1);
 		ft_strcpy(tmp, str);
 		free_garbage(str);
 		str = tmp;

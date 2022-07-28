@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 15:32:34 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/23 18:19:49 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:32:49 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,20 @@ static void	clean_2(char *new, char *str)
 	}
 }
 
-void	clean_str(char **old)
+char	*clean_str(char *old)
 {
 	char	*new;
 	char	*str;
 	int		i;
 
 	if (!*old)
-		return ;
-	str = *old;
-	i = get_clean_len(*old);
+		return (NULL);
+	str = old;
+	i = get_clean_len(old);
 	new = malloc_garbage(sizeof(char) * i);
 	ft_bzero(new, i);
 	clear_spaces(&str);
 	clean_2(new, str);
-	free_garbage(*old);
-	*old = new;
+	free_garbage(old);
+	return (new);
 }
