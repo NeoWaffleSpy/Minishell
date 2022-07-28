@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 19:12:53 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 16:09:05 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct s_var
 
 typedef struct s_command
 {
-	char				*command;
-	char				*options;
-	char				*arguments;
+	t_list				*command;
+	t_list				*options;
+	t_list				*arguments;
 	int					infile;
 	int					outfile;
 	struct s_command	*next;
@@ -78,7 +78,7 @@ void		print_pwd(t_var *var, t_command *comm);
 void		replace_dollar(t_var *var, char **replace);
 void		ft_echo(t_command *comm);
 void		export_var(t_var *var, t_command *comm);
-void		cd(void);
+void		cd(t_var *var, t_command *comm);
 void		unset_var(t_var *var, t_command *comm);
 int			check_valid_name(t_var *var, char *str);
 void		exit_mini(t_var *var, t_command *comm);
