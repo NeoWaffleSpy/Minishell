@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 21:34:35 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 22:39:13 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/28 22:54:45 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ static char	**free_all(char **tab, int countdown)
 	return (NULL);
 }
 
-static int  get_next_index(char *str, char c)
+static int	get_next_index(char *str, char c)
 {
 	t_var	var;
 	int		index;
 
 	reset_var(&var);
 	index = 0;
-	if ((str[index] == '>' && str[index + 1] == '>') || (str[index] == '<' && str[index + 1] == '<'))
+	if ((str[index] == '>' && str[index + 1] == '>')
+		|| (str[index] == '<' && str[index + 1] == '<'))
 		return (2);
 	if (str[index] == '|' || str[index] == '>' || str[index] == '<')
 		return (1);
