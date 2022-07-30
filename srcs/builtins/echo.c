@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:17 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 20:27:52 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 21:18:44 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void	replace_dollar(t_var *var, char **replace)
 		return ;
 	tmp = (*replace) - 1;
 	res = NULL;
-	var->quotes = 0;
-	var->dquotes = 0;
-	if (!ft_strchr(*replace, '$'))
+	if (!ft_strchr(*replace, '$') && !ft_strchr(*replace, '~'))
 		return ;
 	while (*(++tmp))
 	{
+		if (!(var->quotes % 2) && *tmp == '~')
+			replace_tilde(&tmp, &res, tmp - *replace);
 		if (!(var->quotes % 2) && *tmp == '$')
 			doll_search(var, &tmp, &res);
 		if (!(var->dquotes % 2) && *tmp == '\'')

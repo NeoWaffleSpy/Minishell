@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:03:06 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 22:43:19 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 21:57:47 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
 	(*split)++;
-	if (*split && **split)
+	if (*split && **split && (ft_isalnum(***split) || ***split == '_'))
 		return (1);
 	comm->error = call_error("Syntax error:", msg, 2);
 	return (1);
@@ -28,7 +28,7 @@ static int	file_redir(t_command *comm, char ***split)
 			return (!!(comm->infile = **split));
 	if (ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
-			call_todo("heredoc");
+			return (!!(comm->delim = **split));
 	if (ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (!!(comm->outfile = **split));

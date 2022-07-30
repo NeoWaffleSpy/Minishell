@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 19:24:28 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 23:55:23 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	free_command(t_command *comm)
 {
 	if (comm)
 	{
-		free_garbage(comm->command);
+		if (comm->options)
+			free_garbage(comm->command);
 		if (comm->options)
 			ft_lstclear(&comm->options, free_garbage);
 		if (comm->arguments)
@@ -53,6 +54,12 @@ void	free_command(t_command *comm)
 			free_garbage(comm->infile);
 		if (comm->outfile)
 			free_garbage(comm->outfile);
+		if (comm->delim)
+			free_garbage(comm->delim);
+		if (comm->infile_fd != 0)
+			close(comm->infile_fd);
+		if (comm->outfile_fd != 1)
+			close(comm->outfile_fd);
 		free_command(comm->next);
 		free_garbage(comm);
 	}

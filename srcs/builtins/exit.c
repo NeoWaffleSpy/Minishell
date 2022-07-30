@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:12:08 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 20:01:12 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 17:55:30 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exit_mini(t_var *var, t_command *comm)
 {
 	char	*str;
 
-	ft_printf("exit\n");
+	ft_printf_fd(2, "exit\n");
 	var->exit_loop = FALSE;
 	if (comm == NULL)
 		return ;

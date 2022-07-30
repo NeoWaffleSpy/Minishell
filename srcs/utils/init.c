@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:41:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 16:56:11 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 22:21:13 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_command	*init_comm(void)
 	comm->infile_fd = 0;
 	comm->outfile_fd = 1;
 	comm->error = 0;
+	comm->delim = NULL;
+	comm->do_expand = 1;
 	return (comm);
 }
 

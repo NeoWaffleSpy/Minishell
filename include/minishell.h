@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 21:54:24 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 22:20:55 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct s_command
 	int					infile_fd;
 	int					outfile_fd;
 	int					error;
+	char				*delim;
+	int					do_expand;
 	struct s_command	*next;
 }				t_command;
 
@@ -75,6 +77,8 @@ void		init_var(t_var *var, t_env *env);
 void		reset_var(t_var *var);
 void		refresh_handler(int sig);
 char		**split_command(char *str, char c);
+void		replace_tilde(char **tmp, char **res, int pos);
+void		create_heredoc(t_command *comm);
 
 /* BUILTINS */
 

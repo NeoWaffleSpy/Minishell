@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:52:41 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 18:05:16 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 18:55:23 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	print_pwd(t_var *var, t_command *comm)
 {
+	char	*cwd;
+
 	var->exit_status = 0;
 	if (comm->options)
 		var->exit_status = call_error("pwd: bad options:",
@@ -22,6 +24,7 @@ void	print_pwd(t_var *var, t_command *comm)
 		var->exit_status = call_error("pwd: too many arguments", "", 1);
 	if (var->exit_status)
 		return ;
-	ft_printf_fd(comm->outfile_fd, "%s\n",
-		ft_find_env_elem(var->env, "PWD")->content);
+	cwd = getcwd(NULL, 0);
+	ft_printf_fd(comm->outfile_fd, "%s\n", cwd);
+	free(cwd);
 }

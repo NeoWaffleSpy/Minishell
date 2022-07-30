@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 18:12:47 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 21:13:03 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 21:17:56 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,21 @@ void	cpy_str(char **dst, char *src)
 		*dst = ft_buffalloc(*dst, *src);
 		src++;
 	}
+}
+
+void	replace_tilde(char **tmp, char **res, int pos)
+{
+	char	*env;
+
+	if ((pos == 0 || *((*tmp) - 1) == ' ') && (*((*tmp) + 1) == ' '
+			|| *((*tmp) + 1) == '/' || *((*tmp) + 1) == 0))
+	{
+		env = getenv("HOME");
+		if (env)
+		{
+			(*tmp)++;
+			cpy_str(res, env);
+		}
+	}
+	return ;
 }

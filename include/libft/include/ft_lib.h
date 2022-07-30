@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 19:48:56 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/26 20:38:58 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/30 22:56:13 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define BLINK "\x1B[5m"
 # define PI 3.1415926535f
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"

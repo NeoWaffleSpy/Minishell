@@ -6,27 +6,30 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/28 20:37:50 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/07/31 00:34:07 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*create_prompt(char *prompt, t_env *env)
+static char	*create_prompt(char *prompt)
 {
 	char	*c_dir;
 	char	*cwd;
 	int		i;
 
-	cwd = ft_find_env_elem(env, "PWD")->content;
+	cwd = getcwd(NULL, 0);
 	i = ft_strlen(cwd);
-	while (i >= 0 && cwd[--i] != '/')
+	while (i > 1 && i >= 0 && cwd[--i] != '/')
 		c_dir = &(cwd[i]);
+	if (i == 1)
+		c_dir = cwd;
 	if (prompt)
 		free_garbage(prompt);
 	prompt = ft_printf_var(
 			"\001👹\002 \001%s21m%s%s\002%s\001%s\002 \001%s\002➜\001%s\002 ",
 			BASE, BOLD, BLUE, c_dir, RESET_COLOR, CYAN, RESET_COLOR);
+	free(cwd);
 	return (prompt);
 }
 
@@ -39,7 +42,7 @@ static int	read_command(char *prompt, t_env *env)
 	while (var.exit_loop)
 	{
 		reset_var(&var);
-		prompt = create_prompt(prompt, var.env);
+		prompt = create_prompt(prompt);
 		line = readline(prompt);
 		if (!line)
 			exit_mini(&var, NULL);
