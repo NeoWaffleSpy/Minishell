@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:41:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/30 22:21:13 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:49:16 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,18 @@ void	init_var(t_var *var, t_env *env)
 	var->exit_status = 0;
 }
 
-void	reset_var(t_var *var)
-{
-	var->quotes = 0;
-	var->dquotes = 0;
-}
-
 void	init_signal(void)
 {
 	signal(SIGINT, refresh_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	init_heredoc(void)
+{
+	signal(SIGINT, heredoc_handler);
+}
+
 void	init_child(void)
 {
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, exit);
 }

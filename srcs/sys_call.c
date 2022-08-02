@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 16:06:42 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/30 23:55:23 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:47:56 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,12 @@ void	free_command(t_command *comm)
 {
 	if (comm)
 	{
-		if (comm->options)
+		if (comm->command)
 			free_garbage(comm->command);
-		if (comm->options)
-			ft_lstclear(&comm->options, free_garbage);
-		if (comm->arguments)
-			ft_lstclear(&comm->arguments, free_garbage);
-		if (comm->infile)
-			free_garbage(comm->infile);
-		if (comm->outfile)
-			free_garbage(comm->outfile);
+		ft_lstclear(&comm->options, free_garbage);
+		ft_lstclear(&comm->arguments, free_garbage);
+		ft_lstfclear(&comm->infile, free_garbage);
+		ft_lstfclear(&comm->outfile, free_garbage);
 		if (comm->delim)
 			free_garbage(comm->delim);
 		if (comm->infile_fd != 0)

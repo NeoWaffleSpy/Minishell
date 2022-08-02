@@ -6,7 +6,7 @@
 #    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/07/28 21:34:54 by ncaba            ###   ########.fr        #
+#    Updated: 2022/08/02 19:55:20 by ncaba            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ UTILS_SRCS	=	str_utils.c \
 				split_command.c \
 				multi_line.c \
 				init.c \
+				lst_arg.c \
 				mini_signal.c \
 
 ENV_SRCS	=	env_free.c \

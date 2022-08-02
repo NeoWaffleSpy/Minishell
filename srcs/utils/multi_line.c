@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:36:25 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/31 00:23:55 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:54:46 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	create_heredoc(t_command *comm)
 	int		wr_fd;
 	char	*line;
 
+	init_heredoc();
 	wr_fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	line = NULL;
 	while (!line || ft_strcmp(line, comm->delim))
@@ -62,11 +63,18 @@ void	create_heredoc(t_command *comm)
 		if (line)
 			free_garbage(line);
 		line = readline("heredoc> ");
+		if (!line)
+		{
+			call_info("Heredoc ended with", "EOF");
+			break ;
+		}
 		add_garbage(line);
 		write(wr_fd, line, ft_strlen(line));
 		write(wr_fd, "\n", 1);
 	}
-	free_garbage(line);
+	if (line)
+		free_garbage(line);
 	close(wr_fd);
-	comm->infile_fd = open("/tmp/.heredoc", O_RDONLY);
+	ft_lstfadd_front(&comm->infile, ft_lstfnew(ft_strdup("/tmp/.heredoc"), 0));
+	init_signal();
 }

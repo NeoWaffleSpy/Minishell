@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/30 22:20:55 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:52:53 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,20 @@ typedef struct s_var
 	int					exit_status;
 }				t_var;
 
+typedef struct s_file
+{
+	char			*filename;
+	int				is_append;
+	struct s_file	*next;
+}				t_file;
+
 typedef struct s_command
 {
 	char				*command;
 	t_list				*options;
 	t_list				*arguments;
-	char				*infile;
-	char				*outfile;
+	t_file				*infile;
+	t_file				*outfile;
 	int					infile_fd;
 	int					outfile_fd;
 	int					error;
@@ -72,13 +79,18 @@ char		*ft_buffalloc(char *str, char c);
 void		cpy_str(char **dst, char *src);
 t_command	*init_comm(void);
 void		init_signal(void);
+void		init_heredoc(void);
 void		init_child(void);
 void		init_var(t_var *var, t_env *env);
 void		reset_var(t_var *var);
 void		refresh_handler(int sig);
+void		heredoc_handler(int sig);
 char		**split_command(char *str, char c);
 void		replace_tilde(char **tmp, char **res, int pos);
 void		create_heredoc(t_command *comm);
+int			ft_lstfadd_front(t_file **alst, t_file *new);
+void		ft_lstfclear(t_file **lst, void (*del)(void*));
+t_file		*ft_lstfnew(void *content, int append);
 
 /* BUILTINS */
 
