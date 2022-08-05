@@ -108,6 +108,7 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 
 	stdout_copy = dup(1);
 	pipex.cmd_nbr = ft_cmdlstsize(var);
+	ft_printf("\n\n\n%d\n\n\n", pipex.cmd_nbr);
 	pipex.pipe_nbr = 2 * (pipex.cmd_nbr - 1);
 	pipex.pipefd = (int *)malloc_garbage(sizeof(int) * pipex.pipe_nbr);
 	if (!pipex.pipefd)
