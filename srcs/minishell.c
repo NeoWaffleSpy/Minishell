@@ -51,6 +51,7 @@ static int	read_command(char *prompt, t_env *env)
 			add_history(line);
 		replace_dollar(&var, &line, FALSE);
 		count_quotes(line, &var);
+		var.exit_status = 0;
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line, 1);
 		else if (line && *line != '\0')

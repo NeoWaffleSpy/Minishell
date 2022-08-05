@@ -60,9 +60,11 @@ int	selector(t_var *var, char *operation)
 	ret = 0;
 	comm = fill_command(operation);
 	heredoc_loop(var, comm);
-	if (comm->error != 0 || !comm->command)
+	if (var->exit_status != 130 && (comm->error != 0 || !comm->command))
+	{
 		var->exit_status = comm->error;
-	else if (comm->command != NULL)
+	}
+	else if (var->exit_status != 130 && comm->command != NULL)
 		ret = selec_ope(var, comm);
 	free_command(comm);
 	if (ret)

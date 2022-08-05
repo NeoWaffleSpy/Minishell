@@ -25,4 +25,5 @@ void	heredoc_handler(int sig)
 {
 	(void)sig;
 	close(0);
+	sigint_handler(NULL);
 }

@@ -43,8 +43,9 @@ void	init_signal(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	init_heredoc(void)
+void	init_heredoc(int *return_value)
 {
+	sigint_handler(return_value);
 	signal(SIGINT, heredoc_handler);
 }
 

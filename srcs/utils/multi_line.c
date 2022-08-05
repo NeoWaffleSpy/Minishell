@@ -36,12 +36,29 @@ void	sigint_handler(int	*return_value)
 		*value = 130; 
 }
 
+int	dup2_close(int oldfd, int newfd)
+{
+	if (oldfd != newfd)
+	{
+		if (dup2(oldfd, newfd) == -1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			perror("pipe");
+			return (0);
+		}
+		close(oldfd);
+	}
+	return (1);
+}
+
 void	create_heredoc(t_var *var, t_file *delim)
 {
 	int		wr_fd;
 	char	*line;
+	int		stdin_copy;
 
-	init_heredoc();
+	init_heredoc(&var->exit_status);
+	stdin_copy = dup(0);
 	wr_fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	line = NULL;
 	while (1)
@@ -51,7 +68,8 @@ void	create_heredoc(t_var *var, t_file *delim)
 		line = readline("heredoc> ");
 		if (!line)
 		{
-			call_info("Heredoc ended with", "EOF");
+			if (var->exit_status != 130)
+				call_info("Heredoc ended with", "EOF");
 			break ;
 		}
 		add_garbage(line);
@@ -67,5 +85,9 @@ void	create_heredoc(t_var *var, t_file *delim)
 	close(wr_fd);
 	free_garbage(delim->filename);
 	delim->filename = ft_strdup("/tmp/.heredoc");
+	if (var->exit_status == 130)
+	{
+		dup2_close(stdin_copy, STDIN_FILENO);
+	}
 	init_signal();
 }

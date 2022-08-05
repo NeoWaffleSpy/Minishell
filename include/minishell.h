@@ -78,7 +78,7 @@ char		*ft_buffalloc(char *str, char c);
 void		cpy_str(char **dst, char *src);
 t_command	*init_comm(void);
 void		init_signal(void);
-void		init_heredoc(void);
+void		init_heredoc(int *return_value);
 void		init_child(void);
 void		init_var(t_var *var, t_env *env);
 void		reset_var(t_var *var);
