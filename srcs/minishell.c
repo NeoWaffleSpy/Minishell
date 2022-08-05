@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/07/31 00:34:07 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 13:44:38 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	read_command(char *prompt, t_env *env)
 		add_garbage(line);
 		if (line && *line)
 			add_history(line);
-		replace_dollar(&var, &line);
+		replace_dollar(&var, &line, FALSE);
 		count_quotes(line, &var);
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line, 1);

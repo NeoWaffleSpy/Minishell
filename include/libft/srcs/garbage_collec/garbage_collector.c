@@ -17,6 +17,8 @@ void	*malloc_garbage(size_t size)
 	void	*item;
 
 	item = malloc(size);
+	if (!item)
+		return (NULL);
 	if (g_garbage == NULL)
 		g_garbage = ft_lstnew(item);
 	else

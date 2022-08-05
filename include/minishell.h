@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:52:53 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 16:17:32 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ typedef struct s_command
 	int					infile_fd;
 	int					outfile_fd;
 	int					error;
-	char				*delim;
-	int					do_expand;
+	t_file				*delim;
 	struct s_command	*next;
 }				t_command;
 
@@ -85,17 +84,19 @@ void		init_var(t_var *var, t_env *env);
 void		reset_var(t_var *var);
 void		refresh_handler(int sig);
 void		heredoc_handler(int sig);
-char		**split_command(char *str, char c);
+char		**split_command(char *str);
 void		replace_tilde(char **tmp, char **res, int pos);
-void		create_heredoc(t_command *comm);
+void		create_heredoc(t_var *var, t_file *delim);
+void		sigint_handler(int	*return_value);
 int			ft_lstfadd_front(t_file **alst, t_file *new);
+int			ft_lstfadd_back(t_file **alst, t_file *new);
 void		ft_lstfclear(t_file **lst, void (*del)(void*));
 t_file		*ft_lstfnew(void *content, int append);
 
 /* BUILTINS */
 
 void		print_pwd(t_var *var, t_command *comm);
-void		replace_dollar(t_var *var, char **replace);
+void		replace_dollar(t_var *var, char **replace, int is_only_var);
 void		ft_echo(t_command *comm);
 void		export_var(t_var *var, t_command *comm);
 void		cd(t_var *var, t_command *comm);

@@ -27,7 +27,6 @@ t_command	*init_comm(void)
 	comm->outfile_fd = 1;
 	comm->error = 0;
 	comm->delim = NULL;
-	comm->do_expand = 1;
 	return (comm);
 }
 

@@ -14,7 +14,7 @@
 
 static void	clear_spaces(char **str)
 {
-	while (*str && **str && (**str == ' ' || **str == '	'))
+	while (*str && **str && (**str == ' ' || **str == 9))
 		(*str)++;
 }
 
@@ -31,7 +31,7 @@ static int	get_clean_len(char *old)
 		if (!*str)
 			break ;
 		i++;
-		while (*str && *str != ' ' && *str != '	')
+		while (*str && *str != ' ' && *str != 9)
 		{
 			i++;
 			str++;
@@ -64,7 +64,7 @@ static void	clean_2(char *new, char *str)
 	reset_var(&var);
 	while (*str)
 	{
-		while (*str && *str != ' ' && *str != '	')
+		while (*str && *str != ' ' && *str != 9)
 		{
 			if (!isquote(*str, &var))
 				new[i++] = *str;

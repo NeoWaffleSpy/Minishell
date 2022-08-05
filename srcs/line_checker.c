@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:03:06 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:58:32 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 17:00:44 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
+	free_garbage(**split);
 	(*split)++;
 	if (*split && **split && (ft_isalnum(***split) || ***split == '_'))
 		return (1);
@@ -28,7 +29,7 @@ static int	file_redir(t_command *comm, char ***split)
 			return (ft_lstfadd_front(&comm->infile, ft_lstfnew(**split, 0)));
 	if (ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
-			return (!!(comm->delim = **split));
+			return (ft_lstfadd_front(&comm->infile, ft_lstfnew(**split, 1)));
 	if (ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (ft_lstfadd_front(&comm->outfile, ft_lstfnew(**split, 0)));
@@ -45,7 +46,6 @@ static t_command	*set_command(char **split)
 	comm = init_comm();
 	while (split && *split)
 	{
-		ft_printf("current check: %s\n", *split);
 		if (file_redir(comm, &split))
 			;
 		else if (comm->command == NULL)
@@ -72,7 +72,7 @@ t_command	*fill_command(char *line)
 	char		**split;
 	t_command	*comm;
 
-	split = split_command(line, ' ');
+	split = split_command(line);
 	comm = set_command(split);
 	free_garbage(split);
 	return (comm);

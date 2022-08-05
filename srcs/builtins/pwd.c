@@ -25,6 +25,6 @@ void	print_pwd(t_var *var, t_command *comm)
 	if (var->exit_status)
 		return ;
 	cwd = getcwd(NULL, 0);
-	ft_printf_fd(comm->outfile_fd, "%s\n", cwd);
+	ft_printf_fd(1, "%s\n", cwd);
 	free(cwd);
 }

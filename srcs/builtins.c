@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:02:55 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:43:51 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 17:50:07 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@ static int	selec_ope(t_var *var, t_command *comm)
 	return (0);
 }
 
+static void	heredoc_loop(t_var *var, t_command *comm)
+{
+	t_file	*tmp;
+
+	tmp = comm->infile;
+	while (comm->error == 0 && tmp)
+	{
+		if (tmp->is_append)
+		{
+			if (ft_strchr(tmp->filename, '\'')
+				|| ft_strchr(tmp->filename, '\"'))
+				tmp->is_append = 2;
+			create_heredoc(var, tmp);
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	selector(t_var *var, char *operation)
 {
 	t_command	*comm;
@@ -41,8 +59,7 @@ int	selector(t_var *var, char *operation)
 
 	ret = 0;
 	comm = fill_command(operation);
-	if (comm->error == 0 && comm->delim)
-		create_heredoc(comm);
+	heredoc_loop(var, comm);
 	if (comm->error != 0 || !comm->command)
 		var->exit_status = comm->error;
 	else if (comm->command != NULL)

@@ -29,7 +29,23 @@ int	ft_lstfadd_front(t_file **alst, t_file *new)
 		return (1);
 	new->next = *alst;
 	*alst = new;
-	return (0);
+	return (1);
+}
+
+int	ft_lstfadd_back(t_file **alst, t_file *new)
+{
+	t_file	*last;
+
+	if (!*alst)
+	{
+		*alst = new;
+		return (1);
+	}
+	last = *alst;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
+	return (1);
 }
 
 void	ft_lstfclear(t_file **lst, void (*del)(void*))

@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 15:16:41 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:51:35 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 17:53:27 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ void	refresh_handler(int sig)
 
 void	heredoc_handler(int sig)
 {
-	int	newfd[2];
-
-	pipe(newfd);
 	(void)sig;
-	dup2(newfd[0], 0);
-	close(newfd[1]);
+	close(0);
 }

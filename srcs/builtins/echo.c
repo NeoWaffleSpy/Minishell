@@ -57,7 +57,7 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 	}
 }
 
-void	replace_dollar(t_var *var, char **replace)
+void	replace_dollar(t_var *var, char **replace, int is_only_var)
 {
 	char	*tmp;
 	char	*res;
@@ -70,7 +70,7 @@ void	replace_dollar(t_var *var, char **replace)
 		return ;
 	while (*(++tmp))
 	{
-		if (!(var->quotes % 2) && *tmp == '~')
+		if (!is_only_var && !(var->quotes % 2) && *tmp == '~')
 			replace_tilde(&tmp, &res, tmp - *replace);
 		if (!(var->quotes % 2) && *tmp == '$')
 			doll_search(var, &tmp, &res);
@@ -104,14 +104,14 @@ void	ft_echo(t_command *comm)
 	if (comm->options)
 	{
 		if (ft_strcmp(comm->options->content, "-n") == 0)
-			iter_echo(comm->options, 1, comm->outfile_fd);
+			iter_echo(comm->options, 1, 1);
 		else
-			iter_echo(comm->options, 0, comm->outfile_fd);
+			iter_echo(comm->options, 0, 1);
 	}
 	if (comm->arguments)
-		iter_echo(comm->arguments, 0, comm->outfile_fd);
-	ft_printf_fd(comm->outfile_fd, "\b");
+		iter_echo(comm->arguments, 0, 1);
+	ft_printf_fd(1, "\b");
 	if (comm->options && !ft_strcmp(comm->options->content, "-n"))
 		return ;
-	ft_printf_fd(comm->outfile_fd, "\n");
+	ft_printf_fd(1, "\n");
 }

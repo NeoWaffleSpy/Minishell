@@ -6,7 +6,7 @@
 /*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:36:25 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:54:46 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 13:45:33 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,17 @@ void	count_quotes(char *line, t_var *var)
 	}
 }
 
-char	*multiline_quotes(char *line, t_var *var)
+void	sigint_handler(int	*return_value)
 {
-	char	*newline;
-	char	*tmp;
+	static int	*value;
 
-	ft_printf("Prototype function, do not use !\n");
-	return (NULL);
-	while (var->quotes % 2 || var->dquotes % 2)
-	{
-		if (var->quotes % 2)
-			newline = readline("quote> ");
-		else if (var->dquotes % 2)
-			newline = readline("dquote> ");
-		count_quotes(newline, var);
-		tmp = ft_str_sp_join(line, newline);
-		free_garbage(line);
-		free_garbage(newline);
-		line = tmp;
-	}
-	var->quotes = 0;
-	var->dquotes = 0;
-	return (tmp);
+	if (return_value)
+		value = return_value;
+	else
+		*value = 130; 
 }
 
-void	create_heredoc(t_command *comm)
+void	create_heredoc(t_var *var, t_file *delim)
 {
 	int		wr_fd;
 	char	*line;
@@ -58,7 +44,7 @@ void	create_heredoc(t_command *comm)
 	init_heredoc();
 	wr_fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	line = NULL;
-	while (!line || ft_strcmp(line, comm->delim))
+	while (1)
 	{
 		if (line)
 			free_garbage(line);
@@ -69,12 +55,17 @@ void	create_heredoc(t_command *comm)
 			break ;
 		}
 		add_garbage(line);
+		if (!ft_strcmp(line, delim->filename))
+			break ;
+		if (delim->is_append != 2)
+			replace_dollar(var, &line, TRUE);
 		write(wr_fd, line, ft_strlen(line));
 		write(wr_fd, "\n", 1);
 	}
 	if (line)
 		free_garbage(line);
 	close(wr_fd);
-	ft_lstfadd_front(&comm->infile, ft_lstfnew(ft_strdup("/tmp/.heredoc"), 0));
+	free_garbage(delim->filename);
+	delim->filename = ft_strdup("/tmp/.heredoc");
 	init_signal();
 }
