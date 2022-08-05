@@ -6,7 +6,7 @@
 /*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/05 16:17:32 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/05 21:21:47 by ncaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int			ft_lstfadd_front(t_file **alst, t_file *new);
 int			ft_lstfadd_back(t_file **alst, t_file *new);
 void		ft_lstfclear(t_file **lst, void (*del)(void*));
 t_file		*ft_lstfnew(void *content, int append);
+int			dup2_close(int oldfd, int newfd);
 
 /* BUILTINS */
 
