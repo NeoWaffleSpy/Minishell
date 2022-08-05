@@ -19,7 +19,7 @@ CC =            gcc
 
 CFLAGS =		-Wall -Wextra -Werror
 
-INCLUDE_PATH =  includes/
+INCLUDE_PATH =  ../../include/
 
 # \*----- SRC OBJ -----*/
 SRC_DIR = src/
@@ -28,24 +28,14 @@ SRC =	child.c\
 		free.c\
 		pipex.c\
 		error.c\
+		utils.c\
 
 SRC_OBJ = ${addprefix $(SRC_DIR), $(SRC:.c=.o)}
 
-# \*----- UTILS OBJ -----*/
-
-UTILS_DIR = utils/
-
-UTILS =	ft_split.c \
-		ft_strjoin.c \
-		ft_strncmp.c \
-		ft_strlen.c \
-		
-UTILS_OBJ = ${addprefix $(UTILS_DIR), $(UTILS:.c=.o)}
-	
 all: $(NAME)
 
-$(NAME):	$(SRC_OBJ) $(UTILS_OBJ)
-			$(CC) $(CFLAGS) -o $(NAME) $(SRC_OBJ) $(UTILS_OBJ) -I $(INCLUDE_PATH)
+$(NAME):	$(SRC_OBJ)
+			$(CC) $(CFLAGS) -o $(NAME) $(SRC_OBJ) -I $(INCLUDE_PATH)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -o $@ -c $<

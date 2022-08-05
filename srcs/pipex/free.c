@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/minishell.h"
 
 void	close_pipes(t_pipex *pipex, int except1, int except2)
 {
@@ -25,7 +25,7 @@ void	close_pipes(t_pipex *pipex, int except1, int except2)
 	}
 }
 
-void	free_p_process(t_command var)
+void	free_p_process(t_command *var)
 {
 	if (var->infile_fd)
 		close(var->infile_fd);

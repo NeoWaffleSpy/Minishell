@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/minishell.h"
 
 void	err_message(int fd, char *msg)
 {

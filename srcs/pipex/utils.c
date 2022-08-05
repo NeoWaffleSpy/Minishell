@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/minishell.h"
 
 void	selec_ope_pipex(t_var *main_process, t_command *var, t_pipex *pipex)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/minishell.h"
 
 static int	ft_cmdlstsize(t_command *lst)
 {
@@ -39,7 +39,7 @@ static	void	find_env_path(t_pipex *pipex, char *envp[])
 	pipex->env_paths = *envp + 5;
 }
 
-static	void	clean_parent(t_var *main_process, t_pipex *pipex)
+static	void	clean_parent(t_var *main_process, t_pipex *pipex, t_command *var)
 {
 	int	status;
 
@@ -51,10 +51,10 @@ static	void	clean_parent(t_var *main_process, t_pipex *pipex)
 			break ;
 		main_process->exit_status = WEXITSTATUS(status);
 	}
-	free_p_process(pipex);
+	free_p_process(var);
 }
 
-static void	creat_pipes(t_pipex *pipex)
+static void	creat_pipes(t_pipex *pipex, t_var *main_process, t_command *var)
 {
 	int	i;
 
@@ -62,12 +62,12 @@ static void	creat_pipes(t_pipex *pipex)
 	while (i < pipex->cmd_nbr - 1)
 	{
 		if (pipe(pipex->pipefd + 2 * i) != 0)
-			clean_parent(pipex);
+			clean_parent(main_process, pipex, var);
 		i++;
 	}
 }
 
-static void	iterate_child(t_pipex *pipex, t_command *var, char *envp[])
+static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 {
 	int	file_err;
 
@@ -96,7 +96,7 @@ static void	iterate_child(t_pipex *pipex, t_command *var, char *envp[])
 		}
 		pipex->pidn = fork();
 		if (pipex->pidn == 0)
-			child(pipex, var, envp);
+			child(main_process, pipex, var, envp);
 		var = var->next;
 	}
 }
@@ -114,7 +114,7 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 		err_message(1, "Pipe malloc err\n");
 	find_env_path(&pipex, envp);
 	pipex.path_list = ft_split(pipex.env_paths, ':');
-	creat_pipes(&pipex);
+	creat_pipes(&pipex, main_process, var);
 	if (check_for_builtin(var))
 	{
 		selec_ope_pipex(main_process, var, &pipex);
@@ -124,7 +124,7 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 	else
 		pipex.id = 0;
 	dup2_close(stdout_copy, 1);
-	iterate_child(&pipex, var, envp);
-	clean_parent(main_process, &pipex);
+	iterate_child(main_process, &pipex, var, envp);
+	clean_parent(main_process, &pipex, var);
 	return (0);
 }

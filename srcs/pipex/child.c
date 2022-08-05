@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../include/minishell.h"
 
 static	char	*find_cmd_path(char **paths, char *command, char *cmd_path)
 {
@@ -119,7 +119,7 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 		}
 	}
 	if (check_for_builtin(var))
-		selec_ope_pipex(main_process, var, &pipex);
+		selec_ope_pipex(main_process, var, pipex);
 	else
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
 	perror(pipex->cmd);

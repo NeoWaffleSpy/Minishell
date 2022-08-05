@@ -39,10 +39,17 @@ ENV_SRCS	=	env_free.c \
 				env_list.c \
 				env_util.c \
 
+PIP_SRCS	=	child.c \
+				free.c \
+				pipex.c \
+				error.c \
+				utils.c \
+
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
 				$(addprefix ./srcs/utils/, $(UTILS_SRCS)) \
 				$(addprefix ./srcs/env/, $(ENV_SRCS)) \
-				$(addprefix ./srcs/builtins/, $(BUILT_SRCS))
+				$(addprefix ./srcs/builtins/, $(BUILT_SRCS)) \
+				$(addprefix ./srcs/pipex/, $(PIP_SRCS))
 OBJ			=	$(SRC:.c=.o)
 
 HEADERFILES	=	minishell.h

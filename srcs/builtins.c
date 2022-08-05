@@ -52,11 +52,12 @@ static void	heredoc_loop(t_var *var, t_command *comm)
 	}
 }
 
-int	selector(t_var *var, char *operation)
+int	selector(t_var *var, char *operation, char **envp)
 {
 	t_command	*comm;
 	int			ret;
 
+	(void)selec_ope;
 	ret = 0;
 	comm = fill_command(operation);
 	heredoc_loop(var, comm);
@@ -65,7 +66,7 @@ int	selector(t_var *var, char *operation)
 		var->exit_status = comm->error;
 	}
 	else if (var->exit_status != 130 && comm->command != NULL)
-		ret = selec_ope(var, comm);
+		ret = pipex(var, comm, envp);
 	free_command(comm);
 	if (ret)
 		return (1);

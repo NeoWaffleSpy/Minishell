@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/wait.h>
-# include "../include/minishell.h"
+# include "minishell.h"
 
 # include <stdio.h>
 
@@ -34,12 +34,14 @@ typedef struct s_pipex
 	char	*cmd;
 
 }					t_pipex;
+
+int		pipex(t_var *main_process, t_command *var, char *envp[]);
 void	close_pipes(t_pipex *pipex, int except1, int except2);
 /* FREE */
 void	free_p_process(t_command var);
 void	free_c_process(t_command *var, int fd1, int fd2);
 /* CHILDS */
-void	child(t_pipex *pipex, t_command *var, char *envp[]);
+void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[]);
 /* ERROR */
 void	err_message(int fd, char *msg);
 /* BUILT IN RELATED*/

@@ -20,6 +20,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 # include <signal.h>
 
 typedef struct s_env
@@ -59,13 +61,40 @@ typedef struct s_command
 	struct s_command	*next;
 }				t_command;
 
+typedef struct s_pipex
+{
+	int		*pipefd;
+	int		cmd_nbr;
+	int		pipe_nbr;
+	int		id;
+	pid_t	pidn;
+	char	*env_paths;
+	char	**path_list;
+	char	**cmd_arguments;
+	char	*cmd;
+
+}					t_pipex;
+
+int			pipex(t_var *main_process, t_command *var, char *envp[]);
+void		close_pipes(t_pipex *pipex, int except1, int except2);
+/* FREE */
+void		free_p_process(t_command *var);
+void		free_c_process(t_command *var, int fd1, int fd2);
+/* CHILDS */
+void		child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[]);
+/* ERROR */
+void		err_message(int fd, char *msg);
+/* BUILT IN RELATED*/
+void		selec_ope_pipex(t_var *main_process, t_command *var, t_pipex *pipex);
+int			check_for_builtin(t_command *var);
+
 int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
 void		call_todo(char *ft);
 void		call_destroy(t_var *var, char *prompt);
 void		free_command(t_command *comm);
 
-int			selector(t_var *var, char *operation);
+int			selector(t_var *var, char *operation, char **env);
 
 t_command	*fill_command(char *line);
 
