@@ -51,7 +51,6 @@ static	void	clean_parent(t_var *main_process, t_pipex *pipex)
 			break ;
 		main_process->exit_status = WEXITSTATUS(status);
 	}
-	exit (0);
 }
 
 static void	create_pipes(t_var *main_process, t_pipex *pipex)
@@ -62,7 +61,10 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	while (i < pipex->cmd_nbr - 1)
 	{
 		if (pipe(pipex->pipefd + 2 * i) != 0)
+		{
 			clean_parent(main_process, pipex);
+			exit (1);
+		}
 		i++;
 	}
 }
@@ -140,7 +142,6 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var, ch
 		pipex->pidn = wait(&status);
 		main_process->exit_status = WEXITSTATUS(status);
 	}
-	exit (0);
 }
 
 int	pipex(t_var *main_process, t_command *var, char *envp[])
@@ -152,14 +153,17 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 	pipex.except2 = -1;
 	if (pipex.cmd_nbr < 2)
 		exec_single_command(main_process, &pipex, var, envp);
-	pipex.pipe_nbr = 2 * (pipex.cmd_nbr - 1);
-	pipex.pipefd = (int *)malloc_garbage(sizeof(int) * pipex.pipe_nbr);
-	if (!pipex.pipefd)
-		err_message(1, "Pipe malloc err\n");
-	find_env_path(&pipex, envp);
-	pipex.path_list = ft_split(pipex.env_paths, ':');
-	create_pipes(main_process, &pipex);
-	iterate_child(main_process, &pipex, var, envp);
-	clean_parent(main_process, &pipex);
+	else
+	{
+		pipex.pipe_nbr = 2 * (pipex.cmd_nbr - 1);
+		pipex.pipefd = (int *)malloc_garbage(sizeof(int) * pipex.pipe_nbr);
+		if (!pipex.pipefd)
+			err_message(1, "Pipe malloc err\n");
+		find_env_path(&pipex, envp);
+		pipex.path_list = ft_split(pipex.env_paths, ':');
+		create_pipes(main_process, &pipex);
+		iterate_child(main_process, &pipex, var, envp);
+		clean_parent(main_process, &pipex);
+	}
 	return (0);
 }
