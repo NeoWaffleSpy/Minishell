@@ -6,20 +6,20 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/05 17:50:37 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/06 02:04:53 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	close_pipes(t_pipex *pipex, int except1, int except2)
+void	close_pipes(t_pipex *pipex)
 {
 	int	i;
 
 	i = 0;
 	while (i < (pipex->pipe_nbr))
 	{
-		if (pipex->pipefd[i] != except1 && pipex->pipefd[i] != except2)
+		if (pipex->pipefd[i] != pipex->except1 && pipex->pipefd[i] != pipex->except2)
 			close(pipex->pipefd[i]);
 		i++;
 	}
@@ -27,21 +27,33 @@ void	close_pipes(t_pipex *pipex, int except1, int except2)
 
 void	free_p_process(t_command *var)
 {
-	if (var->infile_fd)
-		close(var->infile_fd);
-	if (var->outfile_fd)
-		close(var->outfile_fd);
+	if (var->infile)
+	{
+		if (var->infile_fd)
+			close(var->infile_fd);
+	}
+	if (var->outfile)
+	{
+		if (var->outfile_fd)
+			close(var->outfile_fd);
+	}
 }
 
-void	free_c_process(t_command *var, int fd1, int fd2)
+void	free_c_process(t_pipex *pipex, t_command *var)
 {
-	if (fd1)
-		close(fd1);
-	if (fd2)
-		close(fd2);
-	if (var->infile_fd)
-		close(var->infile_fd);
-	if (var->outfile_fd)
-		close(var->outfile_fd);
+	if (pipex->except1)
+		close(pipex->except1);
+	if (pipex->except2)
+		close(pipex->except2);
+	if (var->infile)
+	{
+		if (var->infile_fd)
+			close(var->infile_fd);
+	}
+	if (var->outfile)
+	{
+		if (var->outfile_fd)
+			close(var->outfile_fd);
+	}
 	dump_trash();
 }

@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 20:11:13 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/05 21:30:03 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/06 02:22:51 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,18 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 		fill_matrix(pipex->cmd_arguments, var->arguments, i);
 }
 
-void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
+static void	check_child_dup(t_pipex *pipex, t_command *var)
 {
-	/* Create a function to check for dup2 with the lines below*/
-	int except1;
-	int except2;
-
-	except1 = -1;
-	except2 = -1;
 	if (var->infile)
 		dup2(var->infile_fd, 0);
 	else if (pipex->id != 0)
 	{
 		if (!dup2(pipex->pipefd[2 * pipex->id - 2], 0))
 		{
-			free_c_process(var, except1, except2);
+			free_c_process(pipex, var);
 			exit (errno);
 		}
-		except1 = 2 * pipex->id - 2;
+		pipex->except1 = 2 * pipex->id - 2;
 	}
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
@@ -93,20 +87,20 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	{
 		if (!dup2(pipex->pipefd[2 * pipex->id + 1], 1))
 		{
-			free_c_process(var, except1, except2);
+			free_c_process(pipex, var);
 			exit (errno);
 		}
-		except2 = 2 * pipex->id + 1;
+		pipex->except2 = 2 * pipex->id + 1;
 	}
-	close_pipes(pipex, except1, except2);
-	create_cmd_args(var, pipex);
-	pipex->cmd = check_cmd_path(pipex);
-	/* Create a function to check FD errors with the lines below*/
+}
+
+static void	check_child_fd(t_pipex *pipex, t_command *var)
+{
 	if (var->infile)
 	{
 		if (var->infile_fd == -1)
 		{
-			free_c_process(var, except1, except2);
+			free_c_process(pipex, var);
 			exit (errno);
 		}
 	}
@@ -114,15 +108,43 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	{
 		if (var->outfile_fd == -1)
 		{
-			free_c_process(var, except1, except2);
+			free_c_process(pipex, var);
 			exit (errno);
 		}
 	}
+}
+
+void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
+{
+	/* Create a function to check for dup2 with the lines below*/
+	check_child_dup(pipex, var);
+	close_pipes(pipex);
+	create_cmd_args(var, pipex);
+	pipex->cmd = check_cmd_path(pipex);
+	/* Create a function to check FD errors with the lines below*/
+	check_child_fd(pipex, var);
 	if (check_for_builtin(var))
-		selec_ope_pipex(main_process, var, pipex);
+		selec_ope_pipex(main_process, var);
 	else
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
 	perror(pipex->cmd);
-	free_c_process(var, except1, except2);
+	free_c_process(pipex, var);
+	exit(errno);
+}
+
+void	child_single(t_pipex *pipex, t_command *var, char *envp[])
+{
+	/* Create a function to check for dup2 with the lines below*/
+	if (var->infile)
+		dup2(var->infile_fd, 0);
+	if (var->outfile)
+		dup2(var->outfile_fd, 1);
+	create_cmd_args(var, pipex);
+	pipex->cmd = check_cmd_path(pipex);
+	/* Create a function to check FD errors with the lines below*/
+	check_child_fd(pipex, var);
+	execve(pipex->cmd, pipex->cmd_arguments, envp);
+	perror(pipex->cmd);
+	free_c_process(pipex, var);
 	exit(errno);
 }

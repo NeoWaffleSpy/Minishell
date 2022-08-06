@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/05 21:21:47 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/06 02:21:44 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ typedef struct s_command
 	t_file				*delim;
 	struct s_command	*next;
 }				t_command;
-
+/********************************* PIPEX BEGIN ******************************/
 typedef struct s_pipex
 {
 	int		*pipefd;
 	int		cmd_nbr;
 	int		pipe_nbr;
 	int		id;
+	int		except1;
+	int		except2;
 	pid_t	pidn;
 	char	*env_paths;
 	char	**path_list;
@@ -76,18 +78,19 @@ typedef struct s_pipex
 }					t_pipex;
 
 int			pipex(t_var *main_process, t_command *var, char *envp[]);
-void		close_pipes(t_pipex *pipex, int except1, int except2);
+void		close_pipes(t_pipex *pipex);
 /* FREE */
 void		free_p_process(t_command *var);
-void		free_c_process(t_command *var, int fd1, int fd2);
+void		free_c_process(t_pipex *pipex, t_command *var);
 /* CHILDS */
 void		child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[]);
+void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
 /* ERROR */
 void		err_message(int fd, char *msg);
 /* BUILT IN RELATED*/
-void		selec_ope_pipex(t_var *main_process, t_command *var, t_pipex *pipex);
+void		selec_ope_pipex(t_var *main_process, t_command *var);
 int			check_for_builtin(t_command *var);
-
+/********************************** PIPEX END *******************************/
 int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
 void		call_todo(char *ft);

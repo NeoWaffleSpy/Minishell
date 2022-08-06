@@ -6,15 +6,14 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 21:32:32 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/05 21:33:49 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/06 02:21:46 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	selec_ope_pipex(t_var *main_process, t_command *var, t_pipex *pipex)
+void	selec_ope_pipex(t_var *main_process, t_command *var)
 {
-	dup2(pipex->pipefd[1], 1);
 	if (!ft_strcmp(var->command, "cd"))
 		cd(main_process, var);
 	else if (!ft_strcmp(var->command, "echo"))
@@ -34,10 +33,10 @@ void	selec_ope_pipex(t_var *main_process, t_command *var, t_pipex *pipex)
 int	check_for_builtin(t_command *var)
 {
 	if (!ft_strcmp(var->command, "cd")
-		&& !ft_strcmp(var->command, "echo") && !ft_strcmp(var->command, "echo")
-		&& !ft_strcmp(var->command, "pwd") && !ft_strcmp(var->command, "export")
-		&& !ft_strcmp(var->command, "unset") && !ft_strcmp(var->command, "env")
-		&& !ft_strcmp(var->command, "exit"))
+		|| !ft_strcmp(var->command, "echo") || !ft_strcmp(var->command, "echo")
+		|| !ft_strcmp(var->command, "pwd") || !ft_strcmp(var->command, "export")
+		|| !ft_strcmp(var->command, "unset") || !ft_strcmp(var->command, "env")
+		|| !ft_strcmp(var->command, "exit"))
 		return (1);
 	return (0);
 }
