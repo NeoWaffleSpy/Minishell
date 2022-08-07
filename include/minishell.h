@@ -97,7 +97,7 @@ void		call_todo(char *ft);
 void		call_destroy(t_var *var, char *prompt);
 void		free_command(t_command *comm);
 
-int			selector(t_var *var, char *operation, char **env);
+int			selector(t_var *var, char *operation);
 
 t_command	*fill_command(char *line);
 
@@ -153,6 +153,7 @@ void		ft_free_env(t_env *env_start);
 void		ft_deal_with_existing_env_var(t_env **env_list, t_env *to_add);
 void		ft_manually_add_one_env(t_env *env_list, char *name, char *content);
 t_env		*ft_find_env_elem(t_env *env_list, char *name);
+void		ft_free_double_array(char **str);
 
 /* A BOUGER */
 

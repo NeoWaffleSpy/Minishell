@@ -12,6 +12,18 @@
 
 #include "../../include/libft.h"
 
+static t_list	*ft_lstnew_garbage(void *content)
+{
+	t_list		*item;
+
+	item = malloc(sizeof(t_list));
+	if (!item)
+		return (NULL);
+	item->content = content;
+	item->next = NULL;
+	return (item);
+}
+
 void	*malloc_garbage(size_t size)
 {
 	void	*item;
@@ -20,9 +32,9 @@ void	*malloc_garbage(size_t size)
 	if (!item)
 		return (NULL);
 	if (g_garbage == NULL)
-		g_garbage = ft_lstnew(item);
+		g_garbage = ft_lstnew_garbage(item);
 	else
-		ft_lstadd_front(&g_garbage, ft_lstnew(item));
+		ft_lstadd_front(&g_garbage, ft_lstnew_garbage(item));
 	return (item);
 }
 
@@ -53,10 +65,21 @@ void	free_garbage(void *trash)
 
 void	dump_trash(void)
 {
-	ft_lstclear(&g_garbage, free);
+	t_list	*lst;
+	t_list	*tmp;
+
+	lst = g_garbage;
+	while (lst)
+	{
+		free(lst->content);
+		tmp = lst;
+		lst = tmp->next;
+		free(tmp);
+	}
+	lst = NULL;
 }
 
 void	add_garbage(void *trash)
 {
-	ft_lstadd_front(&g_garbage, ft_lstnew(trash));
+	ft_lstadd_front(&g_garbage, ft_lstnew_garbage(trash));
 }

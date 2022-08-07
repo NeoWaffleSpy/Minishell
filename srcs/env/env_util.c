@@ -21,11 +21,10 @@ char	**ft_env_to_char(t_env *env)
 	i = 0;
 	env_size = ft_env_size(env);
 	tab = malloc_garbage(sizeof(char *) * env_size + 1);
-	tab[env_size] = 0;
+	ft_bzero(tab, env_size + 1);
 	while (env)
 	{
-		tab[i] = ft_strjoin(env->name, "=");
-		tab[i] = ft_strjoin(tab[i], "=");
+		tab[i] = ft_printf_var("%s=%s", env->name, env->content);
 		i++;
 		env = env->next;
 	}

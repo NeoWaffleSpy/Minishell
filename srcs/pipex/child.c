@@ -70,21 +70,33 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 
 static void	check_child_dup(t_pipex *pipex, t_command *var)
 {
+	/* Create a function to check for dup2 with the lines below*/
+	int except1;
+	int except2;
+
+	// ft_printf("Pass1\n");
+	except1 = -1;
+	except2 = -1;
 	if (var->infile)
 		dup2(var->infile_fd, 0);
 	else if (pipex->id != 0)
 	{
+	// ft_printf("Pass1.5\n");
 		if (!dup2(pipex->pipefd[2 * pipex->id - 2], 0))
 		{
-			free_c_process(pipex, var);
+	// ft_printf("Pass1.6\n");
+			free_c_process(var, except1, except2);
+	// ft_printf("Pass1.7\n");
 			exit (errno);
 		}
 		pipex->except1 = 2 * pipex->id - 2;
 	}
+	// ft_printf("Pass2\n");
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
 	else if (var->next)
 	{
+	// ft_printf("Pass2.5\n");
 		if (!dup2(pipex->pipefd[2 * pipex->id + 1], 1))
 		{
 			free_c_process(pipex, var);
@@ -98,14 +110,17 @@ static void	check_child_fd(t_pipex *pipex, t_command *var)
 {
 	if (var->infile)
 	{
+	// ft_printf("Pass5.5\n");
 		if (var->infile_fd == -1)
 		{
 			free_c_process(pipex, var);
 			exit (errno);
 		}
 	}
+	// ft_printf("Pass6\n");
 	if (var->outfile)
 	{
+	// ft_printf("Pass6.5\n");
 		if (var->outfile_fd == -1)
 		{
 			free_c_process(pipex, var);
@@ -127,6 +142,7 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 		selec_ope_pipex(main_process, var);
 	else
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
+	// ft_printf("Pass8\n");
 	perror(pipex->cmd);
 	free_c_process(pipex, var);
 	exit(errno);

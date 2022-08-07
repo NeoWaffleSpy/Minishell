@@ -33,7 +33,7 @@ static char	*create_prompt(char *prompt)
 	return (prompt);
 }
 
-static int	read_command(char *prompt, t_env *env, char **envp)
+static int	read_command(char *prompt, t_env *env)
 {
 	t_var	var;
 	char	*line;
@@ -55,7 +55,7 @@ static int	read_command(char *prompt, t_env *env, char **envp)
 		if (var.quotes % 2 || var.dquotes % 2)
 			call_error("Unable to handle unclosed quotes:", line, 1);
 		else if (line && *line != '\0')
-			selector(&var, line, envp);
+			selector(&var, line);
 		free_garbage(line);
 	}
 	call_destroy(&var, prompt);
@@ -73,5 +73,5 @@ int	main(int ac, char **av, char **env)
 	env_list = ft_env_to_list(env);
 	prompt = NULL;
 	init_signal();
-	return (read_command(prompt, env_list, env));
+	return (read_command(prompt, env_list));
 }

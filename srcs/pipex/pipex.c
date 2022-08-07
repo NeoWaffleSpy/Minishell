@@ -165,5 +165,6 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 		iterate_child(main_process, &pipex, var, envp);
 		clean_parent(main_process, &pipex);
 	}
+	ft_free_double_array(envp);
 	return (0);
 }
