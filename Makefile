@@ -89,6 +89,7 @@ vtest: $(NAME)
 		--track-fds=yes \
 		--show-leak-kinds=all \
 		--suppressions=.ignore_readline \
+		#--track-origins=yes \
 		./$(NAME)
 
 re: clean norminette $(NAME) vtest

@@ -17,6 +17,8 @@ void	ft_free_double_array(char **str)
 	int		i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str[i])
 	{
 		free_garbage(str[i]);

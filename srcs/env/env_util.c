@@ -20,7 +20,9 @@ char	**ft_env_to_char(t_env *env)
 
 	i = 0;
 	env_size = ft_env_size(env);
-	tab = malloc_garbage(sizeof(char *) * env_size + 1);
+	tab = malloc_garbage(sizeof(char *) * (env_size + 1));
+	if (!tab)
+		return (NULL);
 	ft_bzero(tab, env_size + 1);
 	while (env)
 	{

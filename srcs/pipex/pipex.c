@@ -29,14 +29,17 @@ static int	ft_cmdlstsize(t_command *lst)
 
 static	void	find_env_path(t_pipex *pipex, char *envp[])
 {
-	if (!(*envp))
+	if (!envp || !(*envp))
 	{
 		pipex->env_paths = NULL;
 		return ;
 	}
 	while ((ft_strncmp(*envp, "PATH", 4) != 0) && *envp)
 		envp++;
-	pipex->env_paths = *envp + 5;
+	if (ft_strncmp(*envp, "PATH", 4) == 0)
+		pipex->env_paths = *envp + 5;
+	else
+		pipex->env_paths = NULL;
 }
 
 static	void	clean_parent(t_var *main_process, t_pipex *pipex)
