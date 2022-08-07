@@ -71,12 +71,7 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 static void	check_child_dup(t_pipex *pipex, t_command *var)
 {
 	/* Create a function to check for dup2 with the lines below*/
-	int except1;
-	int except2;
-
 	// ft_printf("Pass1\n");
-	except1 = -1;
-	except2 = -1;
 	if (var->infile)
 		dup2(var->infile_fd, 0);
 	else if (pipex->id != 0)
@@ -85,7 +80,7 @@ static void	check_child_dup(t_pipex *pipex, t_command *var)
 		if (!dup2(pipex->pipefd[2 * pipex->id - 2], 0))
 		{
 	// ft_printf("Pass1.6\n");
-			free_c_process(var, except1, except2);
+			free_c_process(pipex, var);
 	// ft_printf("Pass1.7\n");
 			exit (errno);
 		}
