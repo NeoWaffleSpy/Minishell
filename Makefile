@@ -44,6 +44,7 @@ PIP_SRCS	=	child.c \
 				pipex.c \
 				error.c \
 				utils.c \
+				utils2.c \
 
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
 				$(addprefix ./srcs/utils/, $(UTILS_SRCS)) \

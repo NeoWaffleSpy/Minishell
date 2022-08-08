@@ -60,7 +60,7 @@ typedef struct s_command
 	t_file				*delim;
 	struct s_command	*next;
 }				t_command;
-/********************************* PIPEX BEGIN ******************************/
+/*--------------------------------- PIPEX BEGIN -----------------------------*/
 typedef struct s_pipex
 {
 	int		*pipefd;
@@ -78,19 +78,28 @@ typedef struct s_pipex
 }					t_pipex;
 
 int			pipex(t_var *main_process, t_command *var, char *envp[]);
-void		close_pipes(t_pipex *pipex);
+/* UTILS */
+int			ft_cmdlstsize(t_command *lst);
+/* CHECKS */
+int			check_infile_and_outfile(t_command *var, t_file *infile,
+							   t_file *outfile);
 /* FREE */
+void		close_pipes(t_pipex *pipex);
+void		clean_parent(t_var *main_process, t_pipex *pipex);
 void		free_p_process(t_command *var);
 void		free_c_process(t_pipex *pipex, t_command *var);
 /* CHILDS */
-void		child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[]);
+void		child(t_var *main_process, t_pipex *pipex, t_command *var,
+				char *envp[]);
 void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
+/* CHILDS CMD PATH */
+char		*check_cmd_path(t_pipex *pipex);
 /* ERROR */
 void		err_message(int fd, char *msg);
-/* BUILT IN RELATED*/
+/* BUILTIN RELATED*/
 void		selec_ope_pipex(t_var *main_process, t_command *var);
 int			check_for_builtin(t_command *var);
-/********************************** PIPEX END *******************************/
+/*--------------------------------- PIPEX END -----------------------------*/
 int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
 void		call_todo(char *ft);

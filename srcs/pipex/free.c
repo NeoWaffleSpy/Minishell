@@ -19,9 +19,24 @@ void	close_pipes(t_pipex *pipex)
 	i = 0;
 	while (i < (pipex->pipe_nbr))
 	{
-		if (pipex->pipefd[i] != pipex->except1 && pipex->pipefd[i] != pipex->except2)
+		if (pipex->pipefd[i] != pipex->except1
+			&& pipex->pipefd[i] != pipex->except2)
 			close(pipex->pipefd[i]);
 		i++;
+	}
+}
+
+void	clean_parent(t_var *main_process, t_pipex *pipex)
+{
+	int	status;
+
+	close_pipes(pipex);
+	while (1)
+	{
+		pipex->pidn = wait(&status);
+		if (pipex->pidn < 0)
+			break ;
+		main_process->exit_status = WEXITSTATUS(status);
 	}
 }
 
@@ -29,30 +44,30 @@ void	free_p_process(t_command *var)
 {
 	if (var->infile)
 	{
-		if (var->infile_fd)
+		if (var->infile_fd >= 0)
 			close(var->infile_fd);
 	}
 	if (var->outfile)
 	{
-		if (var->outfile_fd)
+		if (var->outfile_fd >= 0)
 			close(var->outfile_fd);
 	}
 }
 
 void	free_c_process(t_pipex *pipex, t_command *var)
 {
-	if (pipex->except1)
+	if (pipex->except1 >= 0)
 		close(pipex->except1);
 	if (pipex->except2)
-		close(pipex->except2);
+		close(pipex->except2 >= 0);
 	if (var->infile)
 	{
-		if (var->infile_fd)
+		if (var->infile_fd >= 0)
 			close(var->infile_fd);
 	}
 	if (var->outfile)
 	{
-		if (var->outfile_fd)
+		if (var->outfile_fd >= 0)
 			close(var->outfile_fd);
 	}
 	dump_trash();

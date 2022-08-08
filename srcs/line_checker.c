@@ -26,16 +26,16 @@ static int	file_redir(t_command *comm, char ***split)
 {
 	if (ft_strcmp(**split, "<") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_front(&comm->infile, ft_lstfnew(**split, 0)));
+			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 0)));
 	if (ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
-			return (ft_lstfadd_front(&comm->infile, ft_lstfnew(**split, 1)));
+			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 1)));
 	if (ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_front(&comm->outfile, ft_lstfnew(**split, 0)));
+			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 0)));
 	if (ft_strcmp(**split, ">>") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_front(&comm->outfile, ft_lstfnew(**split, 1)));
+			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 1)));
 	return (0);
 }
 

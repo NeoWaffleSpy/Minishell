@@ -12,48 +12,21 @@
 
 #include "../../include/minishell.h"
 
-static	char	*find_cmd_path(char **paths, char *command, char *cmd_path)
-{
-	while (paths && *paths)
-	{
-		cmd_path = ft_strjoin(*paths, command);
-		if (access(cmd_path, 0) == 0)
-			return (cmd_path);
-		paths++;
-	}
-	return (cmd_path);
-}
-
-static	char	*check_cmd_path(t_pipex *pipex)
-{
-	char	**paths;
-	char	*command;
-	char	*cmd_path;
-
-	if (!(pipex->cmd_arguments) || !(pipex->cmd_arguments[0]))
-	{
-		cmd_path = ft_strjoin("", "");
-		return (cmd_path);
-	}
-	command = ft_strjoin("/", pipex->cmd_arguments[0]);
-	paths = pipex->path_list;
-	cmd_path = ft_strjoin("", pipex->cmd_arguments[0]);
-	if (access(cmd_path, 0) == 0)
-		return (cmd_path);
-	return (find_cmd_path(paths, command, cmd_path));
-}
-
 static int	fill_matrix(char **matrix, t_list *list, int i)
 {
 	while (list->next)
+	{
 		matrix[i++] = (char *)list->content;
+		list = list->next;
+	}
 	matrix[i++] = (char *)list->content;
 	return (i);
 }
+
 static void	create_cmd_args(t_command *var, t_pipex *pipex)
 {
-	int size;
-	int i;
+	int	size;
+	int	i;
 
 	i = 1;
 	size = 1 + ft_lstsize(var->options) + ft_lstsize(var->arguments);
@@ -70,14 +43,10 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 
 static void	check_child_dup(t_pipex *pipex, t_command *var)
 {
-	//ft_printf("\nPIPEX ID: %d\n", pipex->id);// --------------------------------------------------------
 	if (var->infile)
 		dup2(var->infile_fd, 0);
 	else if (pipex->id != 0)
 	{
-		//ft_printf("\nCheck Pipefd[2 * pipex->id - 2] child: %d\n", fcntl(pipex->pipefd[2 * pipex->id - 2], F_GETFD));//----------------------------------------------------
-		//ft_printf("\nCheck fd 0 child: %d\n", fcntl(0, F_GETFD));//----------------------------------------------------
-		//ft_printf("\nPipefd[2 * pipex->id - 2] child value: %d\n", pipex->pipefd[2 * pipex->id - 2]);// --------------------------------------------------------
 		if (dup2(pipex->pipefd[2 * pipex->id - 2], 0) < 0)
 		{
 			free_c_process(pipex, var);
@@ -100,54 +69,45 @@ static void	check_child_dup(t_pipex *pipex, t_command *var)
 	}
 }
 
-static void	check_child_fd(t_pipex *pipex, t_command *var)
-{
-	if (var->infile)
-	{
-		if (var->infile_fd == -1)
-		{
-			free_c_process(pipex, var);
-			exit (errno);
-		}
-	}
-	if (var->outfile)
-	{
-		if (var->outfile_fd == -1)
-		{
-			free_c_process(pipex, var);
-			exit (errno);
-		}
-	}
-}
-
 void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 {
-	//perror("CHILD BEGIN");/*------------------------------------*/
-	check_child_dup(pipex, var);/* Create a function to check for dup2 with the lines below*/
+	init_child();
+	if (check_infile_and_outfile(var, var->infile, var->outfile))
+	{
+		free_c_process(pipex, var);
+		exit (errno);
+	}
+	check_child_dup(pipex, var);
 	close_pipes(pipex);
-	create_cmd_args(var, pipex);
-	pipex->cmd = check_cmd_path(pipex);
-	check_child_fd(pipex, var);/* Create a function to check FD errors with the lines below*/
 	if (check_for_builtin(var))
 		selec_ope_pipex(main_process, var);
 	else
+	{
+		create_cmd_args(var, pipex);
+		pipex->cmd = check_cmd_path(pipex);
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
+	}
 	perror(pipex->cmd);
 	free_c_process(pipex, var);
-	exit(errno);
+	exit (errno);
 }
 
 void	child_single(t_pipex *pipex, t_command *var, char *envp[])
 {
+	init_child();
+	if (check_infile_and_outfile(var, var->infile, var->outfile))
+	{
+		free_c_process(pipex, var);
+		exit (errno);
+	}
 	if (var->infile)
 		dup2(var->infile_fd, 0);
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
 	create_cmd_args(var, pipex);
 	pipex->cmd = check_cmd_path(pipex);
-	check_child_fd(pipex, var);/* Create a function to check FD errors with the lines below*/
 	execve(pipex->cmd, pipex->cmd_arguments, envp);
 	perror(pipex->cmd);
 	free_c_process(pipex, var);
-	exit(errno);
+	exit (errno);
 }
