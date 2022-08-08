@@ -63,9 +63,10 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	i = 0;
 	while (i < pipex->cmd_nbr - 1)
 	{
-		if (pipe(pipex->pipefd + 2 * i) != 0)
+		if (pipe(pipex->pipefd + (2 * i)) != 0)
 		{
 			clean_parent(main_process, pipex);
+			perror("pipe creation");
 			exit (1);
 		}
 		i++;
@@ -102,7 +103,7 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var, c
 {
 	int		stdout_copy;
 	
-	ft_printf("\nENTERED ITERATE_CHILD\n\nPIPEX ID%d\n", pipex->id);// --------------------------------------------------------
+	//ft_printf("\nENTERED ITERATE_CHILD\n");// --------------------------------------------------------
 	stdout_copy = dup(1);
 	if (check_for_builtin(var))
 	{
@@ -114,15 +115,15 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var, c
 	else
 		pipex->id = 0;
 	dup2_close(stdout_copy, 1); // issue of closing it before a child can read from it?
-	while ((pipex->id)++ < pipex->cmd_nbr)
+	while ((pipex->id) < pipex->cmd_nbr)
 	{
-		ft_printf("\nENTERED CHILD LOOP\n");// --------------------------------------------------------
 		check_infile_and_outfile(var);
 		pipex->pidn = fork();
 		if (pipex->pidn == 0)
 			child(main_process, pipex, var, envp);
 		free_p_process(var);
 		var = var->next;
+		(pipex->id)++;
 	}
 }
 
@@ -130,7 +131,7 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var, ch
 {
 	int	status;
 
-	ft_printf("\nENTERED EXEC SINGLECOMMAND\n");// ---------------------------------------------
+	//ft_printf("\nENTERED EXEC SINGLECOMMAND\n");// ---------------------------------------------
 	find_env_path(pipex, envp);
 	pipex->path_list = ft_split(pipex->env_paths, ':');
 	if (check_for_builtin(var))
@@ -159,12 +160,15 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 	else
 	{
 		pipex.pipe_nbr = 2 * (pipex.cmd_nbr - 1);
+		//ft_printf("\nCMD_NBR: %d\n\nPIPE_NBR: %d\n", pipex.cmd_nbr, pipex.pipe_nbr);// --------------------------------------------------------
 		pipex.pipefd = (int *)malloc_garbage(sizeof(int) * pipex.pipe_nbr);
 		if (!pipex.pipefd)
 			err_message(1, "Pipe malloc err\n");
 		find_env_path(&pipex, envp);
 		pipex.path_list = ft_split(pipex.env_paths, ':');
 		create_pipes(main_process, &pipex);
+		//ft_printf("\nCheck Pipefd[0]: %d\n", fcntl(pipex.pipefd[0], F_GETFD));//----------------------------------------------------
+		//ft_printf("\nCheck Pipefd[1]: %d\n", fcntl(pipex.pipefd[1], F_GETFD));//--------------------------------------------------
 		iterate_child(main_process, &pipex, var, envp);
 		clean_parent(main_process, &pipex);
 	}
