@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 20:36:25 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/05 21:28:34 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/09 16:56:47 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ void	create_heredoc(t_var *var, t_file *delim)
 		dup2_close(stdin_copy, STDIN_FILENO);
 		ft_printf("\n");
 	}
+	else
+		close(stdin_copy);
 	init_signal();
 }

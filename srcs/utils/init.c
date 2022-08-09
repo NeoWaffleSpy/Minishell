@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 19:41:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/02 19:49:16 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/09 16:20:48 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	init_heredoc(int *return_value)
 
 void	init_child(void)
 {
-	signal(SIGINT, exit);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 }

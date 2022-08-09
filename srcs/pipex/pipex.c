@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 14:45:20 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 16:48:22 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static	void	find_env_path(t_pipex *pipex, char *envp[])
 		pipex->env_paths = NULL;
 		return ;
 	}
-	while ((ft_strncmp(*envp, "PATH", 4) != 0) && *envp)
+	while (*envp && (ft_strncmp(*envp, "PATH", 4) != 0))
 		envp++;
-	if (ft_strncmp(*envp, "PATH", 4) == 0)
+	if (*envp && ft_strncmp(*envp, "PATH", 4) == 0)
 		pipex->env_paths = *envp + 5;
 	else
 		pipex->env_paths = NULL;
@@ -94,6 +94,11 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 			child_single(pipex, var, envp);
 		pipex->pidn = wait(&status);
 		main_process->exit_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			main_process->exit_status = 128;
+			main_process->exit_status += WTERMSIG(status);
+		}
 	}
 }
 

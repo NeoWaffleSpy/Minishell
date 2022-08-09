@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 15:19:23 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 16:51:44 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	clean_parent(t_var *main_process, t_pipex *pipex)
 		if (pipex->pidn < 0)
 			break ;
 		main_process->exit_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+		{
+			main_process->exit_status = 128;
+			main_process->exit_status += WTERMSIG(status);
+		}
 	}
 }
 

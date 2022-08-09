@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 15:45:07 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/09 14:46:03 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 16:11:00 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_env_to_char(t_env *env)
 		i++;
 		env = env->next;
 	}
-	tab[i] = 0;
+	tab[i] = NULL;
 	return (tab);
 }
 
