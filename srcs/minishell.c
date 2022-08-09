@@ -45,7 +45,9 @@ static int	read_command(char *prompt, t_env *env)
 	{
 		reset_var(&var);
 		prompt = create_prompt(prompt);
+		init_signal();
 		line = readline(prompt);
+		init_signal2();
 		if (!line)
 			exit_mini(&var, NULL);
 		add_garbage(line);
@@ -74,6 +76,5 @@ int	main(int ac, char **av, char **env)
 	g_garbage = NULL;
 	env_list = ft_env_to_list(env);
 	prompt = NULL;
-	init_signal();
 	return (read_command(prompt, env_list));
 }

@@ -43,6 +43,12 @@ void	init_signal(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void	init_signal2(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 void	init_heredoc(int *return_value)
 {
 	sigint_handler(return_value);
