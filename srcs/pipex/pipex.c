@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 16:48:22 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 19:30:19 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,7 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
 	char *envp[])
 {
-	int		stdout_copy;
-
-	stdout_copy = dup(1);
-	if (check_for_builtin(var))
-	{
-		if (!check_infile_and_outfile(var, var->infile, var->outfile))
-		{
-			dup2(pipex->pipefd[1], 1);
-			selec_ope_pipex(main_process, var);
-		}
-		free_p_process(var);
-		pipex->id = 1;
-		var = var->next;
-	}
-	else
-		pipex->id = 0;
-	dup2_close(stdout_copy, 1);
+	pipex->id = 0;
 	while ((pipex->id) < pipex->cmd_nbr)
 	{
 		pipex->pidn = fork();

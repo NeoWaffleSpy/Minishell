@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_checker.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 19:03:06 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/05 17:00:44 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/09 19:54:36 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
 	free_garbage(**split);
 	(*split)++;
-	if (*split && **split && (ft_isalnum(***split) || ***split == '_'))
+	if (*split && **split)
 		return (1);
 	comm->error = call_error("Syntax error:", msg, 2);
 	return (0);
@@ -29,7 +29,8 @@ static int	file_redir(t_var *var, t_command *comm, char ***split)
 			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 0)));
 	if (!comm->error && ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
-			return (ft_lstfadd_back(&comm->infile, create_heredoc(var, ft_lstfnew(**split, 1))));
+			return (ft_lstfadd_back(&comm->infile, create_heredoc(var,
+						ft_lstfnew(**split, 1))));
 	if (!comm->error && ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 0)));
