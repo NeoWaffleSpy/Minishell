@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 16:46:36 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/05 13:44:38 by ncaba            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:28:01 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*create_prompt(char *prompt)
 	int		i;
 
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (prompt);
 	i = ft_strlen(cwd);
 	while (i > 1 && i >= 0 && cwd[--i] != '/')
 		c_dir = &(cwd[i]);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ncaba <nathancaba.etu@outlook.fr>          +#+  +:+       +#+         #
+#    By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/08/07 16:18:41 by ncaba            ###   ########.fr        #
+#    Updated: 2022/08/09 14:26:57 by atoullel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ vtest: $(NAME)
 		--track-fds=yes \
 		--show-leak-kinds=all \
 		--suppressions=.ignore_readline \
-		#--track-origins=yes \
+		--track-origins=yes \
 		./$(NAME)
 
 re: clean norminette $(NAME) vtest

@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 20:11:13 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/06 02:22:51 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 15:07:48 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 	pipex->cmd_arguments = (char **)malloc_garbage(sizeof(char *) * (size + 1));
 	if (!(pipex->cmd_arguments))
 		return ;
-	pipex->cmd_arguments[size + 1] = NULL;
+	pipex->cmd_arguments[size] = NULL;
 	pipex->cmd_arguments[0] = var->command;
 	if (var->options)
 		i = fill_matrix(pipex->cmd_arguments, var->options, i);
@@ -44,27 +44,25 @@ static void	create_cmd_args(t_command *var, t_pipex *pipex)
 static void	check_child_dup(t_pipex *pipex, t_command *var)
 {
 	if (var->infile)
-		dup2(var->infile_fd, 0);
+	{
+		if (dup2(var->infile_fd, 0) < 0)
+			child_dup_error(pipex, var);
+	}
 	else if (pipex->id != 0)
 	{
 		if (dup2(pipex->pipefd[2 * pipex->id - 2], 0) < 0)
-		{
-			free_c_process(pipex, var);
-			perror("dup error");// ---------------------------------------------
-			exit (errno);
-		}
+			child_dup_error(pipex, var);
 		pipex->except1 = 2 * pipex->id - 2;
 	}
 	if (var->outfile)
-		dup2(var->outfile_fd, 1);
+	{
+		if (dup2(var->outfile_fd, 1) < 0)
+			child_dup_error(pipex, var);
+	}
 	else if (var->next)
 	{
 		if (dup2(pipex->pipefd[2 * pipex->id + 1], 1) < 0)
-		{
-			free_c_process(pipex, var);
-			perror("dup error");/*---------------------------------------*/
-			exit (errno);
-		}
+			child_dup_error(pipex, var);
 		pipex->except2 = 2 * pipex->id + 1;
 	}
 }
@@ -74,6 +72,7 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	init_child();
 	if (check_infile_and_outfile(var, var->infile, var->outfile))
 	{
+		close_pipes(pipex);
 		free_c_process(pipex, var);
 		exit (errno);
 	}
@@ -86,8 +85,8 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 		create_cmd_args(var, pipex);
 		pipex->cmd = check_cmd_path(pipex);
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
+		perror(pipex->cmd);
 	}
-	perror(pipex->cmd);
 	free_c_process(pipex, var);
 	exit (errno);
 }
@@ -101,7 +100,9 @@ void	child_single(t_pipex *pipex, t_command *var, char *envp[])
 		exit (errno);
 	}
 	if (var->infile)
+	{
 		dup2(var->infile_fd, 0);
+	}
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
 	create_cmd_args(var, pipex);

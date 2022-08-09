@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/06 02:21:44 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 13:46:25 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int			pipex(t_var *main_process, t_command *var, char *envp[]);
 int			ft_cmdlstsize(t_command *lst);
 /* CHECKS */
 int			check_infile_and_outfile(t_command *var, t_file *infile,
-							   t_file *outfile);
+				t_file *outfile);
 /* FREE */
 void		close_pipes(t_pipex *pipex);
 void		clean_parent(t_var *main_process, t_pipex *pipex);
@@ -96,6 +96,7 @@ void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
 char		*check_cmd_path(t_pipex *pipex);
 /* ERROR */
 void		err_message(int fd, char *msg);
+void		child_dup_error(t_pipex *pipex, t_command *var);
 /* BUILTIN RELATED*/
 void		selec_ope_pipex(t_var *main_process, t_command *var);
 int			check_for_builtin(t_command *var);

@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/06 02:04:53 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 15:19:23 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	close_pipes(t_pipex *pipex)
 	i = 0;
 	while (i < (pipex->pipe_nbr))
 	{
-		if (pipex->pipefd[i] != pipex->except1
-			&& pipex->pipefd[i] != pipex->except2)
+		if (i != pipex->except1 && i != pipex->except2)
 			close(pipex->pipefd[i]);
 		i++;
 	}
@@ -56,10 +55,10 @@ void	free_p_process(t_command *var)
 
 void	free_c_process(t_pipex *pipex, t_command *var)
 {
-	if (pipex->except1 >= 0)
-		close(pipex->except1);
-	if (pipex->except2)
-		close(pipex->except2 >= 0);
+	if ((pipex->except1 >= 0) && (pipex->pipefd[pipex->except1] >= 0))
+		close(pipex->pipefd[pipex->except1]);
+	if ((pipex->except2 >= 0) && (pipex->pipefd[pipex->except2] >= 0))
+		close(pipex->pipefd[pipex->except2]);
 	if (var->infile)
 	{
 		if (var->infile_fd >= 0)
@@ -71,4 +70,12 @@ void	free_c_process(t_pipex *pipex, t_command *var)
 			close(var->outfile_fd);
 	}
 	dump_trash();
+}
+
+void	child_dup_error(t_pipex *pipex, t_command *var)
+{
+	perror("dup2 error");
+	close_pipes(pipex);
+	free_c_process(pipex, var);
+	exit (errno);
 }

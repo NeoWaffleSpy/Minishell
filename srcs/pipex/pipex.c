@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/06 02:22:36 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:45:20 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	{
 		if (pipe(pipex->pipefd + (2 * i)) != 0)
 		{
-			clean_parent(main_process, pipex);// how to properly close pipes if one fails.
 			perror("pipe creation");
+			clean_parent(main_process, pipex);// how to properly close pipes if one fails.
 			exit (1);
 		}
 		i++;
@@ -45,7 +45,7 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 }
 
 static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
-						  char *envp[])
+	char *envp[])
 {
 	int		stdout_copy;
 
@@ -75,7 +75,7 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
 }
 
 void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
-						 char *envp[])
+	char *envp[])
 {
 	int	status;
 
