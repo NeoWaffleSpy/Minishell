@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 20:11:13 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 15:07:48 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:38:36 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	else
 	{
 		create_cmd_args(var, pipex);
-		pipex->cmd = check_cmd_path(pipex);
+		pipex->cmd = check_cmd_path(pipex, var);
 		execve(pipex->cmd, pipex->cmd_arguments, envp);
 		perror(pipex->cmd);
 	}
@@ -106,7 +106,7 @@ void	child_single(t_pipex *pipex, t_command *var, char *envp[])
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
 	create_cmd_args(var, pipex);
-	pipex->cmd = check_cmd_path(pipex);
+	pipex->cmd = check_cmd_path(pipex, var);
 	execve(pipex->cmd, pipex->cmd_arguments, envp);
 	perror(pipex->cmd);
 	free_c_process(pipex, var);

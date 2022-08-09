@@ -24,14 +24,15 @@ static char	*find_cmd_path(char **paths, char *command, char *cmd_path)
 	return (cmd_path);
 }
 
-char	*check_cmd_path(t_pipex *pipex)
+char	*check_cmd_path(t_pipex *pipex, t_command *var)
 {
 	char	**paths;
 	char	*command;
 	char	*cmd_path;
 
-	if (!(pipex->cmd_arguments) || !(pipex->cmd_arguments[0]))
+	if (!(pipex->cmd_arguments) || !(pipex->cmd_arguments[0]) || !(var->command[0]) )
 	{
+		perror("enter");
 		cmd_path = ft_strjoin("", "");
 		return (cmd_path);
 	}

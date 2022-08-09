@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/09 13:46:25 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/09 23:36:39 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void		child(t_var *main_process, t_pipex *pipex, t_command *var,
 				char *envp[]);
 void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
 /* CHILDS CMD PATH */
-char		*check_cmd_path(t_pipex *pipex);
+char		*check_cmd_path(t_pipex *pipex, t_command *var);
 /* ERROR */
 void		err_message(int fd, char *msg);
 void		child_dup_error(t_pipex *pipex, t_command *var);
