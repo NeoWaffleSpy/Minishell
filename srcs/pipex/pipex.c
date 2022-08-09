@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 19:30:19 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:24:26 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 	if (check_for_builtin(var))
 	{
 		if (!check_infile_and_outfile(var, var->infile, var->outfile))
-			selec_ope_pipex(main_process, var);
+			execute_single_builtin(main_process, var);
 		free_p_process(var);
 	}
 	else

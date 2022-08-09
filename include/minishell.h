@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/09 23:36:39 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 01:19:58 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void		child_dup_error(t_pipex *pipex, t_command *var);
 /* BUILTIN RELATED*/
 void		selec_ope_pipex(t_var *main_process, t_command *var);
 int			check_for_builtin(t_command *var);
+void		execute_single_builtin(t_var *main_process, t_command *var);
 /*--------------------------------- PIPEX END -----------------------------*/
 int			call_error(char *error, char *value, int ret);
 void		call_info(char *info, char *value);
