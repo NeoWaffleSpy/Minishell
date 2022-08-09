@@ -22,14 +22,14 @@ static int	file_check_next(t_command *comm, char ***split, char *msg)
 	return (1);
 }
 
-static int	file_redir(t_command *comm, char ***split)
+static int	file_redir(t_var *var, t_command *comm, char ***split)
 {
 	if (ft_strcmp(**split, "<") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 0)));
 	if (ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
-			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 1)));
+			return (ft_lstfadd_back(&comm->infile, create_heredoc(var, ft_lstfnew(**split, 1))));
 	if (ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 0)));
@@ -39,14 +39,14 @@ static int	file_redir(t_command *comm, char ***split)
 	return (0);
 }
 
-static t_command	*set_command(char **split)
+static t_command	*set_command(t_var *var, char **split)
 {
 	t_command	*comm;
 
 	comm = init_comm();
 	while (split && *split)
 	{
-		if (file_redir(comm, &split))
+		if (file_redir(var, comm, &split))
 			;
 		else if (comm->command == NULL)
 			comm->command = *split;
@@ -54,7 +54,7 @@ static t_command	*set_command(char **split)
 			ft_lstadd_back(&comm->options, ft_lstnew(clean_str(*split)));
 		else if (!ft_strcmp(*split, "|"))
 		{
-			comm->next = set_command(split + 1);
+			comm->next = set_command(var, split + 1);
 			if (comm->next->error != 0 && comm->error == 0)
 				comm->error = comm->next->error;
 			free_garbage(*split);
@@ -67,13 +67,13 @@ static t_command	*set_command(char **split)
 	return (comm);
 }
 
-t_command	*fill_command(char *line)
+t_command	*fill_command(t_var *var, char *line)
 {
 	char		**split;
 	t_command	*comm;
 
 	split = split_command(line);
-	comm = set_command(split);
+	comm = set_command(var, split);
 	free_garbage(split);
 	return (comm);
 }

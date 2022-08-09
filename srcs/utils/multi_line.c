@@ -76,14 +76,25 @@ static int	loop_heredoc(t_var *var, t_file *delim, int wr_fd)
 	return (0);
 }
 
-void	create_heredoc(t_var *var, t_file *delim)
+t_file	*create_heredoc(t_var *var, t_file *delim)
 {
+	static int	here_id;
 	int		wr_fd;
 	int		stdin_copy;
+	char	*filename;
 
+	if (!here_id)
+		here_id = 1;
+	else
+	{
+		here_id++;
+		if (here_id > 10000)
+			here_id = 1;
+	}
 	init_heredoc(&var->exit_status);
 	stdin_copy = dup(0);
-	wr_fd = open("/tmp/.heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	filename = ft_printf_var("/tmp/.heredoc_%d", here_id);
+	wr_fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	while (1)
 	{
 		if (loop_heredoc(var, delim, wr_fd))
@@ -91,7 +102,7 @@ void	create_heredoc(t_var *var, t_file *delim)
 	}
 	close(wr_fd);
 	free_garbage(delim->filename);
-	delim->filename = ft_strdup("/tmp/.heredoc");
+	delim->filename = filename;
 	if (var->exit_status == 130)
 	{
 		dup2_close(stdin_copy, STDIN_FILENO);
@@ -100,4 +111,5 @@ void	create_heredoc(t_var *var, t_file *delim)
 	else
 		close(stdin_copy);
 	init_signal();
+	return (delim);
 }

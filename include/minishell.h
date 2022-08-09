@@ -109,7 +109,7 @@ void		free_command(t_command *comm);
 
 int			selector(t_var *var, char *operation);
 
-t_command	*fill_command(char *line);
+t_command	*fill_command(t_var *var, char *line);
 
 /* UTILS */
 
@@ -128,7 +128,7 @@ void		refresh_handler(int sig);
 void		heredoc_handler(int sig);
 char		**split_command(char *str);
 void		replace_tilde(char **tmp, char **res, int pos);
-void		create_heredoc(t_var *var, t_file *delim);
+t_file		*create_heredoc(t_var *var, t_file *delim);
 void		sigint_handler(int	*return_value);
 int			ft_lstfadd_front(t_file **alst, t_file *new);
 int			ft_lstfadd_back(t_file **alst, t_file *new);

@@ -34,21 +34,24 @@ static int	selec_ope(t_var *var, t_command *comm)
 	return (0);
 }
 
-static void	heredoc_loop(t_var *var, t_command *comm)
+static void	heredoc_loop(t_command *comm)
 {
-	t_file	*tmp;
+	t_file		*tmp;
+	t_command	*new_comm;
 
-	tmp = comm->infile;
-	while (comm->error == 0 && tmp)
+	new_comm = comm;
+	while (new_comm)
 	{
-		if (tmp->is_append)
+		tmp = new_comm->infile;
+		while (new_comm->error == 0 && tmp)
 		{
-			if (ft_strchr(tmp->filename, '\'')
-				|| ft_strchr(tmp->filename, '\"'))
-				tmp->is_append = 2;
-			create_heredoc(var, tmp);
+			if (tmp->is_append)
+			{
+				unlink(tmp->filename);
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
+		new_comm = new_comm->next;
 	}
 }
 
@@ -59,14 +62,14 @@ int	selector(t_var *var, char *operation)
 
 	(void)selec_ope;
 	ret = 0;
-	comm = fill_command(operation);
-	heredoc_loop(var, comm);
+	comm = fill_command(var, operation);
 	if (var->exit_status != 130 && (comm->error != 0 || !comm->command))
 	{
 		var->exit_status = comm->error;
 	}
 	else if (var->exit_status != 130 && comm->command != NULL)
 		ret = pipex(var, comm, ft_env_to_char(var->env));
+	heredoc_loop(comm);
 	free_command(comm);
 	if (ret)
 		return (1);
