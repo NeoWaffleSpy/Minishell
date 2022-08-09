@@ -46,7 +46,7 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 	if (**tmp != ' ' && !ft_isdigit(**tmp))
 	{
 		len = 0;
-		while ((*tmp)[len] && (*tmp)[len] != ' ' && (*tmp)[len] != '\"')
+		while ((*tmp)[len] && (*tmp)[len] != ' ' && (*tmp)[len] != '\"' && (*tmp)[len] != '\'')
 			len++;
 		ttadd = ft_substr(*tmp, 0, len);
 		env = ft_find_env_elem(var->env, ttadd);
