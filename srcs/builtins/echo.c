@@ -95,16 +95,18 @@ void	replace_dollar(t_var *var, char **replace, int is_only_var)
 	*replace = res;
 }
 
-static void	iter_echo(t_list *lst, int i, int fd)
+static void	iter_echo(t_list *lst, int i, int fd, int do_space)
 {
 	t_list	*arg;
 
 	arg = ft_lstget(lst, i);
 	while (arg)
 	{
-		ft_printf_fd(fd, "%s ", arg->content);
+		ft_printf_fd(fd, "%s", arg->content);
 		i++;
 		arg = ft_lstget(lst, i);
+		if (arg || do_space)
+			ft_printf_fd(fd, " ");
 	}
 }
 
@@ -125,7 +127,7 @@ void	ft_echo(t_command *comm)
 		{
 			if (tmp[i] != 'n')
 			{
-				iter_echo(comm->options, j, 1);
+				iter_echo(comm->options, j, 1, !!comm->arguments);
 				break ;
 			}
 			else if (i == (int)ft_strlen(tmp) - 1)
@@ -141,8 +143,7 @@ void	ft_echo(t_command *comm)
 		}
 	}
 	if (comm->arguments)
-		iter_echo(comm->arguments, 0, 1);
-	ft_printf_fd(1, "\b");
+		iter_echo(comm->arguments, 0, 1, FALSE);
 	if (no_nl)
 		return ;
 	ft_printf_fd(1, "\n");
