@@ -12,39 +12,40 @@
 
 #include "../../include/minishell.h"
 
-static char	*find_cmd_path(t_pipex *pipex, t_command *var, char *command,
-		char *cmd_path)
+static char	*find_cmd_path(t_pipex *pipex, t_command *var)
 {
 	char	**paths;
+	char	*command;
+	char	*cmd_path;
 
 	paths = pipex->path_list;
+	command = ft_strjoin("/", var->command);
 	while (paths && *paths)
 	{
 		cmd_path = ft_strjoin(*paths, command);
 		if (access(cmd_path, 0) == 0)
+		{
+			pipex->cmd = cmd_path;
 			return (cmd_path);
+		}
 		paths++;
 	}
-	err_cmd_not_found(pipex, var);
-	return (cmd_path);
+	return (NULL);
 }
 
 char	*check_cmd_path(t_pipex *pipex, t_command *var)
 {
-	char	*command;
-	char	*cmd_path;
-
-	if (!(pipex->cmd_arguments) || !(pipex->cmd_arguments[0])
-		|| !(var->command[0]))
+	if (!(var->command[0]))
 	{
-		cmd_path = ft_strjoin("", "");
-		return (cmd_path);
+		pipex->cmd = var->command;
+		return (NULL);
 	}
-	command = ft_strjoin("/", pipex->cmd_arguments[0]);
-	cmd_path = ft_strjoin("", pipex->cmd_arguments[0]);
-	if (access(cmd_path, 0) == 0)
-		return (cmd_path);
-	return (find_cmd_path(pipex, var, command, cmd_path));
+	if (access(var->command, 0) == 0)
+	{
+		pipex->cmd = var->command;
+		return (var->command);
+	}
+	return (find_cmd_path(pipex, var));
 }
 
 void	execute_single_builtin(t_var *main_process, t_command *var)
