@@ -42,7 +42,7 @@ char	*check_cmd_path(t_pipex *pipex, t_command *var)
 	}
 	command = ft_strjoin("/", pipex->cmd_arguments[0]);
 	cmd_path = ft_strjoin("", pipex->cmd_arguments[0]);
-	if (access(cmd_path, 0) == 0)
+	if ((cmd_path[0] == '.' || cmd_path[0] == '/') && access(cmd_path, 0) == 0)
 		return (cmd_path);
 	return (find_cmd_path(pipex, var, command, cmd_path));
 }
