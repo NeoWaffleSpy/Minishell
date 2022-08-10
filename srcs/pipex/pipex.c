@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 01:24:26 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:18:01 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	int	i;
 
 	i = 0;
+	while (i < pipex->pipe_nbr)
+		pipex->pipefd[i++] = -1;
+	i = 0;
 	while (i < pipex->cmd_nbr - 1)
 	{
 		if (pipe(pipex->pipefd + (2 * i)) != 0)
 		{
 			perror("pipe creation");
-			clean_parent(main_process, pipex);// how to properly close pipes if one fails.
+			clean_parent(main_process, pipex);
 			exit (1);
 		}
 		i++;

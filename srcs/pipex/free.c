@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/09 16:51:44 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:17:57 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	close_pipes(t_pipex *pipex)
 	i = 0;
 	while (i < (pipex->pipe_nbr))
 	{
-		if (i != pipex->except1 && i != pipex->except2)
+		if (i != pipex->except1 && i != pipex->except2
+			&& pipex->pipefd[i] != -1)
 			close(pipex->pipefd[i]);
 		i++;
 	}

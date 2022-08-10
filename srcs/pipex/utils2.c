@@ -21,6 +21,8 @@ static char	*find_cmd_path(char **paths, char *command, char *cmd_path)
 			return (cmd_path);
 		paths++;
 	}
+	command++;
+	cmd_path = ft_strjoin("", command);
 	return (cmd_path);
 }
 
@@ -49,7 +51,6 @@ void	execute_single_builtin(t_var *main_process, t_command *var)
 	int	stdout_copy;
 
 	stdout_copy = dup(1);
-
 	if (var->outfile)
 		dup2(var->outfile_fd, 1);
 	selec_ope_pipex(main_process, var);
