@@ -89,8 +89,7 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 		if (WIFSIGNALED(status))
 		{
 			printf("\n");
-			main_process->exit_status = 128;
-			main_process->exit_status += WTERMSIG(status);
+			main_process->exit_status = 128 + WTERMSIG(status);
 		}
 	}
 	else

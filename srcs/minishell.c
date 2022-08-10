@@ -18,6 +18,7 @@ static char	*create_prompt(char *prompt)
 	char	*cwd;
 	int		i;
 
+	init_signal();
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (prompt);
@@ -45,9 +46,7 @@ static int	read_command(char *prompt, t_env *env)
 	{
 		reset_var(&var);
 		prompt = create_prompt(prompt);
-		init_signal();
 		line = readline(prompt);
-		init_signal2();
 		if (!line)
 			exit_mini(&var, NULL);
 		add_garbage(line);

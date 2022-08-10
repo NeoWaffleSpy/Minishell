@@ -150,6 +150,8 @@ void		cd(t_var *var, t_command *comm);
 void		unset_var(t_var *var, t_command *comm);
 int			check_valid_name(t_var *var, char *str);
 void		exit_mini(t_var *var, t_command *comm);
+void		check_single_char_replace(t_var *var, char **tmp, char **res);
+void		doll_search(t_var *var, char **tmp, char **res);
 
 /* ENV */
 

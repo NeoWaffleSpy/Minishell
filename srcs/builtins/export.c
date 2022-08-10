@@ -70,8 +70,10 @@ void	export_var(t_var *var, t_command *comm)
 	while (arg)
 	{
 		if (arg->is_append)
-			var->exit_status = call_error("export: Invalid option:", arg->filename, 1);
-		else if (check_valid_name(var, arg->filename) && ft_strchr(arg->filename, '='))
+			var->exit_status = call_error("export: Invalid option:",
+					arg->filename, 1);
+		else if (check_valid_name(var, arg->filename)
+			&& ft_strchr(arg->filename, '='))
 			loop_var(var, arg->filename);
 		i++;
 		arg = ft_lstfget(comm->arguments, i);

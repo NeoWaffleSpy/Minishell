@@ -22,7 +22,8 @@ void	unset_var(t_var *var, t_command *comm)
 	while (arg)
 	{
 		if (arg->is_append)
-			var->exit_status = call_error("unset: Invalid option:", arg->filename, 1);
+			var->exit_status = call_error("unset: Invalid option:",
+					arg->filename, 1);
 		else if (check_valid_name(var, arg->filename)
 			&& !ft_strchr(arg->filename, '='))
 			ft_cleanly_delone_env(&var->env,

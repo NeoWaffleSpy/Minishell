@@ -12,37 +12,7 @@
 
 #include "../../include/minishell.h"
 
-static void	doll_search(t_var *var, char **tmp, char **res);
-
-static void	check_single_char_replace(t_var *var, char **tmp, char **res)
-{
-	char	*str;
-
-	if (**tmp == '0')
-	{
-		cpy_str(res, "minishell");
-		(*tmp)++;
-	}
-	else if (**tmp == '?')
-	{
-		str = ft_itoa(var->exit_status);
-		cpy_str(res, str);
-		free_garbage(str);
-		(*tmp)++;
-	}
-	else if (ft_isdigit(**tmp))
-	{
-		return ;
-		(*tmp)++;
-	}
-	else
-		*res = ft_buffalloc(*res, '$');
-	if (**tmp == '$' )
-		doll_search(var, tmp, res);
-	return ;
-}
-
-static void	doll_search(t_var *var, char **tmp, char **res)
+void	doll_search(t_var *var, char **tmp, char **res)
 {
 	char	*ttadd;
 	int		len;
@@ -50,7 +20,7 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 
 	ttadd = NULL;
 	(*tmp)++;
-	if (!ft_isalpha(**tmp) || **tmp == '?')
+	if (!ft_isalpha(**tmp) || **tmp == '?' || **tmp == '\'' || **tmp == '\"')
 		return (check_single_char_replace(var, tmp, res));
 	if (**tmp != ' ' && !ft_isdigit(**tmp))
 	{
@@ -63,6 +33,8 @@ static void	doll_search(t_var *var, char **tmp, char **res)
 			cpy_str(res, env->content);
 		free_garbage(ttadd);
 		(*tmp) += len;
+		if (**tmp == '$' )
+			doll_search(var, tmp, res);
 	}
 }
 
@@ -110,34 +82,40 @@ static void	iter_echo(t_file *lst, int i, int fd)
 	}
 }
 
-void	ft_echo(t_command *comm)
+static void	echo_loop(int *j, int *no_nl, char **tmp, t_command *comm)
 {
 	int	i;
-	int j;
-	int	no_nl;
+
+	i = 1;
+	while (*tmp && (*tmp)[i])
+	{
+		if ((*tmp)[0] != '-' || (*tmp)[i] != 'n')
+			break ;
+		else if (i == (int)ft_strlen(*tmp) - 1)
+		{
+			(*j)++;
+			i = 0;
+			*no_nl = TRUE;
+			if (!ft_lstfget(comm->arguments, *j))
+				break ;
+			*tmp = ft_lstfget(comm->arguments, *j)->filename;
+		}
+		i++;
+	}
+}
+
+void	ft_echo(t_command *comm)
+{
+	int		j;
+	int		no_nl;
 	char	*tmp;
 
 	no_nl = FALSE;
-	i = 1;
 	j = 0;
 	tmp = NULL;
 	if (comm->arguments)
 		tmp = ft_lstfget(comm->arguments, j)->filename;
-	while (tmp && tmp[i])
-	{
-		if (tmp[0] != '-' || tmp[i] != 'n')
-			break ;
-		else if (i == (int)ft_strlen(tmp) - 1)
-		{
-			j++;
-			i = 0;
-			no_nl = TRUE;
-			if (!ft_lstfget(comm->arguments, j))
-				break;
-			tmp = ft_lstfget(comm->arguments, j)->filename;
-		}
-		i++;
-	}
+	echo_loop(&j, &no_nl, &tmp, comm);
 	if (tmp)
 		iter_echo(comm->arguments, j, 1);
 	if (no_nl)

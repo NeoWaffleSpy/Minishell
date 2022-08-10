@@ -53,9 +53,3 @@ void	init_heredoc(int *return_value)
 	sigint_handler(return_value);
 	signal(SIGINT, heredoc_handler);
 }
-
-void	init_child(void)
-{
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-}

@@ -34,6 +34,7 @@ UTILS_SRCS	=	str_utils.c \
 				init.c \
 				lst_arg.c \
 				mini_signal.c \
+				extra_fun.c \
 
 ENV_SRCS	=	env_free.c \
 				env_list.c \

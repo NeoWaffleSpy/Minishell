@@ -82,19 +82,3 @@ t_file	*ft_lstfget(t_file *lst, int i)
 		return (lst);
 	return (NULL);
 }
-
-int	ft_lstfsize(t_file *list)
-{
-	int	size;
-
-	if (!list)
-		return (0);
-	size = 0;
-	while (list)
-	{
-		size++;
-		list = list->next;
-	}
-	return (size);
-}
-

@@ -36,21 +36,6 @@ void	sigint_handler(int	*return_value)
 		*value = 130;
 }
 
-int	dup2_close(int oldfd, int newfd)
-{
-	if (oldfd != newfd)
-	{
-		if (dup2(oldfd, newfd) == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			perror("pipe");
-			return (0);
-		}
-		close(oldfd);
-	}
-	return (1);
-}
-
 static int	loop_heredoc(t_var *var, t_file *delim, int wr_fd)
 {
 	char	*line;
@@ -76,30 +61,34 @@ static int	loop_heredoc(t_var *var, t_file *delim, int wr_fd)
 	return (0);
 }
 
-t_file	*create_heredoc(t_var *var, t_file *delim)
+static int	get_here_id(void)
 {
 	static int	here_id;
-	int		wr_fd;
-	int		stdin_copy;
-	char	*filename;
 
 	if (!here_id)
 		here_id = 1;
 	else
-	{
 		here_id++;
-		if (here_id > 10000)
-			here_id = 1;
-	}
+	if (here_id > 10000)
+		here_id = 1;
+	return (here_id);
+}
+
+t_file	*create_heredoc(t_var *var, t_file *delim)
+{
+	int		here_id;
+	int		wr_fd;
+	int		stdin_copy;
+	char	*filename;
+
+	here_id = get_here_id();
 	init_heredoc(&var->exit_status);
 	stdin_copy = dup(0);
 	filename = ft_printf_var("/tmp/.heredoc_%d", here_id);
 	wr_fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	while (1)
-	{
 		if (loop_heredoc(var, delim, wr_fd))
 			break ;
-	}
 	close(wr_fd);
 	free_garbage(delim->filename);
 	delim->filename = filename;
@@ -110,6 +99,6 @@ t_file	*create_heredoc(t_var *var, t_file *delim)
 	}
 	else
 		close(stdin_copy);
-	init_signal();
+	init_signal2();
 	return (delim);
 }

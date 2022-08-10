@@ -41,7 +41,7 @@ static int	file_redir(t_var *var, t_command *comm, char ***split)
 	return (0);
 }
 
-static int set_comm_2(char **split, t_command *comm)
+static int	set_comm_2(char **split, t_command *comm)
 {
 	char	*tmp;
 
@@ -52,7 +52,7 @@ static int set_comm_2(char **split, t_command *comm)
 		return (1);
 	}
 	while (*tmp == '\"')
-	 tmp++;
+		tmp++;
 	if (*tmp == '-')
 	{
 		ft_lstfadd_back(&comm->arguments, ft_lstfnew(clean_str(*split), 1));
@@ -81,7 +81,6 @@ static t_command	*set_command(t_var *var, char **split)
 			comm->next = set_command(var, split + 1);
 			if (comm->next->error != 0 && comm->error == 0)
 				comm->error = comm->next->error;
-			free_garbage(*split);
 			break ;
 		}
 		else

@@ -12,28 +12,6 @@
 
 #include "../include/minishell.h"
 
-static int	selec_ope(t_var *var, t_command *comm)
-{
-	if (!ft_strcmp(comm->command, "cd"))
-		cd(var, comm);
-	else if (!ft_strcmp(comm->command, "echo"))
-		ft_echo(comm);
-	else if (!ft_strcmp(comm->command, "pwd"))
-		print_pwd(var, comm);
-	else if (!ft_strcmp(comm->command, "export"))
-		export_var(var, comm);
-	else if (!ft_strcmp(comm->command, "unset"))
-		unset_var(var, comm);
-	else if (!ft_strcmp(comm->command, "env"))
-		ft_print_env(var->env, comm);
-	else if (!ft_strcmp(comm->command, "exit"))
-		exit_mini(var, comm);
-	else
-		var->exit_status = call_error("Command not recognized:",
-				comm->command, 127);
-	return (0);
-}
-
 static void	heredoc_unlink(t_command *comm)
 {
 	t_file		*tmp;
@@ -60,7 +38,7 @@ int	selector(t_var *var, char *operation)
 	t_command	*comm;
 	int			ret;
 
-	(void)selec_ope;
+	init_signal2();
 	ret = 0;
 	comm = fill_command(var, operation);
 	if (var->exit_status != 130 && (comm->error != 0 || !comm->command))
