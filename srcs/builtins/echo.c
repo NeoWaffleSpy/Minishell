@@ -95,32 +95,56 @@ void	replace_dollar(t_var *var, char **replace, int is_only_var)
 	*replace = res;
 }
 
-static void	iter_echo(t_list *lst, int i, int fd)
+static void	iter_echo(t_list *lst, int i, int fd, int do_space)
 {
 	t_list	*arg;
 
 	arg = ft_lstget(lst, i);
 	while (arg)
 	{
-		ft_printf_fd(fd, "%s ", arg->content);
+		ft_printf_fd(fd, "%s", arg->content);
 		i++;
 		arg = ft_lstget(lst, i);
+		if (arg || do_space)
+			ft_printf_fd(fd, " ");
 	}
 }
 
 void	ft_echo(t_command *comm)
 {
+	int	i;
+	int j;
+	int	no_nl;
+	char	*tmp;
+
+	no_nl = FALSE;
 	if (comm->options)
 	{
-		if (ft_strcmp(comm->options->content, "-n") == 0)
-			iter_echo(comm->options, 1, 1);
-		else
-			iter_echo(comm->options, 0, 1);
+		tmp = comm->options->content;
+		i = 1;
+		j = 0;
+		while (tmp && tmp[i])
+		{
+			if (tmp[i] != 'n')
+			{
+				iter_echo(comm->options, j, 1, !!comm->arguments);
+				break ;
+			}
+			else if (i == (int)ft_strlen(tmp) - 1)
+			{
+				j++;
+				i = 0;
+				no_nl = TRUE;
+				if (!ft_lstget(comm->options, j))
+					break;
+				tmp = ft_lstget(comm->options, j)->content;
+			}
+			i++;
+		}
 	}
 	if (comm->arguments)
-		iter_echo(comm->arguments, 0, 1);
-	ft_printf_fd(1, "\b");
-	if (comm->options && !ft_strcmp(comm->options->content, "-n"))
+		iter_echo(comm->arguments, 0, 1, FALSE);
+	if (no_nl)
 		return ;
 	ft_printf_fd(1, "\n");
 }

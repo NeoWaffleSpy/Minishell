@@ -40,7 +40,8 @@ char	*check_cmd_path(t_pipex *pipex, t_command *var)
 		pipex->cmd = var->command;
 		return (NULL);
 	}
-	if (access(var->command, 0) == 0)
+	if ((var->command[0] == '.' || var->command[0] == '/' )
+		&& access(var->command, 0) == 0)
 	{
 		pipex->cmd = var->command;
 		return (var->command);

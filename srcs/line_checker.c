@@ -16,7 +16,8 @@ static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
 	free_garbage(**split);
 	(*split)++;
-	if (*split && **split)
+	if (*split && **split && ***split != '<' && ***split != '>'
+		&& ***split != '|' && ***split != '&')
 		return (1);
 	comm->error = call_error("Syntax error:", msg, 2);
 	return (0);
@@ -40,6 +41,26 @@ static int	file_redir(t_var *var, t_command *comm, char ***split)
 	return (0);
 }
 
+static int set_comm_2(char **split, t_command *comm)
+{
+	char	*tmp;
+
+	tmp = *split;
+	if (comm->command == NULL)
+	{
+		comm->command = clean_str(*split);
+		return (1);
+	}
+	while (*tmp == '\"')
+	 tmp++;
+	if (*tmp == '-')
+	{
+		ft_lstadd_back(&comm->options, ft_lstnew(clean_str(*split)));
+		return (1);
+	}
+	return (0);
+}
+
 static t_command	*set_command(t_var *var, char **split)
 {
 	t_command	*comm;
@@ -53,10 +74,8 @@ static t_command	*set_command(t_var *var, char **split)
 			;
 		else if (comm->error)
 			return (comm);
-		else if (comm->command == NULL)
-			comm->command = clean_str(*split);
-		else if (**split == '-')
-			ft_lstadd_back(&comm->options, ft_lstnew(clean_str(*split)));
+		if (set_comm_2(split, comm))
+			;
 		else if (!ft_strcmp(*split, "|"))
 		{
 			comm->next = set_command(var, split + 1);
