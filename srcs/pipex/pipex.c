@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 17:54:50 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:35:12 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
 	pipex->id = 0;
 	while ((pipex->id) < pipex->cmd_nbr)
 	{
-		if (check_for_builtin(var) || check_cmd_path(pipex, var))
+		if (check_for_builtin(var) || check_cmd_path(main_process, pipex, var))
 		{
 			pipex->pidn = fork();
 			if (pipex->pidn == 0)
@@ -74,12 +74,8 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 	find_env_path(pipex, envp);
 	pipex->path_list = ft_split(pipex->env_paths, ':');
 	if (check_for_builtin(var))
-	{
-		if (!check_infile_and_outfile(var, var->infile, var->outfile))
-			execute_single_builtin(main_process, var);
-		free_p_process(var);
-	}
-	else if (check_cmd_path(pipex, var))
+		execute_single_builtin(main_process, var);
+	else if (check_cmd_path(main_process, pipex, var))
 	{
 		pipex->pidn = fork();
 		if (pipex->pidn == 0)
@@ -87,10 +83,10 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 		pipex->pidn = wait(&status);
 		main_process->exit_status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-		{
-			printf("\n");
 			main_process->exit_status = 128 + WTERMSIG(status);
-		}
+		if (main_process->exit_status == 131)
+			ft_printf("Quit (core dumped)");
+		printf("\n");
 	}
 	else
 		err_cmd_not_found(main_process, var);

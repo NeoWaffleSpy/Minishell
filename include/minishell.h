@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/10 17:51:23 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 21:33:58 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 typedef struct s_env
 {
@@ -92,7 +94,8 @@ void		child(t_var *main_process, t_pipex *pipex, t_command *var,
 				char *envp[]);
 void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
 /* CHILDS CMD PATH */
-char		*check_cmd_path(t_pipex *pipex, t_command *var);
+char		*check_cmd_path(t_var *main_process, t_pipex *pipex,
+				t_command *var);
 /* ERROR */
 void		err_message(int fd, char *msg);
 void		child_dup_error(t_pipex *pipex, t_command *var);

@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 11:17:57 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 20:26:51 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	clean_parent(t_var *main_process, t_pipex *pipex)
 			main_process->exit_status += WTERMSIG(status);
 		}
 	}
+	if (main_process->exit_status == 131)
+		ft_printf("Quit (core dumped)");
 	if (main_process->exit_status >= 128)
 		ft_printf("\n");
 }
