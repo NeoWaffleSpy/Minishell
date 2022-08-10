@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 11:18:01 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:54:50 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,14 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
 	pipex->id = 0;
 	while ((pipex->id) < pipex->cmd_nbr)
 	{
-		pipex->pidn = fork();
-		if (pipex->pidn == 0)
-			child(main_process, pipex, var, envp);
+		if (check_for_builtin(var) || check_cmd_path(pipex, var))
+		{
+			pipex->pidn = fork();
+			if (pipex->pidn == 0)
+				child(main_process, pipex, var, envp);
+		}
+		else
+			err_cmd_not_found(main_process, var);
 		var = var->next;
 		(pipex->id)++;
 	}
@@ -74,7 +79,7 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 			execute_single_builtin(main_process, var);
 		free_p_process(var);
 	}
-	else
+	else if (check_cmd_path(pipex, var))
 	{
 		pipex->pidn = fork();
 		if (pipex->pidn == 0)
@@ -83,10 +88,13 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 		main_process->exit_status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 		{
+			printf("\n");
 			main_process->exit_status = 128;
 			main_process->exit_status += WTERMSIG(status);
 		}
 	}
+	else
+		err_cmd_not_found(main_process, var);
 }
 
 int	pipex(t_var *main_process, t_command *var, char *envp[])

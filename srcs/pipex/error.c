@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:00:53 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 14:29:04 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 18:32:55 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	err_message(int fd, char *msg)
 	exit(1);
 }
 
-void	err_cmd_not_found(t_pipex *pipex, t_command *var)
+void	err_cmd_not_found(t_var *main_process, t_command *var)
 {
-	ft_printf_fd(2, "%s%s", var->command, ": command not found\n");
-	free_c_process(pipex, var);
-	exit(127);
+	ft_printf_fd(2, "%s%s\n", var->command, ": command not found");
+	main_process->exit_status = 127;
 }

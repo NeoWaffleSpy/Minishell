@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/10 14:26:52 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:51:23 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char		*check_cmd_path(t_pipex *pipex, t_command *var);
 /* ERROR */
 void		err_message(int fd, char *msg);
 void		child_dup_error(t_pipex *pipex, t_command *var);
-void		err_cmd_not_found(t_pipex *pipex, t_command *var);
+void		err_cmd_not_found(t_var *main_process, t_command *var);
 /* BUILTIN RELATED*/
 void		selec_ope_pipex(t_var *main_process, t_command *var);
 int			check_for_builtin(t_command *var);
