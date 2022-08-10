@@ -78,9 +78,9 @@ void	ft_free_env(t_env *env_start)
 
 int	ft_print_env(t_env *env_list, t_command *comm)
 {
-	if (comm->options)
+	if (comm->arguments && comm->arguments->is_append)
 		return (call_error("env: Too many options", "", 1));
-	if (comm->arguments)
+	else if (comm->arguments)
 		return (call_error("env: Too many arguments", "", 1));
 	while (env_list)
 	{

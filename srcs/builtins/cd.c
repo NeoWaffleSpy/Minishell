@@ -27,8 +27,7 @@ static int	home_check(t_var *var, t_command *comm)
 {
 	t_env	*env;
 
-	if ((!comm->arguments && !comm->options) || (comm->options
-			&& !ft_strcmp(comm->options->content, "--")))
+	if (!comm->arguments || !ft_strcmp(comm->arguments->filename, "--"))
 	{
 		env = ft_find_env_elem(var->env, "HOME");
 		if (env != NULL)
@@ -36,8 +35,7 @@ static int	home_check(t_var *var, t_command *comm)
 		var->exit_status = call_error("cd:", "HOME not set", 1);
 		return (1);
 	}
-	else if (!comm->arguments || (comm->options
-			&& !ft_strcmp(comm->options->content, "-")))
+	else if (comm->arguments && !ft_strcmp(comm->arguments->filename, "-"))
 	{
 		env = ft_find_env_elem(var->env, "OLDPWD");
 		if (env != NULL)
@@ -46,7 +44,7 @@ static int	home_check(t_var *var, t_command *comm)
 		return (1);
 	}
 	else
-		return (chdir(comm->arguments->content));
+		return (chdir(comm->arguments->filename));
 }
 
 static void	change_env(t_var *var)
@@ -71,11 +69,10 @@ void	cd(t_var *var, t_command *comm)
 	int		success;
 
 	success = 0;
-	if (comm->options && ((ft_strcmp(comm->options->content, "-")
-				&& ft_strcmp(comm->options->content, "--"))
-			|| comm->options->next))
-		var->exit_status = call_error("cd:", "invalid options", 2);
-	else if (comm->arguments && (comm->arguments->next || comm->options))
+	if (comm->arguments && ft_strcmp(comm->arguments->filename, "-")
+		&& ft_strcmp(comm->arguments->filename, "--"))
+		var->exit_status = call_error("cd:", "invalid options", 1);
+	else if (comm->arguments && comm->arguments->next)
 		var->exit_status = call_error("cd:", "too many arguments", 1);
 	else
 	{

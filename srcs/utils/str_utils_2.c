@@ -62,3 +62,9 @@ void	replace_tilde(char **tmp, char **res, int pos)
 	}
 	return ;
 }
+
+void	reset_var(t_var *var)
+{
+	var->quotes = 0;
+	var->dquotes = 0;
+}

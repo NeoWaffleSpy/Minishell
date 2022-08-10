@@ -17,10 +17,10 @@ void	print_pwd(t_var *var, t_command *comm)
 	char	*cwd;
 
 	var->exit_status = 0;
-	if (comm->options)
+	if (comm->arguments && comm->arguments->is_append)
 		var->exit_status = call_error("pwd: bad options:",
-				comm->options->content, 1);
-	if (comm->arguments)
+				comm->arguments->filename, 1);
+	else if (comm->arguments)
 		var->exit_status = call_error("pwd: too many arguments", "", 1);
 	if (var->exit_status)
 		return ;

@@ -55,7 +55,7 @@ static int set_comm_2(char **split, t_command *comm)
 	 tmp++;
 	if (*tmp == '-')
 	{
-		ft_lstadd_back(&comm->options, ft_lstnew(clean_str(*split)));
+		ft_lstfadd_back(&comm->arguments, ft_lstfnew(clean_str(*split), 1));
 		return (1);
 	}
 	return (0);
@@ -74,7 +74,7 @@ static t_command	*set_command(t_var *var, char **split)
 			;
 		else if (comm->error)
 			return (comm);
-		if (set_comm_2(split, comm))
+		else if (set_comm_2(split, comm))
 			;
 		else if (!ft_strcmp(*split, "|"))
 		{
@@ -85,7 +85,7 @@ static t_command	*set_command(t_var *var, char **split)
 			break ;
 		}
 		else
-			ft_lstadd_back(&comm->arguments, ft_lstnew(clean_str(*split)));
+			ft_lstfadd_back(&comm->arguments, ft_lstfnew(clean_str(*split), 0));
 		split++;
 	}
 	return (comm);

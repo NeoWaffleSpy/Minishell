@@ -15,26 +15,22 @@
 void	unset_var(t_var *var, t_command *comm)
 {
 	int		i;
-	t_list	*arg;
+	t_file	*arg;
 
-	if (comm->options)
-	{
-		var->exit_status = call_error("unset: Invalid option:",
-				comm->options->content, 1);
-		return ;
-	}
 	i = 0;
-	arg = ft_lstget(comm->arguments, i);
+	arg = ft_lstfget(comm->arguments, i);
 	while (arg)
 	{
-		if (check_valid_name(var, arg->content)
-			&& !ft_strchr(arg->content, '='))
+		if (arg->is_append)
+			var->exit_status = call_error("unset: Invalid option:", arg->filename, 1);
+		else if (check_valid_name(var, arg->filename)
+			&& !ft_strchr(arg->filename, '='))
 			ft_cleanly_delone_env(&var->env,
-				ft_find_env_elem(var->env, arg->content));
-		else if (ft_strchr(arg->content, '='))
+				ft_find_env_elem(var->env, arg->filename));
+		else if (ft_strchr(arg->filename, '='))
 			var->exit_status = call_error("export:1 Invalid identifier",
-					arg->content, 1);
+					arg->filename, 1);
 		i++;
-		arg = ft_lstget(comm->arguments, i);
+		arg = ft_lstfget(comm->arguments, i);
 	}
 }

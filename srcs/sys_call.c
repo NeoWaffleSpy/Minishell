@@ -46,8 +46,7 @@ void	free_command(t_command *comm)
 	{
 		if (comm->command)
 			free_garbage(comm->command);
-		ft_lstclear(&comm->options, free_garbage);
-		ft_lstclear(&comm->arguments, free_garbage);
+		ft_lstfclear(&comm->arguments, free_garbage);
 		ft_lstfclear(&comm->infile, free_garbage);
 		ft_lstfclear(&comm->outfile, free_garbage);
 		if (comm->delim)

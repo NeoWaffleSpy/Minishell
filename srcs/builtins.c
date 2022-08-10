@@ -34,7 +34,7 @@ static int	selec_ope(t_var *var, t_command *comm)
 	return (0);
 }
 
-static void	heredoc_loop(t_command *comm)
+static void	heredoc_unlink(t_command *comm)
 {
 	t_file		*tmp;
 	t_command	*new_comm;
@@ -69,7 +69,7 @@ int	selector(t_var *var, char *operation)
 	}
 	else if (var->exit_status != 130 && comm->command != NULL)
 		ret = pipex(var, comm, ft_env_to_char(var->env));
-	heredoc_loop(comm);
+	heredoc_unlink(comm);
 	free_command(comm);
 	if (ret)
 		return (1);

@@ -12,33 +12,32 @@
 
 #include "../../include/minishell.h"
 
-static int	fill_matrix(char **matrix, t_list *list, int i)
+static int	fill_matrix(char **matrix, t_file *list)
 {
+	int	i;
+
+	i = 1;
 	while (list->next)
 	{
-		matrix[i++] = (char *)list->content;
+		matrix[i++] = (char *)list->filename;
 		list = list->next;
 	}
-	matrix[i++] = (char *)list->content;
+	matrix[i++] = (char *)list->filename;
 	return (i);
 }
 
 static void	create_cmd_args(t_command *var, t_pipex *pipex)
 {
 	int	size;
-	int	i;
 
-	i = 1;
-	size = 1 + ft_lstsize(var->options) + ft_lstsize(var->arguments);
+	size = 1 + ft_lstfsize(var->arguments);
 	pipex->cmd_arguments = (char **)malloc_garbage(sizeof(char *) * (size + 1));
 	if (!(pipex->cmd_arguments))
 		return ;
 	pipex->cmd_arguments[size] = NULL;
 	pipex->cmd_arguments[0] = var->command;
-	if (var->options)
-		i = fill_matrix(pipex->cmd_arguments, var->options, i);
 	if (var->arguments)
-		fill_matrix(pipex->cmd_arguments, var->arguments, i);
+		fill_matrix(pipex->cmd_arguments, var->arguments);
 }
 
 static void	check_child_dup(t_pipex *pipex, t_command *var)

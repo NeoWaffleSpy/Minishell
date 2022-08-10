@@ -63,23 +63,17 @@ static void	loop_var(t_var *var, char *str)
 void	export_var(t_var *var, t_command *comm)
 {
 	int		i;
-	t_list	*arg;
+	t_file	*arg;
 
-	if (comm->options)
-	{
-		var->exit_status = call_error("unset: Invalid option:",
-				comm->options->content, 1);
-		return ;
-	}
 	i = 0;
-	arg = ft_lstget(comm->arguments, i);
+	arg = ft_lstfget(comm->arguments, i);
 	while (arg)
 	{
-		if (check_valid_name(var, arg->content) && ft_strchr(arg->content, '='))
-		{
-			loop_var(var, arg->content);
-		}
+		if (arg->is_append)
+			var->exit_status = call_error("export: Invalid option:", arg->filename, 1);
+		else if (check_valid_name(var, arg->filename) && ft_strchr(arg->filename, '='))
+			loop_var(var, arg->filename);
 		i++;
-		arg = ft_lstget(comm->arguments, i);
+		arg = ft_lstfget(comm->arguments, i);
 	}
 }

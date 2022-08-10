@@ -18,7 +18,6 @@ t_command	*init_comm(void)
 
 	comm = malloc_garbage(sizeof(t_command));
 	comm->command = NULL;
-	comm->options = NULL;
 	comm->arguments = NULL;
 	comm->next = NULL;
 	comm->infile = NULL;

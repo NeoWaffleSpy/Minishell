@@ -12,12 +12,6 @@
 
 #include "../../include/minishell.h"
 
-void	reset_var(t_var *var)
-{
-	var->quotes = 0;
-	var->dquotes = 0;
-}
-
 int	ft_lstfadd_front(t_file **alst, t_file *new)
 {
 	if (!*alst)
@@ -76,3 +70,31 @@ t_file	*ft_lstfnew(void *content, int append)
 	item->next = NULL;
 	return (item);
 }
+
+t_file	*ft_lstfget(t_file *lst, int i)
+{
+	while (lst && i > 0)
+	{
+		lst = lst->next;
+		i--;
+	}
+	if (lst)
+		return (lst);
+	return (NULL);
+}
+
+int	ft_lstfsize(t_file *list)
+{
+	int	size;
+
+	if (!list)
+		return (0);
+	size = 0;
+	while (list)
+	{
+		size++;
+		list = list->next;
+	}
+	return (size);
+}
+

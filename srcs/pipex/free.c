@@ -39,11 +39,12 @@ void	clean_parent(t_var *main_process, t_pipex *pipex)
 		main_process->exit_status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 		{
-			ft_printf("\n");
 			main_process->exit_status = 128;
 			main_process->exit_status += WTERMSIG(status);
 		}
 	}
+	if (main_process->exit_status >= 128)
+		ft_printf("\n");
 }
 
 void	free_p_process(t_command *var)

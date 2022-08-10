@@ -95,17 +95,17 @@ void	replace_dollar(t_var *var, char **replace, int is_only_var)
 	*replace = res;
 }
 
-static void	iter_echo(t_list *lst, int i, int fd, int do_space)
+static void	iter_echo(t_file *lst, int i, int fd)
 {
-	t_list	*arg;
+	t_file	*arg;
 
-	arg = ft_lstget(lst, i);
+	arg = ft_lstfget(lst, i);
 	while (arg)
 	{
-		ft_printf_fd(fd, "%s", arg->content);
+		ft_printf_fd(fd, "%s", arg->filename);
 		i++;
-		arg = ft_lstget(lst, i);
-		if (arg || do_space)
+		arg = ft_lstfget(lst, i);
+		if (arg)
 			ft_printf_fd(fd, " ");
 	}
 }
@@ -118,32 +118,28 @@ void	ft_echo(t_command *comm)
 	char	*tmp;
 
 	no_nl = FALSE;
-	if (comm->options)
-	{
-		tmp = comm->options->content;
-		i = 1;
-		j = 0;
-		while (tmp && tmp[i])
-		{
-			if (tmp[i] != 'n')
-			{
-				iter_echo(comm->options, j, 1, !!comm->arguments);
-				break ;
-			}
-			else if (i == (int)ft_strlen(tmp) - 1)
-			{
-				j++;
-				i = 0;
-				no_nl = TRUE;
-				if (!ft_lstget(comm->options, j))
-					break;
-				tmp = ft_lstget(comm->options, j)->content;
-			}
-			i++;
-		}
-	}
+	i = 1;
+	j = 0;
+	tmp = NULL;
 	if (comm->arguments)
-		iter_echo(comm->arguments, 0, 1, FALSE);
+		tmp = ft_lstfget(comm->arguments, j)->filename;
+	while (tmp && tmp[i])
+	{
+		if (tmp[0] != '-' || tmp[i] != 'n')
+			break ;
+		else if (i == (int)ft_strlen(tmp) - 1)
+		{
+			j++;
+			i = 0;
+			no_nl = TRUE;
+			if (!ft_lstfget(comm->arguments, j))
+				break;
+			tmp = ft_lstfget(comm->arguments, j)->filename;
+		}
+		i++;
+	}
+	if (tmp)
+		iter_echo(comm->arguments, j, 1);
 	if (no_nl)
 		return ;
 	ft_printf_fd(1, "\n");

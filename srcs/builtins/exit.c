@@ -63,22 +63,15 @@ void	exit_mini(t_var *var, t_command *comm)
 
 	ft_printf_fd(2, "exit\n");
 	var->exit_loop = FALSE;
-	if (comm == NULL)
+	if (comm == NULL || !comm->arguments)
 		return ;
-	if (!comm->options && !comm->arguments)
-		return ;
-	if ((comm->options && comm->arguments)
-		|| (comm->options && comm->options->next)
-		|| (comm->arguments && comm->arguments->next))
+	if (comm->arguments && comm->arguments->next)
 	{
 		var->exit_status = call_error("exit:", "too many arguments", 2);
 		var->exit_loop = TRUE;
 		return ;
 	}
-	if (comm->options)
-		str = comm->options->content;
-	else
-		str = comm->arguments->content;
+	str = comm->arguments->filename;
 	if (!is_num(str))
 		var->exit_status = call_error("exit:", "numeric argument required", 2);
 	else

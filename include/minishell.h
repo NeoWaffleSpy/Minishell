@@ -50,8 +50,7 @@ typedef struct s_file
 typedef struct s_command
 {
 	char				*command;
-	t_list				*options;
-	t_list				*arguments;
+	t_file				*arguments;
 	t_file				*infile;
 	t_file				*outfile;
 	int					infile_fd;
@@ -136,7 +135,9 @@ void		sigint_handler(int	*return_value);
 int			ft_lstfadd_front(t_file **alst, t_file *new);
 int			ft_lstfadd_back(t_file **alst, t_file *new);
 void		ft_lstfclear(t_file **lst, void (*del)(void*));
+t_file		*ft_lstfget(t_file *lst, int i);
 t_file		*ft_lstfnew(void *content, int append);
+int			ft_lstfsize(t_file *list);
 int			dup2_close(int oldfd, int newfd);
 
 /* BUILTINS */
