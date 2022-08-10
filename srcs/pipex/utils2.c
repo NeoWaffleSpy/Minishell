@@ -12,8 +12,12 @@
 
 #include "../../include/minishell.h"
 
-static char	*find_cmd_path(char **paths, char *command, char *cmd_path)
+static char	*find_cmd_path(t_pipex *pipex, t_command *var, char *command,
+		char *cmd_path)
 {
+	char	**paths;
+
+	paths = pipex->path_list;
 	while (paths && *paths)
 	{
 		cmd_path = ft_strjoin(*paths, command);
@@ -21,14 +25,12 @@ static char	*find_cmd_path(char **paths, char *command, char *cmd_path)
 			return (cmd_path);
 		paths++;
 	}
-	command++;
-	cmd_path = ft_strjoin("", command);
+	err_cmd_not_found(pipex, var);
 	return (cmd_path);
 }
 
 char	*check_cmd_path(t_pipex *pipex, t_command *var)
 {
-	char	**paths;
 	char	*command;
 	char	*cmd_path;
 
@@ -39,11 +41,10 @@ char	*check_cmd_path(t_pipex *pipex, t_command *var)
 		return (cmd_path);
 	}
 	command = ft_strjoin("/", pipex->cmd_arguments[0]);
-	paths = pipex->path_list;
 	cmd_path = ft_strjoin("", pipex->cmd_arguments[0]);
 	if (access(cmd_path, 0) == 0)
 		return (cmd_path);
-	return (find_cmd_path(paths, command, cmd_path));
+	return (find_cmd_path(pipex, var, command, cmd_path));
 }
 
 void	execute_single_builtin(t_var *main_process, t_command *var)
