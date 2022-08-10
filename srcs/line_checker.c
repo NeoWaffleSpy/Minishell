@@ -27,17 +27,20 @@ static int	file_redir(t_var *var, t_command *comm, char ***split)
 {
 	if (!comm->error && ft_strcmp(**split, "<") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_back(&comm->infile, ft_lstfnew(**split, 0)));
+			return (ft_lstfadd_back(&comm->infile,
+					ft_lstfnew(clean_str(**split), 0)));
 	if (!comm->error && ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
 			return (ft_lstfadd_back(&comm->infile, create_heredoc(var,
-						ft_lstfnew(**split, 1))));
+						ft_lstfnew(clean_str(**split), 1))));
 	if (!comm->error && ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 0)));
+			return (ft_lstfadd_back(&comm->outfile,
+					ft_lstfnew(clean_str(**split), 0)));
 	if (!comm->error && ft_strcmp(**split, ">>") == 0)
 		if (file_check_next(comm, split, "no file provided"))
-			return (ft_lstfadd_back(&comm->outfile, ft_lstfnew(**split, 1)));
+			return (ft_lstfadd_back(&comm->outfile,
+					ft_lstfnew(clean_str(**split), 1)));
 	return (0);
 }
 
@@ -99,6 +102,8 @@ t_command	*fill_command(t_var *var, char *line)
 	split = split_command(line);
 	if (!split)
 		call_error("Malloc a foired", "fill_command()", 2);
+	else if (!*split || !ft_strcmp(*split, ":") || !ft_strcmp(*split, "!"))
+		comm = init_comm();
 	else
 		comm = set_command(var, split);
 	free_garbage(split);

@@ -66,7 +66,7 @@ void	check_single_char_replace(t_var *var, char **tmp, char **res)
 	}
 	else if (ft_isdigit(**tmp))
 		(*tmp)++;
-	else if (**tmp == '\'' || **tmp == '\"')
+	else if (!(var->dquotes % 2) && (**tmp == '\'' || **tmp == '\"'))
 		;
 	else
 		*res = ft_buffalloc(*res, '$');

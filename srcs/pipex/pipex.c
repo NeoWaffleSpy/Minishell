@@ -39,7 +39,6 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	{
 		if (pipe(pipex->pipefd + (2 * i)) != 0)
 		{
-			perror("pipe creation");
 			clean_parent(main_process, pipex);
 			exit (1);
 		}
@@ -86,7 +85,8 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 			main_process->exit_status = 128 + WTERMSIG(status);
 		if (main_process->exit_status == 131)
 			ft_printf("Quit (core dumped)");
-		printf("\n");
+		if (main_process->exit_status >= 128)
+			printf("\n");
 	}
 	else
 		err_cmd_not_found(main_process, var);

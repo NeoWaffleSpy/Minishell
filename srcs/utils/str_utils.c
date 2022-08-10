@@ -18,28 +18,6 @@ static void	clear_spaces(char **str)
 		(*str)++;
 }
 
-static int	get_clean_len(char *old)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = old;
-	while (*str)
-	{
-		clear_spaces(&str);
-		if (!*str)
-			break ;
-		i++;
-		while (*str && *str != ' ' && *str != 9)
-		{
-			i++;
-			str++;
-		}
-	}
-	return (i);
-}
-
 static int	isquote(char str, t_var *var)
 {
 	if (!(var->dquotes % 2) && str == '\'')
@@ -55,6 +33,32 @@ static int	isquote(char str, t_var *var)
 	return (0);
 }
 
+static int	get_clean_len(char *old)
+{
+	char	*str;
+	int		i;
+	t_var	var;
+
+	reset_var(&var);
+	i = 0;
+	str = old;
+	while (*str)
+	{
+		clear_spaces(&str);
+		if (!*str)
+			break ;
+		i++;
+		while (*str && ((*str != ' ' && *str != 9)
+				|| (var.quotes % 2 || var.dquotes % 2)))
+		{
+			isquote(*str, &var);
+			i++;
+			str++;
+		}
+	}
+	return (i);
+}
+
 static void	clean_2(char *new, char *str)
 {
 	int		i;
@@ -64,7 +68,8 @@ static void	clean_2(char *new, char *str)
 	reset_var(&var);
 	while (*str)
 	{
-		while (*str && *str != ' ' && *str != 9)
+		while (*str && ((*str != ' ' && *str != 9)
+				|| (var.quotes % 2 || var.dquotes % 2)))
 		{
 			if (!isquote(*str, &var))
 				new[i++] = *str;
