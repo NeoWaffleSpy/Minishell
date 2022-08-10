@@ -110,17 +110,40 @@ static void	iter_echo(t_list *lst, int i, int fd)
 
 void	ft_echo(t_command *comm)
 {
+	int	i;
+	int j;
+	int	no_nl;
+	char	*tmp;
+
+	no_nl = FALSE;
 	if (comm->options)
 	{
-		if (ft_strcmp(comm->options->content, "-n") == 0)
-			iter_echo(comm->options, 1, 1);
-		else
-			iter_echo(comm->options, 0, 1);
+		tmp = comm->options->content;
+		i = 1;
+		j = 0;
+		while (tmp && tmp[i])
+		{
+			if (tmp[i] != 'n')
+			{
+				iter_echo(comm->options, j, 1);
+				break ;
+			}
+			else if (i == (int)ft_strlen(tmp) - 1)
+			{
+				j++;
+				i = 0;
+				no_nl = TRUE;
+				if (!ft_lstget(comm->options, j))
+					break;
+				tmp = ft_lstget(comm->options, j)->content;
+			}
+			i++;
+		}
 	}
 	if (comm->arguments)
 		iter_echo(comm->arguments, 0, 1);
 	ft_printf_fd(1, "\b");
-	if (comm->options && !ft_strcmp(comm->options->content, "-n"))
+	if (no_nl)
 		return ;
 	ft_printf_fd(1, "\n");
 }

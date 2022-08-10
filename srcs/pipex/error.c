@@ -22,5 +22,5 @@ void	err_cmd_not_found(t_pipex *pipex, t_command *var)
 {
 	ft_printf_fd(2, "%s%s", var->command, ": command not found\n");
 	free_c_process(pipex, var);
-	exit(1);
+	exit(127);
 }
