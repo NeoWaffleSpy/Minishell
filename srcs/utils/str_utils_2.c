@@ -68,3 +68,23 @@ void	reset_var(t_var *var)
 	var->quotes = 0;
 	var->dquotes = 0;
 }
+
+int	file_create(t_command *comm, int is_outfile, int is_here, char *split)
+{
+	int	fd;
+
+	if (!comm->is_unaccess)
+	{
+		if (is_outfile)
+		{
+			fd = open(split, O_APPEND | O_CREAT | O_RDWR, 0644);
+			if (fd != -1)
+				close (fd);
+			else
+				comm->is_unaccess = TRUE;
+		}
+		else if (!is_here || access(split, R_OK) == -1)
+			comm->is_unaccess = TRUE;
+	}
+	return (1);
+}

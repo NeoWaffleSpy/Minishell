@@ -16,7 +16,6 @@ static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
 	int	is_outfile;
 	int	is_here;
-	int	fd;
 
 	is_outfile = FALSE;
 	is_here = FALSE;
@@ -28,23 +27,7 @@ static int	file_check_next(t_command *comm, char ***split, char *msg)
 	(*split)++;
 	if (*split && **split && ***split != '<' && ***split != '>'
 		&& ***split != '|' && ***split != '&')
-	{
-		if (!comm->is_unaccess)
-		{
-			if (is_outfile)
-			{
-				fd = open(**split, O_APPEND | O_CREAT | O_RDWR, 0644);
-				ft_printf("fd=%d\n", fd);
-				if (fd != -1)
-					close (fd);
-				else
-					comm->is_unaccess = TRUE;
-			}
-			else if (!is_here || access(**split, R_OK) == -1)
-				comm->is_unaccess = TRUE;
-		}
-		return (1);
-	}
+		return (file_create(comm, is_outfile, is_here, **split));
 	comm->error = call_error("Syntax error:", msg, 2);
 	return (0);
 }

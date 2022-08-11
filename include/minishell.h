@@ -146,6 +146,8 @@ t_file		*ft_lstfget(t_file *lst, int i);
 t_file		*ft_lstfnew(void *content, int append);
 int			ft_lstfsize(t_file *list);
 int			dup2_close(int oldfd, int newfd);
+int			file_create(t_command *comm, int is_outfile,
+				int is_here, char *split);
 
 /* BUILTINS */
 
