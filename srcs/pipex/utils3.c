@@ -67,13 +67,6 @@ void	check_cmd_path2(t_pipex *pipex, t_command *var)
 
 void	no_cmd(t_command *var)
 {
-	t_file	*tmp;
-
-	tmp = var->outfile;
-	while (tmp)
-	{
-		close(open(tmp->filename, O_APPEND
-				|O_CREAT | O_RDWR, 0000644));
-		tmp = tmp->next;
-	}
+	check_infile_and_outfile(var, var->infile, var->outfile);
+	free_p_process(var);
 }
