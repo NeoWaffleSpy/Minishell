@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/11 05:57:15 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 06:40:22 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,40 @@ void	close_pipes(t_pipex *pipex)
 	}
 }
 
+static void	sig_check(t_var *main_process, t_command *var)
+{
+	if (main_process->exit_status == 127)
+		ft_printf_fd(2, "%s%s\n", var->command, ": command not found");
+	if (main_process->exit_status == 126)
+		ft_printf_fd(2, "%s%s\n", var->command, ": Is a directory");
+	if (main_process->exit_status == 50)
+	{
+		main_process->exit_status = 126;
+		ft_printf_fd(2, "%s%s\n", var->command, ": Is not a directory");
+	}
+}
+
 void	clean_parent(t_var *main_process, t_pipex *pipex, t_command *var)
 {
 	int	status;
+	int	boolean;
 
+	boolean = FALSE;
 	close_pipes(pipex);
 	while (var)
 	{
 		waitpid(var->pidn, &status, 0);
 		main_process->exit_status = WEXITSTATUS(status);
-		if (main_process->exit_status == 127)
-			ft_printf_fd(2, "%s%s\n", var->command, ": command not found");
-		if (main_process->exit_status == 126)
-			ft_printf_fd(2, "%s%s\n", var->command, ": Is a directory");
-		if (main_process->exit_status == 50)
-		{
-			main_process->exit_status = 126;
-			ft_printf_fd(2, "%s%s\n", var->command, ": Is not a directory");
-		}
+		sig_check(main_process, var);
 		if (WIFSIGNALED(status))
 			main_process->exit_status = 128 + WTERMSIG(status);
+		if (main_process->exit_status >= 128)
+			boolean = TRUE;
 		var = var->next;
 	}
 	if (main_process->exit_status == 131)
 		ft_printf("Quit (core dumped)");
-	if (main_process->exit_status >= 128)
+	if (boolean)
 		ft_printf("\n");
 }
 
@@ -85,12 +94,4 @@ void	free_c_process(t_pipex *pipex, t_command *var)
 			close(var->outfile_fd);
 	}
 	dump_trash();
-}
-
-void	child_dup_error(t_pipex *pipex, t_command *var)
-{
-	perror("dup2 error");
-	close_pipes(pipex);
-	free_c_process(pipex, var);
-	exit (errno);
 }
