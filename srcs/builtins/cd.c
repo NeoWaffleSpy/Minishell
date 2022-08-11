@@ -23,26 +23,32 @@ static void	ft_check_pwd(t_env *env, char *path, t_env *env_pwd, char *name)
 	}
 }
 
-static int	home_check(t_var *var, t_command *comm)
+static int	loop_home(t_var *var, char *name, char *msg)
 {
 	t_env	*env;
+	int		i;
 
+	env = ft_find_env_elem(var->env, name);
+	if (env != NULL)
+	{
+		if (*name == 'O')
+			ft_printf_fd(1, "%s\n", env->content);
+		i = chdir(env->content);
+		if (i == -1)
+			return (-2);
+		return (i);
+	}
+	var->exit_status = call_error("cd:", msg, 1);
+	return (1);
+
+}
+
+static int	home_check(t_var *var, t_command *comm)
+{
 	if (!comm->arguments || !ft_strcmp(comm->arguments->filename, "--"))
-	{
-		env = ft_find_env_elem(var->env, "HOME");
-		if (env != NULL)
-			return (chdir(env->content));
-		var->exit_status = call_error("cd:", "HOME not set", 1);
-		return (1);
-	}
+		return (loop_home(var, "HOME", "HOME not set"));
 	else if (comm->arguments && !ft_strcmp(comm->arguments->filename, "-"))
-	{
-		env = ft_find_env_elem(var->env, "OLDPWD");
-		if (env != NULL)
-			return (chdir(env->content));
-		var->exit_status = call_error("cd:", "OLDPWD not set", 1);
-		return (1);
-	}
+		return (loop_home(var, "OLDPWD", "OLDPWD not set"));
 	else
 		return (chdir(comm->arguments->filename));
 }
