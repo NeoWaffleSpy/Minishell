@@ -40,7 +40,6 @@ static int	loop_home(t_var *var, char *name, char *msg)
 	}
 	var->exit_status = call_error("cd:", msg, 1);
 	return (1);
-
 }
 
 static int	home_check(t_var *var, t_command *comm)
