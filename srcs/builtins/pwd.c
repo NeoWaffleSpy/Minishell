@@ -20,8 +20,6 @@ void	print_pwd(t_var *var, t_command *comm)
 	if (comm->arguments && comm->arguments->is_append)
 		var->exit_status = call_error("pwd: bad options:",
 				comm->arguments->filename, 1);
-	else if (comm->arguments)
-		var->exit_status = call_error("pwd: too many arguments", "", 1);
 	if (var->exit_status)
 		return ;
 	cwd = getcwd(NULL, 0);

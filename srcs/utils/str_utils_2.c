@@ -39,13 +39,11 @@ void	cpy_str(char **dst, char *src)
 {
 	if (!src)
 		return ;
-	*dst = ft_buffalloc(*dst, '\"');
 	while (*src)
 	{
 		*dst = ft_buffalloc(*dst, *src);
 		src++;
 	}
-	*dst = ft_buffalloc(*dst, '\"');
 }
 
 void	replace_tilde(char **tmp, char **res, int pos)

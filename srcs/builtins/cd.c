@@ -70,7 +70,8 @@ void	cd(t_var *var, t_command *comm)
 
 	success = 0;
 	if (comm->arguments && ft_strcmp(comm->arguments->filename, "-")
-		&& ft_strcmp(comm->arguments->filename, "--"))
+		&& ft_strcmp(comm->arguments->filename, "--")
+		&& comm->arguments->is_append)
 		var->exit_status = call_error("cd:", "invalid options", 1);
 	else if (comm->arguments && comm->arguments->next)
 		var->exit_status = call_error("cd:", "too many arguments", 1);

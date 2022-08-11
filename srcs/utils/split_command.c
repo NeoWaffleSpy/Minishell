@@ -38,7 +38,8 @@ static int	get_next_index(char *str)
 	while (str[index] && ((str[index] != ' ' && str[index] != 9)
 			|| var.quotes % 2 || var.dquotes % 2))
 	{
-		if (str[index] == '|' || str[index] == '>' || str[index] == '<')
+		if ((str[index] == '|' || str[index] == '>' || str[index] == '<')
+			&& !(var.quotes % 2) && !(var.dquotes % 2))
 			return (index);
 		if (!(var.quotes % 2) && str[index] == '\"')
 			var.dquotes++;
