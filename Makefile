@@ -95,7 +95,7 @@ vtest: $(NAME)
 		--track-origins=yes \
 		./$(NAME)
 
-re: clean norminette $(NAME) vtest
+re: clean $(NAME)
 
 nonorm: clean $(NAME)
 
