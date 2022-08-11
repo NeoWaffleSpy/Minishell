@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/11 06:40:22 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 12:53:49 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	clean_parent(t_var *main_process, t_pipex *pipex, t_command *var)
 		sig_check(main_process, var);
 		if (WIFSIGNALED(status))
 			main_process->exit_status = 128 + WTERMSIG(status);
-		if (main_process->exit_status >= 128)
+		if (main_process->exit_status >= 128
+			&& main_process->exit_status != 141)
 			boolean = TRUE;
 		var = var->next;
 	}
