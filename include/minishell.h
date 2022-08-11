@@ -59,6 +59,7 @@ typedef struct s_command
 	int					outfile_fd;
 	int					error;
 	t_file				*delim;
+	int					is_unaccess;
 	pid_t				pidn;
 	struct s_command	*next;
 }				t_command;

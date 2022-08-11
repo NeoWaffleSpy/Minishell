@@ -24,6 +24,7 @@ t_command	*init_comm(void)
 	comm->outfile = NULL;
 	comm->infile_fd = 0;
 	comm->outfile_fd = 1;
+	comm->is_unaccess = FALSE;
 	comm->error = 0;
 	comm->delim = NULL;
 	return (comm);
