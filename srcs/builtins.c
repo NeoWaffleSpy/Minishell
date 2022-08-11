@@ -41,11 +41,10 @@ int	selector(t_var *var, char *operation)
 	init_signal2();
 	ret = 0;
 	comm = fill_command(var, operation);
-	if (var->exit_status != 130 && (comm->error != 0 || !comm->command))
-	{
+	if (var->exit_status != 130 && comm->error != 0)
 		var->exit_status = comm->error;
-	}
-	else if (var->exit_status != 130 && comm->command != NULL)
+	else if (var->exit_status != 130
+		&& (comm->command || comm->outfile || comm->infile))
 		ret = pipex(var, comm, ft_env_to_char(var->env));
 	heredoc_unlink(comm);
 	free_command(comm);

@@ -85,6 +85,7 @@ int			ft_cmdlstsize(t_command *lst);
 /* CHECKS */
 int			check_infile_and_outfile(t_command *var, t_file *infile,
 				t_file *outfile);
+void		no_cmd(t_command *var);
 /* FREE */
 void		close_pipes(t_pipex *pipex);
 void		clean_parent(t_var *main_process, t_pipex *pipex, t_command *var);

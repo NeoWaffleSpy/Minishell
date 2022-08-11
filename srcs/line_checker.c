@@ -77,8 +77,6 @@ static t_command	*set_command(t_var *var, char **split)
 			;
 		else if (comm->error)
 			return (comm);
-		else if (set_comm_2(split, comm))
-			;
 		else if (!ft_strcmp(*split, "|"))
 		{
 			comm->next = set_command(var, split + 1);
@@ -86,6 +84,8 @@ static t_command	*set_command(t_var *var, char **split)
 				comm->error = comm->next->error;
 			break ;
 		}
+		else if (set_comm_2(split, comm))
+			;
 		else
 			ft_lstfadd_back(&comm->arguments, ft_lstfnew(clean_str(*split), 0));
 		split++;

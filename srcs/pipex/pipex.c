@@ -70,7 +70,9 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 	var->pidn = 1;
 	find_env_path(pipex, envp);
 	pipex->path_list = ft_split(pipex->env_paths, ':');
-	if (check_for_builtin(var))
+	if (!var->command)
+		no_cmd(var);
+	else if (check_for_builtin(var))
 		execute_single_builtin(main_process, var);
 	else if (check_cmd_path(main_process, pipex, var))
 	{

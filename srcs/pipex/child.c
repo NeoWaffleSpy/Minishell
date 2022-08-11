@@ -78,7 +78,9 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	}
 	check_child_dup(pipex, var);
 	close_pipes(pipex);
-	if (check_for_builtin(var))
+	if (!var->command)
+		;
+	else if (check_for_builtin(var))
 		selec_ope_pipex(main_process, var);
 	else
 	{

@@ -17,7 +17,7 @@ static int	is_num(char *str)
 	int	i;
 
 	i = 0;
-	if (str && str[i] == '-')
+	if (str && (*str == '-' || *str == '+'))
 		i++;
 	while (str && str[i])
 	{
@@ -25,7 +25,7 @@ static int	is_num(char *str)
 			return (0);
 		i++;
 	}
-	if (i > 20 || (i > 19 && str[0] != '-'))
+	if (i > 20 || (i > 19 && (*str == '-' || *str == '+')))
 		return (0);
 	return (1);
 }
@@ -39,9 +39,10 @@ static int	ft_lltoi(char *str)
 	l_val = 0;
 	if (!ft_strcmp(str, "-9223372036854775808"))
 		return (0);
-	if (str && *str == '-')
+	if (str && (*str == '-' || *str == '+'))
 	{
-		is_neg = TRUE;
+		if (*str == '-')
+			is_neg = TRUE;
 		str++;
 	}
 	while (str && *str)
