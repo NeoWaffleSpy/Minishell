@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atoullel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 03:39:29 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/11 03:39:32 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 05:55:19 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ void	check_cmd_path2(t_pipex *pipex, t_command *var)
 		return ;
 	}
 	if (var->command[ft_strlen(var->command) - 1] == '/')
-		err_cmd_not_found2(var, pipex, 126);
+		err_cmd_not_found2(var, pipex, 50);
 	find_cmd_path2(pipex, var);
 }
