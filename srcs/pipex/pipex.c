@@ -67,6 +67,7 @@ void	exec_single_command(t_var *main_process, t_pipex *pipex, t_command *var,
 {
 	int	status;
 
+	var->pidn = 1;
 	find_env_path(pipex, envp);
 	pipex->path_list = ft_split(pipex->env_paths, ':');
 	if (check_for_builtin(var))

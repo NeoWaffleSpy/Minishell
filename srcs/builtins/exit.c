@@ -61,7 +61,8 @@ void	exit_mini(t_var *var, t_command *comm)
 {
 	char	*str;
 
-	ft_printf_fd(2, "exit\n");
+	if (comm == NULL || comm->pidn != 0)
+		ft_printf_fd(2, "exit\n");
 	var->exit_loop = FALSE;
 	if (comm == NULL || !comm->arguments)
 		return ;

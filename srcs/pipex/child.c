@@ -69,6 +69,7 @@ static void	check_child_dup(t_pipex *pipex, t_command *var)
 void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 {
 	init_child();
+	var->pidn = 0;
 	if (check_infile_and_outfile(var, var->infile, var->outfile))
 	{
 		close_pipes(pipex);
