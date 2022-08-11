@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 10:54:41 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 22:35:12 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 03:25:20 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	void	find_env_path(t_pipex *pipex, char *envp[])
 		pipex->env_paths = NULL;
 }
 
-static void	create_pipes(t_var *main_process, t_pipex *pipex)
+static void	create_pipes(t_pipex *pipex, char *envp[])
 {
 	int	i;
 
@@ -39,8 +39,9 @@ static void	create_pipes(t_var *main_process, t_pipex *pipex)
 	{
 		if (pipe(pipex->pipefd + (2 * i)) != 0)
 		{
-			clean_parent(main_process, pipex);
-			exit (1);
+			close_pipes(pipex);
+			ft_free_double_array(envp);
+			err_message(2, "Pipe creation err\n");
 		}
 		i++;
 	}
@@ -52,14 +53,10 @@ static void	iterate_child(t_var *main_process, t_pipex *pipex, t_command *var,
 	pipex->id = 0;
 	while ((pipex->id) < pipex->cmd_nbr)
 	{
-		if (check_for_builtin(var) || check_cmd_path(main_process, pipex, var))
-		{
-			pipex->pidn = fork();
-			if (pipex->pidn == 0)
-				child(main_process, pipex, var, envp);
-		}
-		else
-			err_cmd_not_found(main_process, var);
+		pipex->pidn = fork();
+		if (pipex->pidn == 0)
+			child(main_process, pipex, var, envp);
+		var->pidn = pipex->pidn;
 		var = var->next;
 		(pipex->id)++;
 	}
@@ -106,12 +103,12 @@ int	pipex(t_var *main_process, t_command *var, char *envp[])
 		pipex.pipe_nbr = 2 * (pipex.cmd_nbr - 1);
 		pipex.pipefd = (int *)malloc_garbage(sizeof(int) * pipex.pipe_nbr);
 		if (!pipex.pipefd)
-			err_message(1, "Pipe malloc err\n");
+			err_message(2, "Pipe malloc err\n");
 		find_env_path(&pipex, envp);
 		pipex.path_list = ft_split(pipex.env_paths, ':');
-		create_pipes(main_process, &pipex);
+		create_pipes(&pipex, envp);
 		iterate_child(main_process, &pipex, var, envp);
-		clean_parent(main_process, &pipex);
+		clean_parent(main_process, &pipex, var);
 	}
 	ft_free_double_array(envp);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 20:11:13 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 17:39:21 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 03:41:22 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	child(t_var *main_process, t_pipex *pipex, t_command *var, char *envp[])
 	}
 	check_child_dup(pipex, var);
 	close_pipes(pipex);
+	check_cmd_path2(pipex, var);
 	if (check_for_builtin(var))
 		selec_ope_pipex(main_process, var);
 	else

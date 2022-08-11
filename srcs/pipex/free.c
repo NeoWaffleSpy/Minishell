@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 23:59:26 by atoullel          #+#    #+#             */
-/*   Updated: 2022/08/10 20:26:51 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 03:33:13 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@ void	close_pipes(t_pipex *pipex)
 	}
 }
 
-void	clean_parent(t_var *main_process, t_pipex *pipex)
+void	clean_parent(t_var *main_process, t_pipex *pipex, t_command *var)
 {
 	int	status;
 
 	close_pipes(pipex);
-	while (1)
+	while (var)
 	{
-		pipex->pidn = wait(&status);
-		if (pipex->pidn < 0)
-			break ;
+		waitpid(var->pidn, &status, 0);
 		main_process->exit_status = WEXITSTATUS(status);
+		if (main_process->exit_status == 127)
+			ft_printf_fd(2, "%s%s\n", var->command, ": command not found");
+		if (main_process->exit_status == 126)
+			ft_printf_fd(2, "%s%s\n", var->command, ": directory issue");
 		if (WIFSIGNALED(status))
 			main_process->exit_status = 128 + WTERMSIG(status);
+		var = var->next;
 	}
 	if (main_process->exit_status == 131)
 		ft_printf("Quit (core dumped)");
