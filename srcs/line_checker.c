@@ -14,20 +14,22 @@
 
 static int	file_check_next(t_command *comm, char ***split, char *msg)
 {
-	int	is_outfile;
-	int	is_here;
+	int	is_bool[3];
 
-	is_outfile = FALSE;
-	is_here = FALSE;
+	is_bool[0] = FALSE;
+	is_bool[1] = FALSE;
+	is_bool[2] = FALSE;
 	if (***split == '>')
-		is_outfile = TRUE;
-	if (ft_strcmp(**split, "<<"))
-		is_here = TRUE;
+		is_bool[0] = TRUE;
+	if (!ft_strcmp(**split, "<<"))
+		is_bool[2] = TRUE;
+	if (!ft_strcmp(**split, ">>"))
+		is_bool[1] = TRUE;
 	free_garbage(**split);
 	(*split)++;
 	if (*split && **split && ***split != '<' && ***split != '>'
 		&& ***split != '|' && ***split != '&')
-		return (file_create(comm, is_outfile, is_here, **split));
+		return (file_create(comm, is_bool, **split));
 	comm->error = call_error("Syntax error:", msg, 2);
 	return (0);
 }

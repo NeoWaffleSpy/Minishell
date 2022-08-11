@@ -69,21 +69,24 @@ void	reset_var(t_var *var)
 	var->dquotes = 0;
 }
 
-int	file_create(t_command *comm, int is_outfile, int is_here, char *split)
+int	file_create(t_command *comm, int *is_bool, char *split)
 {
 	int	fd;
 
 	if (!comm->is_unaccess)
 	{
-		if (is_outfile)
+		if (is_bool[0])
 		{
-			fd = open(split, O_APPEND | O_CREAT | O_RDWR, 0644);
+			if (is_bool[1])
+				fd = open(split, O_APPEND | O_CREAT | O_RDWR, 0644);
+			else
+				fd = open(split, O_TRUNC | O_CREAT | O_RDWR, 0644);
 			if (fd != -1)
 				close (fd);
 			else
 				comm->is_unaccess = TRUE;
 		}
-		else if (!is_here || access(split, R_OK) == -1)
+		else if (!is_bool[2] || access(split, R_OK) == -1)
 			comm->is_unaccess = TRUE;
 	}
 	return (1);
