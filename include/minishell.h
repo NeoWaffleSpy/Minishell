@@ -6,7 +6,7 @@
 /*   By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:51:13 by ncaba             #+#    #+#             */
-/*   Updated: 2022/08/10 21:33:58 by atoullel         ###   ########.fr       */
+/*   Updated: 2022/08/11 03:15:44 by atoullel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_command
 	int					outfile_fd;
 	int					error;
 	t_file				*delim;
+	pid_t				pidn;
 	struct s_command	*next;
 }				t_command;
 /*--------------------------------- PIPEX BEGIN -----------------------------*/
@@ -86,7 +87,7 @@ int			check_infile_and_outfile(t_command *var, t_file *infile,
 				t_file *outfile);
 /* FREE */
 void		close_pipes(t_pipex *pipex);
-void		clean_parent(t_var *main_process, t_pipex *pipex);
+void		clean_parent(t_var *main_process, t_pipex *pipex, t_command *var);
 void		free_p_process(t_command *var);
 void		free_c_process(t_pipex *pipex, t_command *var);
 /* CHILDS */
@@ -96,6 +97,7 @@ void		child_single(t_pipex *pipex, t_command *var, char *envp[]);
 /* CHILDS CMD PATH */
 char		*check_cmd_path(t_var *main_process, t_pipex *pipex,
 				t_command *var);
+void		check_cmd_path2(t_pipex *pipex, t_command *var);
 /* ERROR */
 void		err_message(int fd, char *msg);
 void		child_dup_error(t_pipex *pipex, t_command *var);

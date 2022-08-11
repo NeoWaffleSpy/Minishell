@@ -6,7 +6,7 @@
 #    By: atoullel <atoullel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/17 14:48:49 by ncaba             #+#    #+#              #
-#    Updated: 2022/08/09 14:26:57 by atoullel         ###   ########.fr        #
+#    Updated: 2022/08/11 02:46:24 by atoullel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ PIP_SRCS	=	child.c \
 				error.c \
 				utils.c \
 				utils2.c \
+				utils3.c \
 
 SRC			=	$(addprefix ./srcs/, $(SRCS)) \
 				$(addprefix ./srcs/utils/, $(UTILS_SRCS)) \
