@@ -22,16 +22,16 @@ int	check_valid_name(t_var *var, char *str)
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(str[0]))
+	if (!ft_isalpha(str[0]) && !(str[0] == '_' && str[1] != '='))
 	{
-		var->exit_status = call_error("export:3 Invalid identifier", str, 1);
+		var->exit_status = call_error("export: Invalid identifier", str, 1);
 		return (0);
 	}
 	while (str[i] && str[i] != '=')
 	{
 		if (!isalnum(str[i]) && str[i] != '_')
 		{
-			var->exit_status = call_error("export:2 Invalid identifier",
+			var->exit_status = call_error("export: Invalid identifier",
 					str, 1);
 			return (0);
 		}

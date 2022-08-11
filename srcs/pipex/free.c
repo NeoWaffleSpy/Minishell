@@ -38,7 +38,7 @@ void	clean_parent(t_var *main_process, t_pipex *pipex)
 			break ;
 		main_process->exit_status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			main_process->exit_status = 128 +WTERMSIG(status);
+			main_process->exit_status = 128 + WTERMSIG(status);
 	}
 	if (main_process->exit_status == 131)
 		ft_printf("Quit (core dumped)");
