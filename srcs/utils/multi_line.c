@@ -82,23 +82,23 @@ t_file	*create_heredoc(t_var *var, t_file *delim)
 	char	*filename;
 
 	here_id = get_here_id();
-	init_heredoc(&var->exit_status);
-	stdin_copy = dup(0);
+	init_heredoc(&var->exit_status, &stdin_copy);
 	filename = ft_printf_var("/tmp/.heredoc_%d", here_id);
+	if (ft_strchr(delim->filename, '\'') || ft_strchr(delim->filename, '\"'))
+		delim->is_append = 2;
+	delim->filename = clean_str(delim->filename);
 	wr_fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	while (1)
-		if (loop_heredoc(var, delim, wr_fd))
-			break ;
+	while (!loop_heredoc(var, delim, wr_fd))
+		continue ;
 	close(wr_fd);
 	free_garbage(delim->filename);
 	delim->filename = filename;
 	if (var->exit_status == 130)
-	{
 		dup2_close(stdin_copy, STDIN_FILENO);
-		ft_printf("\n");
-	}
 	else
 		close(stdin_copy);
+	if (var->exit_status == 130)
+		ft_printf("\n");
 	init_signal2();
 	return (delim);
 }

@@ -43,7 +43,7 @@ static int	file_redir(t_var *var, t_command *comm, char ***split)
 	if (!comm->error && ft_strcmp(**split, "<<") == 0)
 		if (file_check_next(comm, split, "no delim provided"))
 			return (ft_lstfadd_back(&comm->infile, create_heredoc(var,
-						ft_lstfnew(clean_str(**split), 1))));
+						ft_lstfnew(**split, 1))));
 	if (!comm->error && ft_strcmp(**split, ">") == 0)
 		if (file_check_next(comm, split, "no file provided"))
 			return (ft_lstfadd_back(&comm->outfile,

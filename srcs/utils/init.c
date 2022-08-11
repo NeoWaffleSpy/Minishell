@@ -49,8 +49,9 @@ void	init_signal2(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	init_heredoc(int *return_value)
+void	init_heredoc(int *return_value, int *stdin_copy)
 {
 	sigint_handler(return_value);
 	signal(SIGINT, heredoc_handler);
+	*stdin_copy = dup(0);
 }
